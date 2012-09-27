@@ -76,11 +76,13 @@ NEWUSER1=lefteris
 
 echo "" | sudo tee -a /etc/sudoers > /dev/null
 echo "www-data ALL=(root) NOPASSWD: /usr/sbin/repquota" | sudo tee -a /etc/sudoers > /dev/null
-SUDOLINE="$NEWUSER1 ALL=(ALL:ALL) ALL"
-PERLLINE="$NEWUSER1\ ALL=\(ALL\:ALL\)\ ALL"
-PERLCOND="s/^$PERLLINE$//g"
-sudo perl -pi -e "$PERLCOND" /etc/sudoers
-echo $SUDOLINE | sudo tee -a /etc/sudoers > /dev/null
+echo "$NEWUSER1 ALL=(ALL:ALL) ALL" | sudo tee -a /etc/sudoers > /dev/null
+
+#SUDOLINE="$NEWUSER1 ALL=(ALL:ALL) ALL"
+#PERLLINE="$NEWUSER1\ ALL=\(ALL\:ALL\)\ ALL"
+#PERLCOND="s/^$PERLLINE$//g"
+#sudo perl -pi -e "$PERLCOND" /etc/sudoers
+#echo $SUDOLINE | sudo tee -a /etc/sudoers > /dev/null
 #keep an empty line at the EOF
 echo "" | sudo tee -a /etc/sudoers > /dev/null
 
