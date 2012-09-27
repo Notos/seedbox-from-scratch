@@ -19,6 +19,7 @@ function getString()
   local NEWVAR2=b
   while [ ! $NEWVAR1 = $NEWVAR2 ];
   do
+    echo ""
     read -e -i "$3" -p "$1" NEWVAR1
     if [ "$NEWVAR1" == "$3" ]
     then
@@ -40,6 +41,7 @@ function getPassword()
   local NEWVAR2=b
   while [ ! $NEWVAR1 = $NEWVAR2 ];
   do
+    echo ""
     read -s -p "$1" NEWVAR1
     echo ""
     read -s -p "Retype: " NEWVAR2
@@ -85,6 +87,9 @@ else
   sudo /usr/sbin/useradd --create-home --user-group --password $(mkpasswd -s -m md5 $PASSWORD1) --shell /bin/bash $NEWUSER1 &> /dev/null
   echo "$NEWUSER1 ALL=(ALL:ALL) ALL" | sudo tee -a /etc/sudoers &> /dev/null
 fi
+
+DIR=$(pwd)
+sudo su --login $NEWUSER1 -c '$DIR/sfs-runner.sh "$NEWUSER1" "$PASSWORD1" '
 
 # ----------------------------------
 ##################### LAST LINE ----
