@@ -2,7 +2,15 @@
 # ---------------------------
 #!/bin/bash
 # ---------------------------
-# Testing Quota
+#
+# Changelog
+#
+#  27/09/2012 19:39 (by Notos)
+#    - Quota for users
+#    - Download dir inside user home
+#
+#
+
 # 1.
 clear
 sudo apt-get --yes install whois makepasswd
@@ -64,8 +72,17 @@ getString "New SSH port: " NEWSSHPORT1 21976
 #show all commands
 set -x verbose
 
-echo "" | sudo tee -a /etc/sudoers
-echo "$NEWUSER1  ALL=(ALL) ALL" | sudo tee -a /etc/sudoers > /dev/null
+NEWUSER1=lefteris
+
+echo "" | sudo tee -a /etc/sudoers > /dev/null
+echo "www-data ALL=(root) NOPASSWD: /usr/sbin/repquota" | sudo tee -a /etc/sudoers > /dev/null
+SUDOLINE="$NEWUSER1 ALL=(ALL:ALL) ALL"
+PERLLINE="$NEWUSER1\ ALL=\(ALL\:ALL\)\ ALL"
+PERLCOND="s/^$PERLLINE$//g"
+sudo perl -pi -e "$PERLCOND" /etc/sudoers
+echo $SUDOLINE | sudo tee -a /etc/sudoers > /dev/null
+#keep an empty line at the EOF
+echo "" | sudo tee -a /etc/sudoers > /dev/null
 
 # 4.
 sudo perl -pi -e "s/Port 22/Port $NEWSSHPORT1/g" /etc/ssh/sshd_config
@@ -248,7 +265,7 @@ BIGLINE=$'# this is an example resource file for rtorrent\n# copy to /home/$NEWU
 
 echo "$BIGLINE" | sudo tee  /home/$NEWUSER1/.rtorrent.rc > /dev/null
 
-sudo perl -pi -e "s/<username>/$NEWUSER1/g" /home/$NEWUSER1/.rtorrent.rc/g /home/$NEWUSER1/.rtorrent.rc
+sudo perl -pi -e "s/<username>/$NEWUSER1/g" /home/$NEWUSER1/.rtorrent.rc
 sudo perl -pi -e "s/5995/$SCGIPORT/g" /home/$NEWUSER1/.rtorrent.rc
 sudo perl -pi -e "s/99888/$NETWORKPORT/g" /home/$NEWUSER1/.rtorrent.rc
 
@@ -283,6 +300,10 @@ sudo mkdir -p /var/www/rutorrent/conf/users/$NEWUSER1/plugins/diskspace
 
 echo '<?php $topDirectory = "/home"; ?>' | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins/diskspace/conf.php > /dev/null
 
+sudo rm /var/www/rutorrent/plugins/diskspace/action.php
+echo 'H4sICFjRZFAAA2FjdGlvbi5waHAAtVRLb9NAEL7nV0ysiLVRYvMol5oKERG4cAJyQBSirb2plzje7T5oo5L/zuza8aNRBYdgOY+Z+TzfN+Odef1GFnIEoNiN5YqtRJWxEEgcJ3hjKLGGlzH+IRClIwTydTjmWjMTTm6sMHSpmYoiuMcQQOeCCyAkReceP5NCbJn3ontihHyHVJkRaheThMTdU+kBPKeaHYF91GMXFb0qWY6A928/fl6kXheER7qAVjmMF1tpdkfuNS/Zit1xbXTYcqIe6nGxRSB5UFhHu919YAaF6V7aKTxpCz38dzmjFJIkgWtmwBQMO01LcDHIufINatQPOA7EGc0Kli+yQoTkHgKDiDI4xxekC1aWqJ9lYZBYrZIrXiXa5gK8pZ2pmPQ5YWZ7bf0N1xiAH0Gv8XGAbnq7AXIvFa8MXE7Onj5/9uJsT4LIC+mumEwhWCvGnA7430JCVDK7nLyMWjkxgT15oGkaUClLnlHDRZX81KIKIn/6gJXI9Jde5lxvVt5caUlxAAbHLhoUXIOd9QgWxT2qZjRyJ2F2suvE6QC+CqtAlnR3rYTFIeEaLL4hf51aOzZkbavM9ag/T27wKrplj47TYSQl1frWDaOb5JAkzGRJ7SO+2x5iCgegeAhq11rg/GUFTlvzONUwKXnVpq1nURuFd+gjU2g1RTC+aNJ1eM+jjEYididLkaOYczwyddq0j/JqavS3V9+70BWK2hzM/aj+rktQuDYu4Mun5SIFqF1LdLgt4vKFPmuzYpAeN1sNmh+B4gB3etBA/QLCt+s2klTsFxdWg0ONGpbePl0O92hjcr3CBebMrhXdoscyl3VBgxFsC2r39qHeHt98yDcf8s0f8vldgnzzf+bzP+i3qvLxejb/AE2/tEILBwAA'  | base64 --decode | sudo tee -a /var/www/rutorrent/plugins/diskspace/action.php.gz > /dev/null
+sudo gunzip /var/www/rutorrent/plugins/diskspace/action.php.gz
+
 #some of those files will be changed later in this script
 sudo cp /var/www/rutorrent/conf/access.ini   /var/www/rutorrent/conf/users/$NEWUSER1/
 sudo cp /var/www/rutorrent/conf/config.php  /var/www/rutorrent/conf/users/$NEWUSER1/
@@ -297,13 +318,14 @@ sudo chmod -R 755 rutorrent
 
 #### old file location ---> sudo rm /var/www/rutorrent/conf/config.php
 
-BIGLINE=$'<?php\n// configuration parameters\n// for snoopy client\n@define("HTTP_USER_AGENT", "Mozilla/5.0 (Windows; U; Windows NT 5.1; pl; rv:1.9) Gecko/2008052906 Firefox/3.0", true);\n@define("HTTP_TIME_OUT", 30, true); // in seconds\n@define("HTTP_USE_GZIP", true, true);\n$httpIP = null; // IP string. Or null for any.\n@define("RPC_TIME_OUT", 5, true); // in seconds\n@define("LOG_RPC_CALLS", false, true);\n@define("LOG_RPC_FAULTS", true, true);\n// for php\n@define("PHP_USE_GZIP", false, true);\n@define("PHP_GZIP_LEVEL", 2, true);\n$do_diagnostic = true;\n$log_file = "/tmp/rutorrent_errors.log"; // path to log file (comment or leave blank to disable logging)\n$saveUploadedTorrents = true; // Save uploaded torrents to profile/torrents directory or not\n$overwriteUploadedTorrents = false; // Overwrite existing uploaded torrents in profile/torrents directory or make unique name\n$topDirectory = "/home"; // Upper available directory. Absolute path with trail slash.\n$forbidUserSettings = false;\n$scgi_port = 5995;\n$scgi_host = "127.0.0.1";\n// For web->rtorrent link through unix domain socket\n// (scgi_local in rtorrent conf file), change variables\n// above to something like this:\n//\n//$scgi_port = 0;\n//$scgi_host = "unix:///tmp/rtorrent.sock";\n$XMLRPCMountPoint = "/RPC123"; // DO NOT DELETE THIS LINE!!! DO NOT COMMENT THIS LINE!!!\n$pathToExternals = array(\n"php" => "/usr/bin/php", // Something like /usr/bin/php. If empty, will be found in PATH.\n"curl" => "/usr/bin/curl", // Something like /usr/bin/curl. If empty, will be found in PATH.\n"gzip" => "/bin/gzip", // Something like /usr/bin/gzip. If empty, will be found in PATH.\n"id" => "/usr/bin/id", // Something like /usr/bin/id. If empty, will be found in PATH.\n"stat" => "/usr/bin/stat", // Something like /usr/bin/stat. If empty, will be found in PATH.\n);\n$localhosts = array( // list of local interfaces\n"127.0.0.1",\n"localhost",\n);\n$profilePath = "../share"; // Path to user profiles\n$profileMask = 0777; // Mask for files and directory creation in user profiles.\n// Both Webserver and rtorrent users must have read-write access to it.\n// For example, if Webserver and rtorrent users are in the same group then the value may be 0770.\n?>'
+BIGLINE=$'<?php\n// configuration parameters\n// for snoopy client\n@define("HTTP_USER_AGENT", "Mozilla/5.0 (Windows; U; Windows NT 5.1; pl; rv:1.9) Gecko/2008052906 Firefox/3.0", true);\n@define("HTTP_TIME_OUT", 30, true); // in seconds\n@define("HTTP_USE_GZIP", true, true);\n$httpIP = null; // IP string. Or null for any.\n@define("RPC_TIME_OUT", 5, true); // in seconds\n@define("LOG_RPC_CALLS", false, true);\n@define("LOG_RPC_FAULTS", true, true);\n// for php\n@define("PHP_USE_GZIP", false, true);\n@define("PHP_GZIP_LEVEL", 2, true);\n$do_diagnostic = true;\n$log_file = "/tmp/rutorrent_errors.log"; // path to log file (comment or leave blank to disable logging)\n$saveUploadedTorrents = true; // Save uploaded torrents to profile/torrents directory or not\n$overwriteUploadedTorrents = false; // Overwrite existing uploaded torrents in profile/torrents directory or make unique name\n$topDirectory = "/home"; // Upper available directory. Absolute path with trail slash.\n$quotaUser = '<username>'; /// to completely disable quota, just comment this line\n$forbidUserSettings = false;\n$scgi_port = 5995;\n$scgi_host = "127.0.0.1";\n// For web->rtorrent link through unix domain socket\n// (scgi_local in rtorrent conf file), change variables\n// above to something like this:\n//\n//$scgi_port = 0;\n//$scgi_host = "unix:///tmp/rtorrent.sock";\n$XMLRPCMountPoint = "/RPC123"; // DO NOT DELETE THIS LINE!!! DO NOT COMMENT THIS LINE!!!\n$pathToExternals = array(\n"php" => "/usr/bin/php", // Something like /usr/bin/php. If empty, will be found in PATH.\n"curl" => "/usr/bin/curl", // Something like /usr/bin/curl. If empty, will be found in PATH.\n"gzip" => "/bin/gzip", // Something like /usr/bin/gzip. If empty, will be found in PATH.\n"id" => "/usr/bin/id", // Something like /usr/bin/id. If empty, will be found in PATH.\n"stat" => "/usr/bin/stat", // Something like /usr/bin/stat. If empty, will be found in PATH.\n);\n$localhosts = array( // list of local interfaces\n"127.0.0.1",\n"localhost",\n);\n$profilePath = "../share"; // Path to user profiles\n$profileMask = 0777; // Mask for files and directory creation in user profiles.\n// Both Webserver and rtorrent users must have read-write access to it.\n// For example, if Webserver and rtorrent users are in the same group then the value may be 0770.\n?>'
 
 sudo rm /var/www/rutorrent/conf/users/$NEWUSER1/config.php
 echo "$BIGLINE" | sudo tee  /var/www/rutorrent/conf/users/$NEWUSER1/config.php > /dev/null
 
 sudo perl -pi -e "s/5995/$SCGIPORT/g" /var/www/rutorrent/conf/users/$NEWUSER1/config.php
 sudo perl -pi -e "s/RPC123/$NEWRPC1/g" /var/www/rutorrent/conf/users/$NEWUSER1/config.php
+sudo perl -pi -e "s/<username>/$NEWUSER1/g" /var/www/rutorrent/conf/users/$NEWUSER1/config.php
 
 # 25.
 sudo rm /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
