@@ -290,9 +290,7 @@ sudo mkdir -p /var/www/rutorrent/conf/users/$NEWUSER1/plugins/diskspace
 
 echo '<?php $topDirectory = "/home"; ?>' | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins/diskspace/conf.php > /dev/null
 
-sudo rm /var/www/rutorrent/plugins/diskspace/action.php
-echo 'H4sICFjRZFAAA2FjdGlvbi5waHAAtVRLb9NAEL7nV0ysiLVRYvMol5oKERG4cAJyQBSirb2plzje7T5oo5L/zuza8aNRBYdgOY+Z+TzfN+Odef1GFnIEoNiN5YqtRJWxEEgcJ3hjKLGGlzH+IRClIwTydTjmWjMTTm6sMHSpmYoiuMcQQOeCCyAkReceP5NCbJn3ontihHyHVJkRaheThMTdU+kBPKeaHYF91GMXFb0qWY6A928/fl6kXheER7qAVjmMF1tpdkfuNS/Zit1xbXTYcqIe6nGxRSB5UFhHu919YAaF6V7aKTxpCz38dzmjFJIkgWtmwBQMO01LcDHIufINatQPOA7EGc0Kli+yQoTkHgKDiDI4xxekC1aWqJ9lYZBYrZIrXiXa5gK8pZ2pmPQ5YWZ7bf0N1xiAH0Gv8XGAbnq7AXIvFa8MXE7Onj5/9uJsT4LIC+mumEwhWCvGnA7430JCVDK7nLyMWjkxgT15oGkaUClLnlHDRZX81KIKIn/6gJXI9Jde5lxvVt5caUlxAAbHLhoUXIOd9QgWxT2qZjRyJ2F2suvE6QC+CqtAlnR3rYTFIeEaLL4hf51aOzZkbavM9ag/T27wKrplj47TYSQl1frWDaOb5JAkzGRJ7SO+2x5iCgegeAhq11rg/GUFTlvzONUwKXnVpq1nURuFd+gjU2g1RTC+aNJ1eM+jjEYididLkaOYczwyddq0j/JqavS3V9+70BWK2hzM/aj+rktQuDYu4Mun5SIFqF1LdLgt4vKFPmuzYpAeN1sNmh+B4gB3etBA/QLCt+s2klTsFxdWg0ONGpbePl0O92hjcr3CBebMrhXdoscyl3VBgxFsC2r39qHeHt98yDcf8s0f8vldgnzzf+bzP+i3qvLxejb/AE2/tEILBwAA'  | base64 --decode | sudo tee -a /var/www/rutorrent/plugins/diskspace/action.php.gz > /dev/null
-sudo gunzip /var/www/rutorrent/plugins/diskspace/action.php.gz
+sudo cp /etc/scripts/action.php.template /var/www/rutorrent/plugins/diskspace/action.php
 
 #some of those files will be changed later in this script
 sudo cp /var/www/rutorrent/conf/access.ini   /var/www/rutorrent/conf/users/$NEWUSER1/
