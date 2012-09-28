@@ -38,16 +38,16 @@ trackers.numwant.set = -1
 # fixed that causes lack of diskspace not to be properly reported 
 # pieces.hash.on_completion.set = yes 
 check_hash = yes 
- 
-# default directory to save the downloaded torrents 
-# directory.default.set = /home/downloads/<username> 
-directory = /home/downloads/<username> 
+
+# default directory to save the downloaded torrents
+# directory.default.set = /home/<username>/downloads
+directory = /home/<username>/downloads
  
 # default session directory. make sure you don"t run multiple instances 
 # of rtorrent using the same session directory 
 # perhaps using a relative path? 
-# session.path.set = /home/downloads/<username>/.session 
-session = /home/downloads/<username>/.session 
+# session.path.set = /home/<username>/downloads/.session
+session = /home/<username>/downloads/.session
  
  
 # Connection Settings 
@@ -111,8 +111,8 @@ peer_exchange = no
 # commands: stop_untied =, close_untied =, remove_untied = 
 # stop, close or remove the torrents that are tied to filenames that have been deleted 
  
-# watch a directory for new torrents, and stop those that have been deleted 
-schedule = watch_directory,5,5,load_start=/home/downloads/<username>/watch/*.torrent 
+# watch a directory for new torrents, and stop those that have been deleted
+schedule = watch_directory,5,5,load_start=/home/<username>/downloads/watch/*.torrent
 schedule = untied_directory,5,5,stop_untied= 
  
 # close torrents when diskspace is low. */ 
@@ -130,8 +130,8 @@ schedule = low_diskspace,5,60,close_low_diskspace=100M
 # the loaded file will be tied to the filename provided. 
  
 # when the torrent finishes, it executes "mv -n <base_path> /home/$NEWUSER1/Download/" 
-# and then sets the destination directory to "/home/$NEWUSER1/Download/". (0.7.7+) 
-# on_finished = move_complete,"execute=mv,-u,$d.get_base_path=,/home/downloads/<username>/complete/ ;d.set_directory=/home/downloads/<username>/complete/" 
+# and then sets the destination directory to "/home/$NEWUSER1/Download/". (0.7.7+)
+# on_finished = move_complete,"execute=mv,-u,$d.get_base_path=,/home/<username>/downloads/complete/ ;d.set_directory=/home/<username>/downloads/complete/"
  
 # network.scgi.open_port = 127.0.0.1:5995 
 scgi_port = 127.0.0.1:5995 

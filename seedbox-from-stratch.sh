@@ -267,9 +267,9 @@ sudo perl -pi -e "s/99888/$NETWORKPORT/g" /home/$NEWUSER1/.rtorrent.rc
 sudo chown $NEWUSER1:$NEWUSER1   /home/$NEWUSER1/.rtorrent.rc:$NEWUSER1 /home/$NEWUSER1/.rtorrent.rc
 
 # 20.
-sudo mkdir -p /home/downloads/$NEWUSER1/watch
-sudo mkdir -p /home/downloads/$NEWUSER1/.session
-sudo chown -R $NEWUSER1:$NEWUSER1 /home/downloads/$NEWUSER1
+sudo mkdir -p /home/$NEWUSER1/downloads/watch
+sudo mkdir -p /home/$NEWUSER1/downloads/.session
+sudo chown -R $NEWUSER1:$NEWUSER1 /home/$NEWUSER1/downloads
 
 # 21.
 
