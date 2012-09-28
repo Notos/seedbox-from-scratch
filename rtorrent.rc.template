@@ -1,0 +1,241 @@
+# this is an example resource file for rtorrent
+# copy to /home/$NEWUSER1/.rtorrent.rc and enable/modify the options as needed
+# remember to uncomment the options you wish to enable
+#
+# based on original .rtorrent.rc file from The libTorrent and rTorrent Project
+# this assumes the following directory structure:
+#
+# /torrents/downloading - temporary location for torrents while downloading (see "directory")
+# /torrents/complete - torrents are moved here when complete (see "on_finished")
+# /torrents/torrentfiles/auto - the "autoload" directory for rtorrent to use
+# rtorrent will automatically load .torrents placed here. (see "schedule = watch_directory")
+# /torrents/downloading/rtorrent.session - for storing rtorrent session information
+#
+
+ 
+# Downloads Settings 
+# 
+# maximum number of simultaneous uploads per torrent 
+# throttle.max_uploads.set = 30
+max_uploads = 30 
+ 
+# maximum and minimum number of peers to connect to per torrent 
+# throttle.min_peers.normal.set = 40 
+# throttle.max_peers.normal.set = 100 
+min_peers = 40 
+max_peers = 100 
+ 
+# same as above but for seeding completed torrents (-1 = same as downloading) 
+# throttle.min_peers.seed.set = 25
+# throttle.max_peers.seed.set = 60 
+min_peers_seed = 25 
+max_peers_seed = 60 
+ 
+# tracker_numwant = -1
+trackers.numwant.set = -1
+ 
+# check hash for finished torrents. might be useful until the bug is 
+# fixed that causes lack of diskspace not to be properly reported 
+# pieces.hash.on_completion.set = yes 
+check_hash = yes 
+ 
+# default directory to save the downloaded torrents 
+# directory.default.set = /home/downloads/<username> 
+directory = /home/downloads/<username> 
+ 
+# default session directory. make sure you don"t run multiple instances 
+# of rtorrent using the same session directory 
+# perhaps using a relative path? 
+# session.path.set = /home/downloads/<username>/.session 
+session = /home/downloads/<username>/.session 
+ 
+ 
+# Connection Settings 
+# 
+# port range to use for listening 
+# network.port_range.set = 99888-99888 
+port_range = 99888-99888 
+ 
+# start opening ports at a random position within the port range 
+# network.port_random.set = yes 
+port_random = yes
+
+# global upload and download rate in KiB. "0" for unlimited
+# throttle.global_up.max_rate.set_kb = 0 
+# throttle.global_down.max_rate.set_kb = 0 
+upload_rate = 0 
+download_rate = 0 
+ 
+# max mapped memory 
+# nb does not refer to physical memory 
+# max_memory_usage = 3500M 
+pieces.memory.max.set = 3500M 
+ 
+# max number of files to keep open simultaneously 
+# max_open_files = 192 
+network.max_open_files.set = 192 
+ 
+# max_open_http = 32 
+network.http.max_open.set = 32
+ 
+ 
+# BitTorrent Settings 
+# 
+# enable DHT support for trackerless torrents or when all trackers are down 
+# may be set to "disable" (completely disable DHT), "off" (do not start DHT), 
+# "auto" (start and stop DHT as needed), or "on" (start DHT immediately) 
+# the default is "off". for DHT to work, a session directory must be defined 
+# 
+# dht.mode.set = disable
+dht = disable 
+ 
+# UDP port to use for DHT. 
+# 
+# dht_port = 6881 
+# dht.port.set = 6881 
+ 
+# enable peer exchange (for torrents not marked private) 
+# protocol.pex.set = no 
+peer_exchange = no 
+ 
+# the IP address reported to the tracker 
+# network.local_address.set = rakshasa.no 
+# network.local_address.set = 127.0.0.1 
+# ip = rakshasa.no 
+# ip = 127.0.0.1 
+ 
+# schedule syntax: id,start,interval,command 
+# call cmd every interval seconds, starting from start. an interval of zero calls the task once 
+# while a start of zero calls it immediately. start and interval may optionally use a time format 
+# dd:hh:mm:ss e.g. to start a task every day at 18:00, use 18:00:00,24:00:00. 
+# commands: stop_untied =, close_untied =, remove_untied = 
+# stop, close or remove the torrents that are tied to filenames that have been deleted 
+ 
+# watch a directory for new torrents, and stop those that have been deleted 
+schedule = watch_directory,5,5,load_start=/home/downloads/<username>/watch/*.torrent 
+schedule = untied_directory,5,5,stop_untied= 
+ 
+# close torrents when diskspace is low. */ 
+schedule = low_diskspace,5,60,close_low_diskspace=100M 
+ 
+# stop torrents when reaching upload ratio in percent,
+# when also reaching total upload in bytes, or when
+# reaching final upload ratio in percent
+# example: stop at ratio 2.0 with at least 200 MB uploaded, or else ratio 20.0 
+# schedule = ratio,60,60,stop_on_ratio=200,200M,2000 
+ 
+# load = file, load_verbose = file, load_start = file, load_start_verbose = file 
+# load and possibly start a file, or possibly multiple files by using the wild-card "*" 
+# this is meant for use with schedule, though ensure that the start is non-zero 
+# the loaded file will be tied to the filename provided. 
+ 
+# when the torrent finishes, it executes "mv -n <base_path> /home/$NEWUSER1/Download/" 
+# and then sets the destination directory to "/home/$NEWUSER1/Download/". (0.7.7+) 
+# on_finished = move_complete,"execute=mv,-u,$d.get_base_path=,/home/downloads/<username>/complete/ ;d.set_directory=/home/downloads/<username>/complete/" 
+ 
+# network.scgi.open_port = 127.0.0.1:5995 
+scgi_port = 127.0.0.1:5995 
+ 
+# alternative calls to bind and IP that should handle dynamic IP"s
+# schedule = ip_tick,0,1800,ip=rakshasa 
+# schedule = bind_tick,0,1800,bind=rakshasa 
+ 
+# encryption options, set to none (default) or any combination of the following: 
+# allow_incoming, try_outgoing,require,require_RC4,enable_retry,pref er_plaintext 
+# 
+# the example value allows incoming encrypted connections, starts unencrypted 
+# outgoing connections but retries with encryption if they fail, preferring 
+# plaintext to RC4 encryption after the encrypted handshake 
+#
+# protocol.encryption.set = 
+encryption = allow_incoming,enable_retry,prefer_plaintext 
+ 
+ 
+# Advanced Settings 
+# 
+# do not modify the following parameters unless you know what you"re doing 
+# 
+ 
+# example of scheduling commands: Switch between two ip"s every 5 seconds 
+# schedule = "ip_tick1,5,10,ip=torretta" 
+# schedule = "ip_tick2,10,10,ip=lampedusa" 
+ 
+# remove a scheduled event 
+# schedule_remove = "ip_tick1" 
+ 
+# hash read-ahead controls how many MB to request the kernel to read ahead ahead 
+# if the value is too low the disk may not be fully utilized, 
+# while if too high the kernel might not be able to keep the read pages 
+# in memory thus end up trashing. 
+# hash_read_ahead = 8 
+# system.hash.read_ahead.set = 8 
+ 
+# interval between attempts to check the hash, in milliseconds 
+# hash_interval = 50 
+# system.hash.interval.set = 50 
+ 
+# number of attempts to check the hash while using the mincore status, before forcing 
+# overworked systems might need lower values to get a decent hash checking rate 
+# hash_max_tries = 3 
+# system.hash.max_tries.set = 3 
+
+# SSL certificate name
+# http_cacert =
+# SSL certificate path 
+# http_capath = 
+ 
+# throttle.max_downloads.div.set = 
+# max_downloads_div = 
+ 
+# throttle.max_uploads.div.set = 
+# max_uploads_div = 
+ 
+system.file.max_size.set = -1 
+ 
+# preload type 0 = Off, 1 = madvise, 2 = direct paging 
+pieces.preload.type.set = 1 
+pieces.preload.min_size.set = 262144
+pieces.preload.min_rate.set = 5120
+network.send_buffer.size.set = 1M
+network.receive_buffer.size.set = 131072
+
+pieces.sync.always_safe.set = no
+pieces.sync.timeout.set = 600
+pieces.sync.timeout_safe.set = 900
+
+# scgi_dont_route =
+# network.scgi.dont_route.set =
+
+# session.path.set =
+session.name.set =
+session.use_lock.set = yes
+session.on_completion.set = yes
+
+system.file.split_size.set = -1
+system.file.split_suffix.set = .part
+
+# set whether the client should try to connect to UDP trackers
+# use_udp_trackers = yes
+trackers.use_udp.set = yes
+
+# use a http proxy. [url] ;an empty string disables this setting
+# http_proxy =
+# network.http.proxy_address.set =
+
+# The IP address the listening socket and outgoing connections is bound to
+# network.bind_address.set = rakshasa.no
+# network.bind_address.set = 127.0.0.1
+# bind = rakshasa.no
+# bind = 127.0.0.1
+
+# number of sockets to simultaneously keep open
+# max_open_sockets = 65023
+# network.max_open_sockets.set = 65023
+
+# set the umask applied to all files created by rtorrent
+# system.umask.set =
+
+# alternate keyboard mappings
+# qwerty | azerty | qwertz | dvorak
+# key_layout = dvorak
+# keys.layout.set = dvorak

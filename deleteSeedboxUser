@@ -1,0 +1,47 @@
+##################### FIRST LINE
+# ---------------------------
+#!/bin/bash
+# ---------------------------
+
+# 3.1
+
+NEWUSER1=a
+NEWUSER2=b
+
+while [ ! $NEWUSER1 = $NEWUSER2 ];
+do
+  clear
+   echo -n "Type username to be DELETED: "
+   read NEWUSER1
+   echo -n "Retype username: "
+   read NEWUSER2
+   echo ""
+done
+
+# 3.1.1
+
+#kill all processes related to that user
+sudo kill -9 $( ps -ef | grep $NEWUSER1 | awk '{ print $2 }' )
+
+# 3.2
+
+sudo userdel --remove --force $NEWUSER1 
+
+# 12.
+
+#remove current password from htpassword
+sudo perl -pi -e "s/^$NEWUSER1\:.*\n$//g" /etc/apache2/htpasswd
+
+# 20.
+############## sudo rm -r /home/downloads/$NEWUSER1
+
+# 21.
+sudo rm /etc/init/rtorrent.$NEWUSER1.conf
+
+# 29.
+sudo rm -r /var/www/rutorrent/conf/users/$NEWUSER1
+
+##################### LAST LINE ###########
+
+
+# scripts are now in git form :)

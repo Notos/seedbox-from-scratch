@@ -1,0 +1,4 @@
+[options]
+gui-server-port = <PORT>
+gui-server-password = <PASSWORD>
+

@@ -1,0 +1,160 @@
+##################### FIRST LINE
+# ---------------------------
+#!/bin/bash
+# ---------------------------
+
+# 3.1
+
+PASSWORD1=a
+PASSWORD2=b
+
+NEWUSER1=a
+NEWUSER2=b
+
+while [ ! $NEWUSER1 = $NEWUSER2 ];
+do
+  clear
+
+  unset NEWUSER1
+  unset NEWUSER2
+
+  echo -n "Type a new username: "
+  read NEWUSER1
+
+  echo -n "Retype username: "
+  read NEWUSER2
+  echo ""         # force a carriage return to be output
+done
+
+while [ ! $PASSWORD1 = $PASSWORD2 ];
+do
+  clear
+
+  echo -n "ruTorrent password for user $NEWUSER1: "
+  stty -echo
+  read PASSWORD1
+  stty echo
+  echo ""         # force a carriage return to be output
+
+  echo -n "Retype: "
+  stty -echo
+  read PASSWORD2
+  stty echo
+  echo ""         # force a carriage return to be output
+done
+
+#localhost is ok this rtorrent/rutorrent installation
+IPADDRESS1=127.0.0.1
+
+# 3.2
+
+set -x verbose
+
+sudo useradd --create-home --user-group --password $(mkpasswd -s -m md5 $PASSWORD1) --shell /bin/bash $NEWUSER1
+
+echo "" | sudo tee -a /etc/sudoers
+echo "$NEWUSER1  ALL=(ALL) ALL" | sudo tee -a /etc/sudoers
+echo "AllowUsers $NEWUSER1" | sudo tee -a /etc/ssh/sshd_config
+
+sudo service ssh restart
+
+NEWRPC1=`head -n 1 /etc/scripts/rpc.txt | tail -n 1`
+sudo perl -pi -e "s/^$NEWRPC1.*\n$//g" /etc/scripts/rpc.txt
+
+IRSSIPORT=`head -n 1 /etc/scripts/ports.txt | tail -n 1`
+sudo perl -pi -e "s/^$IRSSIPORT.*\n$//g" /etc/scripts/ports.txt
+
+SCGIPORT=`head -n 1 /etc/scripts/ports.txt | tail -n 1`
+sudo perl -pi -e "s/^$SCGIPORT.*\n$//g" /etc/scripts/ports.txt
+
+NETWORKPORT=`head -n 1 /etc/scripts/ports.txt | tail -n 1`
+sudo perl -pi -e "s/^$NETWORKPORT.*\n$//g" /etc/scripts/ports.txt
+
+IRSSIPASSWORD=`makepasswd`
+
+# 12.
+
+#create digest data file
+echo -n $NEWUSER1:rutorrent:$PASSWORD1 > /tmp/pass
+
+#remove current password from htpassword
+sudo perl -pi -e "s/^$NEWUSER1\:.*\n$//g" /etc/apache2/htpasswd
+
+#create user and password for this new rutorrent user
+echo $NEWUSER1:rutorrent:`md5sum /tmp/pass | cut -d" " -f1` | sudo tee -a /etc/apache2/htpasswd
+
+# 19.
+sudo cp /etc/scripts/rtorrent.rc.template  /home/$NEWUSER1/.rtorrent.rc
+
+sudo perl -pi -e "s/<username>/$NEWUSER1/g" /home/$NEWUSER1/.rtorrent.rc/g /home/$NEWUSER1/.rtorrent.rc
+sudo perl -pi -e "s/5995/$SCGIPORT/g" /home/$NEWUSER1/.rtorrent.rc
+sudo perl -pi -e "s/99888/$NETWORKPORT/g" /home/$NEWUSER1/.rtorrent.rc
+
+sudo chown $NEWUSER1:$NEWUSER1   /home/$NEWUSER1/.rtorrent.rc:$NEWUSER1 /home/$NEWUSER1/.rtorrent.rc
+
+# 20.
+sudo mkdir -p /home/downloads/$NEWUSER1/watch
+sudo mkdir -p /home/downloads/$NEWUSER1/.session
+sudo chown -R $NEWUSER1:$NEWUSER1 /home/downloads/$NEWUSER1
+
+# 21.
+
+sudo cp /etc/scripts/rtorrent.conf.template /etc/init/rtorrent.$NEWUSER1.conf
+
+sudo perl -pi -e "s/<username>/$NEWUSER1/g" /etc/init/rtorrent.$NEWUSER1.conf
+
+# 22.
+# prepare the tree
+sudo mkdir -p /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi
+sudo mkdir -p /var/www/rutorrent/conf/users/$NEWUSER1/plugins/diskspace
+
+#some of those files will be changed later in this script
+sudo cp /var/www/rutorrent/conf/access.ini   /var/www/rutorrent/conf/users/$NEWUSER1/
+sudo cp /var/www/rutorrent/conf/config.php  /var/www/rutorrent/conf/users/$NEWUSER1/
+sudo cp /var/www/rutorrent/conf/plugins.ini   /var/www/rutorrent/conf/users/$NEWUSER1/
+
+# 24.
+
+sudo cp /etc/scripts/rutorrent.conf.users.config.php.template /var/www/rutorrent/conf/users/$NEWUSER1/config.php
+
+sudo perl -pi -e "s/5995/$SCGIPORT/g" /var/www/rutorrent/conf/users/$NEWUSER1/config.php
+sudo perl -pi -e "s/RPC123/$NEWRPC1/g" /var/www/rutorrent/conf/users/$NEWUSER1/config.php
+sudo perl -pi -e "s/<username>/$NEWUSER1/g" /var/www/rutorrent/conf/users/$NEWUSER1/config.php
+
+echo '<?php $topDirectory = "/home"; ?>' | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins/diskspace/conf.php
+
+# 25.
+
+sudo cp /etc/scripts/rutorrent.conf.users.plugins.ini.template /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
+
+# 29.
+
+sudo rm -R /home/$NEWUSER1/.irssi
+sudo mkdir -p /home/$NEWUSER1/.irssi/scripts/autorun
+cd /home/$NEWUSER1/.irssi/scripts
+sudo wget --no-check-certificate -O autodl-irssi.zip https://sourceforge.net/projects/autodl-irssi/files/autodl-irssi-v1.31.zip/download
+sudo unzip -o autodl-irssi.zip
+sudo rm autodl-irssi.zip
+sudo cp autodl-irssi.pl autorun/
+sudo mkdir -p /home/$NEWUSER1/.autodl
+sudo touch /home/$NEWUSER1/.autodl/autodl.cfg
+
+cd /var/www/rutorrent/plugins
+cd autodl-irssi
+sudo cp /etc/scripts/rutorrent.conf.users.plugins.autodl-irssi.conf.php.template  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi/conf.php
+sudo perl -pi -e "s/<PASSWORD>/$IRSSIPASSWORD/g"  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi/conf.php
+sudo perl -pi -e "s/<PORT>/$IRSSIPORT/g" /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi/conf.php
+
+sudo cp /etc/scripts/home.user.autodl.autodl.cfg.template  /home/$NEWUSER1/.autodl/autodl.cfg
+
+sudo perl -pi -e "s/<PASSWORD>/$IRSSIPASSWORD/g"  /home/$NEWUSER1/.autodl/autodl.cfg
+sudo perl -pi -e "s/<PORT>/$IRSSIPORT/g"  /home/$NEWUSER1/.autodl/autodl.cfg
+sudo perl -pi -e "s/use Digest\:\:SHA1 qw/use Digest\:\:SHA qw/g" /home/$NEWUSER1/.irssi/scripts/AutodlIrssi/MatchedRelease.pm
+
+sleep 3
+sudo su --login --command "screen -d -m -S rtorrent rtorrent" $NEWUSER1
+sleep 3
+sudo su --login --command "screen -d -m -S irssi irssi" $NEWUSER1
+
+
+

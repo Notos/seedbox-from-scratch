@@ -1,0 +1,75 @@
+<VirtualHost *:80>
+ ServerAdmin webmaster@localhost 
+ DocumentRoot /var/www/ 
+ 
+ <Directory /> 
+ Options FollowSymLinks 
+ AllowOverride All 
+ </Directory> 
+ 
+ <Directory /var/www/> 
+ Options -Indexes FollowSymLinks MultiViews 
+ AllowOverride None 
+ Order allow,deny 
+ allow from all 
+ </Directory> 
+ 
+ ErrorLog /var/log/apache2/error.log
+ 
+ # Possible values include: debug, info, notice, warn, error, crit, 
+ # alert, emerg. 
+ 
+ LogLevel warn 
+ 
+ CustomLog /var/log/apache2/access.log combined 
+ 
+ <Location /rutorrent> 
+ AuthType Digest
+ AuthName "rutorrent"
+ AuthDigestDomain /var/www/rutorrent/ http://<server IP>/rutorrent 
+ AuthDigestProvider file 
+ AuthUserFile /etc/apache2/htpasswd 
+ Require valid-user 
+ SetEnv R_ENV "/var/www/rutorrent" 
+ </Location> 
+</VirtualHost> 
+ 
+ 
+<VirtualHost *:443> 
+ ServerAdmin webmaster@localhost
+NameVirtualHost *:443
+ SSLEngine on 
+ SSLCertificateFile /etc/apache2/apache.pem 
+ DocumentRoot /var/www/ 
+ 
+ <Directory /> 
+ Options FollowSymLinks 
+ AllowOverride All 
+ </Directory> 
+ 
+ <Directory /var/www/> 
+ Options -Indexes FollowSymLinks MultiViews 
+ AllowOverride None 
+ Order allow,deny 
+ allow from all 
+ </Directory> 
+ 
+ ErrorLog /var/log/apache2/error.log 
+ 
+ # Possible values include: debug, info, notice, warn, error, crit, 
+ # alert, emerg. 
+ 
+ LogLevel warn 
+ CustomLog /var/log/apache2/access.log combined 
+ 
+ <Location /rutorrent> 
+ AuthType Digest 
+ AuthName "rutorrent" 
+ AuthDigestDomain /var/www/rutorrent/ http://<server IP>/rutorrent 
+ AuthDigestProvider file 
+ AuthUserFile /etc/apache2/htpasswd 
+ Require valid-user 
+ SetEnv R_ENV "/var/www/rutorrent" 
+ </Location> 
+</VirtualHost>
+
