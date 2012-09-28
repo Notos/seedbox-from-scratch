@@ -157,5 +157,6 @@ sleep 3
 sudo su --login --command "screen -d -m -S irssi irssi" $NEWUSER1
 
 sudo chown -R $NEWUSER1:$NEWUSER1  /home/$NEWUSER1/.autodl
+sudo chown -R $NEWUSER1:$NEWUSER1  /home/$NEWUSER1/.irssi
 
 
