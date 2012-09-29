@@ -72,8 +72,6 @@ getString "New SSH port: " NEWSSHPORT1 21976
 #show all commands
 set -x verbose
 
-NEWUSER1=lefteris
-
 echo "" | sudo tee -a /etc/sudoers > /dev/null
 echo "www-data ALL=(root) NOPASSWD: /usr/sbin/repquota" | sudo tee -a /etc/sudoers > /dev/null
 echo "$NEWUSER1 ALL=(ALL:ALL) ALL" | sudo tee -a /etc/sudoers > /dev/null
