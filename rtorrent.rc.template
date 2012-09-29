@@ -41,7 +41,7 @@ check_hash = yes
 
 # default directory to save the downloaded torrents
 # directory.default.set = /home/<username>/downloads
-directory = /home/<username>/downloads
+directory = /home/<username>/downloads/manual
  
 # default session directory. make sure you don"t run multiple instances 
 # of rtorrent using the same session directory 
@@ -167,7 +167,7 @@ encryption = allow_incoming,enable_retry,prefer_plaintext
 # if the value is too low the disk may not be fully utilized, 
 # while if too high the kernel might not be able to keep the read pages 
 # in memory thus end up trashing. 
-# hash_read_ahead = 8 
+# hash_read_ahead = 8
 # system.hash.read_ahead.set = 8 
  
 # interval between attempts to check the hash, in milliseconds 
@@ -185,7 +185,7 @@ encryption = allow_incoming,enable_retry,prefer_plaintext
 # http_capath = 
  
 # throttle.max_downloads.div.set = 
-# max_downloads_div = 
+# max_downloads_div =
  
 # throttle.max_uploads.div.set = 
 # max_uploads_div = 

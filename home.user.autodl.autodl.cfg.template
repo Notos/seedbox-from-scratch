@@ -1,4 +1,6 @@
 [options]
 gui-server-port = <PORT>
 gui-server-password = <PASSWORD>
-
+rt-dir = ~/downloads/auto
+rt-label = irssi-autoload
+upload-type = rtorrent

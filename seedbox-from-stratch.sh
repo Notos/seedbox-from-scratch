@@ -118,7 +118,7 @@ sudo apt-get --yes upgrade
 
 sudo apt-get --yes build-dep znc
 
-sudo apt-get --yes install apache2 apache2-utils autoconf build-essential ca-certificates comerr-dev curl cfv dtach htop irssi libapache2-mod-php5 libcloog-ppl-dev libcppunit-dev libcurl3 libcurl4-openssl-dev libncurses5-dev libterm-readline-gnu-perl libsigc++-2.0-dev libperl-dev libssl-dev libtool libxml2-dev ncurses-base ncurses-term ntp openssl patch pkg-config php5 php5-cli php5-dev  php5-curl php5-geoip php5-mcrypt php5-xmlrpc pkg-config python-scgi screen ssl-cert subversion texinfo unrar-free unzip zlib1g-dev expect joe ffmpeg webmin libarchive-zip-perl libnet-ssleay-perl libhtml-parser-perl libxml-libxml-perl libjson-perl libjson-xs-perl libxml-libxslt-perl libxml-libxml-perl libjson-rpc-perl libarchive-zip-perl znc rar zip
+sudo apt-get --yes install apache2 apache2-utils autoconf build-essential ca-certificates comerr-dev curl cfv mktorrent dtach htop irssi libapache2-mod-php5 libcloog-ppl-dev libcppunit-dev libcurl3 libcurl4-openssl-dev libncurses5-dev libterm-readline-gnu-perl libsigc++-2.0-dev libperl-dev libssl-dev libtool libxml2-dev ncurses-base ncurses-term ntp openssl patch pkg-config php5 php5-cli php5-dev php5-curl php5-geoip php5-mcrypt php5-xmlrpc pkg-config python-scgi screen ssl-cert subversion texinfo unrar-free unzip zlib1g-dev expect joe ffmpeg webmin libarchive-zip-perl libnet-ssleay-perl libhtml-parser-perl libxml-libxml-perl libjson-perl libjson-xs-perl libxml-libxslt-perl libxml-libxml-perl libjson-rpc-perl libarchive-zip-perl znc rar zip
 
 # 8.1 additional packages for Ubuntu
 # this is better to be apart from the others
@@ -265,6 +265,8 @@ sudo perl -pi -e "s/99888/$NETWORKPORT/g" /home/$NEWUSER1/.rtorrent.rc
 sudo chown $NEWUSER1:$NEWUSER1   /home/$NEWUSER1/.rtorrent.rc:$NEWUSER1 /home/$NEWUSER1/.rtorrent.rc
 
 # 20.
+sudo mkdir -p /home/$NEWUSER1/downloads/auto
+sudo mkdir -p /home/$NEWUSER1/downloads/manual
 sudo mkdir -p /home/$NEWUSER1/downloads/watch
 sudo mkdir -p /home/$NEWUSER1/downloads/.session
 sudo chown -R $NEWUSER1:$NEWUSER1 /home/$NEWUSER1/downloads
