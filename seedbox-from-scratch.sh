@@ -5,10 +5,34 @@
 #
 # Changelog
 #
+#  Version 1.00
+#  30/09/2012 14:18 (by Notos)
+#    - Changing some file names and depoying version 1.00
+#
+#  Version 0.99b
 #  27/09/2012 19:39 (by Notos)
 #    - Quota for users
 #    - Download dir inside user home
 #
+#  Version 0.99a
+#  27/09/2012 19:39 (by Notos)
+#    - Quota for users
+#    - Download dir inside user home
+#
+#  Version 0.92a
+#  28/08/2012 19:39 (by Notos)
+#    - Also working on Debian now
+#
+#  Version 0.91a
+#  24/08/2012 19:39 (by Notos)
+#    - First multi-user version sent to public
+#
+#  Version 0.90a
+#  22/08/2012 19:39 (by Notos)
+#    - Working version for OVH Kimsufi 2G Server - Ubuntu Based
+#
+#  Version 0.89a
+#  17/08/2012 19:39 (by Notos)
 #
 
 # 1.
