@@ -5,6 +5,10 @@
 #
 # Changelog
 #
+#  Version 1.10
+#  06/10/2012 14:18 (by Notos)
+#    - Added Fileupload plugin
+#
 #  Version 1.00
 #  30/09/2012 14:18 (by Notos)
 #    - Changing some file names and depoying version 1.00
@@ -311,6 +315,7 @@ sudo mv plugins rutorrent/
 # prepare the tree
 sudo mkdir -p /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi
 sudo mkdir -p /var/www/rutorrent/conf/users/$NEWUSER1/plugins/diskspace
+sudo mkdir -p /var/www/rutorrent/conf/users/$NEWUSER1/plugins/fileupload
 
 echo '<?php $topDirectory = "/home"; ?>' | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins/diskspace/conf.php > /dev/null
 
@@ -320,11 +325,6 @@ sudo cp /etc/scripts/action.php.template /var/www/rutorrent/plugins/diskspace/ac
 sudo cp /var/www/rutorrent/conf/access.ini   /var/www/rutorrent/conf/users/$NEWUSER1/
 sudo cp /var/www/rutorrent/conf/config.php  /var/www/rutorrent/conf/users/$NEWUSER1/
 sudo cp /var/www/rutorrent/conf/plugins.ini   /var/www/rutorrent/conf/users/$NEWUSER1/
-
-# 23.
-cd /var/www
-sudo chown -R www-data:www-data rutorrent
-sudo chmod -R 755 rutorrent
 
 # 24.
 
@@ -401,6 +401,7 @@ sudo rm logoff-1.0.tar.gz
 # Installing Filemanager and MediaStream
 
 sudo rm -R /var/www/rutorrent/plugins/filemanager
+sudo rm -R /var/www/rutorrent/plugins/fileupload
 sudo rm -R /var/www/rutorrent/plugins/mediastream
 sudo rm -R /var/www/stream
 
@@ -418,6 +419,23 @@ sudo chown www-data: /var/www/stream
 sudo chown www-data: /var/www/stream/view.php
 
 echo "<?php \$streampath = 'http://$NEWHOSTNAME1/stream/view.php'; ?>" | sudo tee /var/www/rutorrent/plugins/mediastream/conf.php > /dev/null
+
+# 32.1 # FILEUPLOAD
+cd /var/www/rutorrent/plugins/
+sudo svn co http://svn.rutorrent.org/svn/filemanager/trunk/fileupload
+sudo chmod 775 /var/www/rutorrent/plugins/fileupload/scripts/upload
+sudo cp /var/www/rutorrent/plugins/fileupload/conf.php /var/www/rutorrent/conf/users/$NEWUSER1/plugins/fileupload/
+sudo chown -R www-data:www-data /var/www/rutorrent/conf/users/$NEWUSER1/plugins/fileupload/
+cd /tmp
+mkdir plowshare
+sudo apt-get --yes install rhino libmozjs185-1.0
+wget -O plowshare.deb http://plowshare.googlecode.com/files/plowshare_1~git20120930-1_all.deb
+sudo dpkg -i plowshare.deb
+sudo apt-get --yes -f install
+
+# 32.2
+sudo chown -R www-data:www-data /var/www/rutorrent
+sudo chmod -R 755 /var/www/rutorrent
 
 # 33.
 # createSeedboxUser script creation

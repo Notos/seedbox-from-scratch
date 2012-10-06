@@ -100,7 +100,7 @@ enabled = no
 [fileshare]
 enabled = no
 [fileupload]
-enabled = no
+enabled = yes
 [history]
 enabled = no
 [instantsearch]
