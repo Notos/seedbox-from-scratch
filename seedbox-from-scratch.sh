@@ -437,7 +437,6 @@ sudo cp /etc/scripts/rutorrent.conf.users.plugins.fileupload.conf.php.template  
 sudo chown -R www-data:www-data /var/www/rutorrent/conf/users/$NEWUSER1/plugins/fileupload/
 cd /tmp
 mkdir plowshare
-sudo apt-get --yes install rhino libmozjs185-1.0
 wget -O plowshare.deb http://plowshare.googlecode.com/files/plowshare_1~git20120930-1_all.deb
 sudo dpkg -i plowshare.deb
 sudo apt-get --yes -f install
