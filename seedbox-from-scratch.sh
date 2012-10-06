@@ -435,10 +435,8 @@ sudo svn co http://svn.rutorrent.org/svn/filemanager/trunk/fileupload
 sudo chmod 775 /var/www/rutorrent/plugins/fileupload/scripts/upload
 sudo cp /etc/scripts/rutorrent.conf.users.plugins.fileupload.conf.php.template  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/fileupload/config.php > /dev/null
 sudo chown -R www-data:www-data /var/www/rutorrent/conf/users/$NEWUSER1/plugins/fileupload/
-cd /tmp
-mkdir plowshare
-wget -O plowshare.deb http://plowshare.googlecode.com/files/plowshare_1~git20120930-1_all.deb
-sudo dpkg -i plowshare.deb
+wget -O /tmp/plowshare.deb http://plowshare.googlecode.com/files/plowshare_1~git20120930-1_all.deb
+sudo dpkg -i /tmp/plowshare.deb
 sudo apt-get --yes -f install
 
 # 32.2
