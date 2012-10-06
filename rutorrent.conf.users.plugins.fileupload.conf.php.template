@@ -1,0 +1,49 @@
+<?php
+
+/// The Seedbox From Scratch
+/// 06 oct 2012 - added all plugins supported by plowshare
+
+$services = array(
+                    '115'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    '1fichier'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    '2shared'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    '4shared'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'bayfiles'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'bitshare'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'config'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'cramit'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'data_hu'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'dataport_cz'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'depositfiles'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'divshare'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'dl_free_fr'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'euroshare_eu'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'extabit'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'filebox'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'filemates'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'filepost'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'freakshare'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'go4up'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'hotfile'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'mediafire'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'megashares'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'mirrorcreator'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'multiupload'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'netload_in'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'oron'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'putlocker'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'rapidgator'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'rapidshare'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'ryushare'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'sendspace'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'shareonline_biz'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'turbobit'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'uploaded_net'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'uploadhero'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'uploading'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'uptobox'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'zalaa'  => array( 'enabled' => true, 'login' => '', 'password' => ''),
+                    'zippyshare'  => array( 'enabled' => true, 'login' => '', 'password' => '')
+                 );
+
+?>
