@@ -2,5 +2,11 @@
 # ---------------------------
 #!/bin/bash
 # ---------------------------
+#
+# The Seedbox From Scratch  Script
+#   By Notos ---> https://github.com/Notos/
+#
+#
+#
 
 sudo apt-get --yes purge webmin

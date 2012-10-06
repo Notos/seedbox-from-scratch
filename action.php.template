@@ -1,4 +1,12 @@
 <?php
+
+/// ---------------------------------------------------------
+///
+///  The Seedbox From Scratch  Script
+///     By Notos ---> https://github.com/Notos/
+///
+/// ---------------------------------------------------------
+
   require_once( '../../php/util.php' );
 
   if(!isset($quotaUser)) {

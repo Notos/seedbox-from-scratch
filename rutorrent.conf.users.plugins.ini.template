@@ -1,3 +1,8 @@
+;;
+;;  The Seedbox From Scratch  Script
+;;    By Notos ---> https://github.com/Notos/
+;; 
+;; 
 ;; Plugins permissions.
 ;; If flag is not found in plugin section, corresponding flag from "default" section is used.
 ;; If flag is not found in "default" section, it is assumed to be "yes".

@@ -1,3 +1,8 @@
+#
+# The Seedbox From Scratch  Script
+#   By Notos ---> https://github.com/Notos/
+#
+#
 # this is an example resource file for rtorrent
 # copy to /home/$NEWUSER1/.rtorrent.rc and enable/modify the options as needed
 # remember to uncomment the options you wish to enable

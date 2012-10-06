@@ -3,11 +3,20 @@
 #!/bin/bash
 # ---------------------------
 #
+#
+# The Seedbox From Scratch  Script
+#   By Notos ---> https://github.com/Notos/
+#
+#
 # Changelog
 #
 #  Version 1.10
 #  06/10/2012 14:18 (by Notos)
 #    - Added Fileupload plugin
+#
+#    - Added all supported plowshare sites into fileupload plugin: 115, 1fichier, 2shared, 4shared, bayfiles, bitshare, config, cramit, data_hu, dataport_cz,
+#      depositfiles, divshare, dl_free_fr, euroshare_eu, extabit, filebox, filemates, filepost, freakshare, go4up, hotfile, mediafire, megashares, mirrorcreator, multiupload, netload_in,
+#      oron, putlocker, rapidgator, rapidshare, ryushare, sendspace, shareonline_biz, turbobit, uploaded_net, uploadhero, uploading, uptobox, zalaa, zippyshare
 #
 #  Version 1.00
 #  30/09/2012 14:18 (by Notos)
@@ -424,7 +433,7 @@ echo "<?php \$streampath = 'http://$NEWHOSTNAME1/stream/view.php'; ?>" | sudo te
 cd /var/www/rutorrent/plugins/
 sudo svn co http://svn.rutorrent.org/svn/filemanager/trunk/fileupload
 sudo chmod 775 /var/www/rutorrent/plugins/fileupload/scripts/upload
-sudo cp /var/www/rutorrent/plugins/fileupload/conf.php /var/www/rutorrent/conf/users/$NEWUSER1/plugins/fileupload/
+sudo cp /etc/scripts/rutorrent.conf.users.plugins.fileupload.conf.php.template  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/fileupload/config.php > /dev/null
 sudo chown -R www-data:www-data /var/www/rutorrent/conf/users/$NEWUSER1/plugins/fileupload/
 cd /tmp
 mkdir plowshare

@@ -1,4 +1,13 @@
 <?php
+
+/// ---------------------------------------------------------
+///
+///  The Seedbox From Scratch  Script
+///     By Notos ---> https://github.com/Notos/
+///
+/// ---------------------------------------------------------
+
 $autodlPort = <PORT>;
 $autodlPassword = "<PASSWORD>";
+
 ?>

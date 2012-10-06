@@ -1,7 +1,13 @@
 <?php
 
-/// The Seedbox From Scratch
-/// 06 oct 2012 - added all plugins supported by plowshare
+/// ---------------------------------------------------------
+///
+///  The Seedbox From Scratch  Script
+///     By Notos ---> https://github.com/Notos/
+///
+///  06 oct 2012 - added all plugins supported by plowshare
+///
+/// ---------------------------------------------------------
 
 $services = array(
                     '115'  => array( 'enabled' => true, 'login' => '', 'password' => ''),

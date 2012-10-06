@@ -1,4 +1,11 @@
 <?php
+/// ---------------------------------------------------------
+///
+///  The Seedbox From Scratch  Script
+///     By Notos ---> https://github.com/Notos/
+///
+/// ---------------------------------------------------------
+
 // configuration parameters
 // for snoopy client
 @define("HTTP_USER_AGENT", "Mozilla/5.0 (Windows; U; Windows NT 5.1; pl; rv:1.9) Gecko/2008052906 Firefox/3.0", true);

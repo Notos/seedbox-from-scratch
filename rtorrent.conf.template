@@ -1,3 +1,10 @@
+#
+# The Seedbox From Scratch  Script
+#   By Notos ---> https://github.com/Notos/
+#
+#
+#
+
 description "ncurses BitTorrent client based on LibTorrent"
 start on stopped rc RUNLEVEL=[2345]
 stop on runlevel [016]
