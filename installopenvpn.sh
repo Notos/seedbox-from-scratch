@@ -11,7 +11,6 @@
 # OpenVPN in beta --- Tested on Ubuntu 12.04 64Bit
 #
 
-#Install OPENVPN
 dpkg --purge remove openvpn
 apt-get --yes --purge remove openvpn
 rm -r /etc/openvpn
@@ -30,11 +29,8 @@ source ./vars
 
 echo -e "\n\n\n\n\n\n\n" | ./build-ca
 clear
-echo "####################################"
-echo "Feel free to accept default values"
-echo "Wouldn't recommend setting a password here"
-echo "Then you'd have to type in the password each time openVPN starts/restarts"
-echo "####################################"
+echo ""
+echo "If you don't want to be asked for a password, do not type one in the next fields. "
 echo ""
 echo ""
 echo ""
@@ -43,10 +39,8 @@ echo ""
 cp keys/{ca.crt,ca.key,server.crt,server.key,dh1024.pem} /etc/openvpn/
 
 clear
-echo "####################################"
-echo "Feel free to accept default values"
-echo "This is your client key, you may set a password here but it's not required"
-echo "####################################"
+echo ""
+echo "Here you can type a password but you're not forced to. "
 echo ""
 echo ""
 echo ""
@@ -69,8 +63,8 @@ verb 3"
 
 echo "$client" > $HOSTNAME.ovpn
 
-zip keys.zip ca.crt ca.key client1.crt client1.csr client1.key $HOSTNAME.ovpn
-mv keys.zip /var/www/rutorrent
+zip vpn.zip ca.crt ca.key client1.crt client1.csr client1.key $HOSTNAME.ovpn
+mv vpn.zip /var/www/rutorrent
 
 opvpn='
 dev tun
@@ -106,4 +100,4 @@ echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
 cd
 rm installopenvpn.sh
 clear
-echo "Download http://your-box-ip/keys.zip to use OpenVPN"
+echo "Download http://your-box-ip/vpn.zip to use OpenVPN"

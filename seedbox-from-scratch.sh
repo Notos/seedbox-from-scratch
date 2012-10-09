@@ -10,6 +10,11 @@
 #
 # Changelog
 #
+#  Version 1.20 (BETA)
+#  09 Oct 2012 03:24 (by Notos)
+#    - Install OpenVPN - (BETA) Still not in the script, just an outside script
+#      Tested client: http://openvpn.net/index.php?option=com_content&id=357
+#
 #  Version 1.10
 #  06/10/2012 14:18 (by Notos)
 #    - Added Fileupload plugin
@@ -479,3 +484,6 @@ echo ""
 sudo reboot
 
 ##################### LAST LINE ###########
+
+
+
