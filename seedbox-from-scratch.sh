@@ -8,6 +8,9 @@
 #   By Notos ---> https://github.com/Notos/
 #
 #
+#  git clone -b master https://github.com/Notos/seedbox-from-scratch.git /etc/scripts
+#
+#
 # Changelog
 #
 #  Version 1.20 (BETA)
@@ -286,7 +289,6 @@ sudo make install
 # 16.1 - c-ares
 
 
-
 # 17.
 cd ../libtorrent-0.13.2
 ./autogen.sh
@@ -462,6 +464,7 @@ sudo chmod +x /etc/scripts/deleteSeedboxUser
 sudo chmod +x /etc/scripts/installOpenVPN
 sudo chmod +x /etc/scripts/removeWebmin
 sudo chmod +x /etc/scripts/downgradeRTorrent
+sudo chmod +x /etc/scripts/upgradeRTorrent
 
 # 98.
 
