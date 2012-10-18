@@ -15,9 +15,17 @@
 # Changelog
 #
 #  Version 1.20 (BETA)
-#  09 Oct 2012 03:24 (by Notos)
+#  19 Oct 2012 03:24 (by Notos)
 #    - Install OpenVPN - (BETA) Still not in the script, just an outside script
 #      Tested client: http://openvpn.net/index.php?option=com_content&id=357
+#
+#  Version 1.11
+#  18/10/2012 05:13 (by Notos)
+#    - Added scripts to downgrade and upgrade rTorrent
+#
+#    - Added all supported plowshare sites into fileupload plugin: 115, 1fichier, 2shared, 4shared, bayfiles, bitshare, config, cramit, data_hu, dataport_cz,
+#      depositfiles, divshare, dl_free_fr, euroshare_eu, extabit, filebox, filemates, filepost, freakshare, go4up, hotfile, mediafire, megashares, mirrorcreator, multiupload, netload_in,
+#      oron, putlocker, rapidgator, rapidshare, ryushare, sendspace, shareonline_biz, turbobit, uploaded_net, uploadhero, uploading, uptobox, zalaa, zippyshare
 #
 #  Version 1.10
 #  06/10/2012 14:18 (by Notos)
