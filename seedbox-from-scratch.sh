@@ -270,8 +270,12 @@ cd /home/$NEWUSER1
 mkdir source
 cd source
 svn co https://xmlrpc-c.svn.sourceforge.net/svnroot/xmlrpc-c/stable xmlrpc
-curl http://libtorrent.rakshasa.no/downloads/libtorrent-0.13.2.tar.gz | tar xz
+
 curl http://libtorrent.rakshasa.no/downloads/rtorrent-0.9.2.tar.gz | tar xz
+curl http://libtorrent.rakshasa.no/downloads/libtorrent-0.13.2.tar.gz | tar xz
+
+#curl http://libtorrent.rakshasa.no/downloads/rtorrent-0.8.9.tar.gz | tar xz
+#curl http://libtorrent.rakshasa.no/downloads/libtorrent-0.12.9.tar.gz | tar xz
 
 # 16.
 cd xmlrpc
@@ -457,6 +461,7 @@ sudo chmod +x /etc/scripts/createSeedboxUser
 sudo chmod +x /etc/scripts/deleteSeedboxUser
 sudo chmod +x /etc/scripts/installOpenVPN
 sudo chmod +x /etc/scripts/removeWebmin
+sudo chmod +x /etc/scripts/downgradeRTorrent
 
 # 98.
 

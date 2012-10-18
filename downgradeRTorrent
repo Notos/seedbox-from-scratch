@@ -1,0 +1,33 @@
+##################### FIRST LINE
+# ---------------------------
+#!/bin/bash
+# ---------------------------
+#
+#
+# The Seedbox From Scratch  Script
+#   By Notos ---> https://github.com/Notos/
+#
+# Downgrade rTorrent
+#
+#
+
+sudo killall rtorrent
+cd ~
+svn co https://xmlrpc-c.svn.sourceforge.net/svnroot/xmlrpc-c/stable xmlrpc
+curl http://libtorrent.rakshasa.no/downloads/libtorrent-0.12.9.tar.gz | tar xz
+curl http://libtorrent.rakshasa.no/downloads/rtorrent-0.8.9.tar.gz | tar xz
+cd xmlrpc
+./configure --prefix=/usr --enable-libxml2-backend --disable-libwww-client --disable-wininet-client --disable-abyss-server --disable-cgi-server
+make
+sudo make install
+cd ../libtorrent-0.12.9
+./autogen.sh
+./configure --prefix=/usr
+make -j2
+sudo make install
+cd ../rtorrent-0.8.9
+./autogen.sh
+./configure --prefix=/usr --with-xmlrpc-c
+make -j2
+sudo make install
+screen -S rtorrent rtorrent
