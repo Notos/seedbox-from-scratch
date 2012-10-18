@@ -3,7 +3,6 @@
 #!/bin/bash
 # ---------------------------
 #
-#
 # The Seedbox From Scratch  Script
 #   By Notos ---> https://github.com/Notos/
 #
@@ -29,8 +28,11 @@ source ./vars
 
 echo -e "\n\n\n\n\n\n\n" | ./build-ca
 clear
+echo "-----------------------------------------------------------------------------------------"
 echo ""
-echo "If you don't want to be asked for a password, do not type one in the next fields. "
+echo "BE AWARE! Do not type a password if you don't want to be asked for one when connecting."
+echo ""
+echo "-----------------------------------------------------------------------------------------"
 echo ""
 echo ""
 echo ""
@@ -40,8 +42,11 @@ cp keys/{ca.crt,ca.key,server.crt,server.key,dh1024.pem} /etc/openvpn/
 
 clear
 echo ""
-echo "Here you can type a password but you're not forced to. "
+echo "-----------------------------------------------------------------------------------------"
 echo ""
+echo "In this step you can give a password, if you want."
+echo ""
+echo "-----------------------------------------------------------------------------------------"
 echo ""
 echo ""
 ./build-key client1
@@ -100,4 +105,12 @@ echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
 cd
 rm installopenvpn.sh
 clear
-echo "Download http://your-box-ip/vpn.zip to use OpenVPN"
+echo ""
+echo "Installation process id done."
+echo ""
+echo ""
+echo "Now you just download http://your-box-ip/vpn.zip to use in any OpenVPN client."
+echo ""
+echo "Enjoy it!"
+echo ""
+echo ""
