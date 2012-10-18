@@ -10,23 +10,23 @@
 # OpenVPN in beta --- Tested on Ubuntu 12.04 64Bit
 #
 
-dpkg --purge remove openvpn
-apt-get --yes --purge remove openvpn
-rm -r /etc/openvpn
+sudo dpkg --purge remove openvpn
+sudo apt-get --yes --purge remove openvpn
+sudo rm -r /etc/openvpn
+sudo mkdir -p /etc/openvpn/easy-rsa/2.0/keys
 ip=`grep address /etc/network/interfaces | grep -v 127.0.0.1 | head -1 | awk '{print $2}'`
-apt-get update
-apt-get --yes install openvpn libssl-dev  openssl
+sudo apt-get update
+sudo apt-get --yes install openvpn libssl-dev  openssl
 cd /etc/openvpn/
-cp -R /usr/share/doc/openvpn/examples/easy-rsa/ /etc/openvpn/
+sudo cp -R /usr/share/doc/openvpn/examples/easy-rsa/ /etc/openvpn/
 cd /etc/openvpn/easy-rsa/2.0/
-mkdir /etc/openvpn/easy-rsa/2.0/keys
-chmod +rwx *
-cp openssl-1.0.0.cnf openssl.cnf
+sudo chmod +rwx *
+sudo cp openssl-1.0.0.cnf openssl.cnf
 . ./vars
 ./clean-all
 source ./vars
 
-echo -e "\n\n\n\n\n\n\n" | ./build-ca
+echo -e "\n\n\n\n\n\n\n" | sudo ./build-ca
 clear
 echo "-----------------------------------------------------------------------------------------"
 echo ""
@@ -38,7 +38,7 @@ echo ""
 echo ""
 ./build-key-server server
 ./build-dh
-cp keys/{ca.crt,ca.key,server.crt,server.key,dh1024.pem} /etc/openvpn/
+sudo cp keys/{ca.crt,ca.key,server.crt,server.key,dh1024.pem} /etc/openvpn/
 
 clear
 echo ""
@@ -49,7 +49,7 @@ echo ""
 echo "-----------------------------------------------------------------------------------------"
 echo ""
 echo ""
-./build-key client1
+sudo ./build-key client1
 cd keys/
 
 client="
@@ -66,10 +66,10 @@ redirect-gateway def1
 dhcp-option DNS 8.8.8.8
 verb 3"
 
-echo "$client" > $HOSTNAME.ovpn
+echo "$client" | sudo tee $HOSTNAME.ovpn
 
-zip vpn.zip ca.crt ca.key client1.crt client1.csr client1.key $HOSTNAME.ovpn
-mv vpn.zip /var/www/rutorrent
+sudo zip vpn.zip ca.crt ca.key client1.crt client1.csr client1.key $HOSTNAME.ovpn
+sudo mv vpn.zip /var/www/rutorrent
 
 opvpn='
 dev tun
@@ -89,21 +89,20 @@ persist-key
 group daemon
 daemon'
 
-echo "$opvpn" > /etc/openvpn/openvpn.conf
+echo "$opvpn" | sudo tee /etc/openvpn/openvpn.conf
 
 echo 1 > /proc/sys/net/ipv4/ip_forward
-/sbin/iptables -A FORWARD -i tun0 -o eth0 -j ACCEPT
-/sbin/iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-/sbin/iptables -t nat -A POSTROUTING -s 10.191.12.0/24 -o venet0 -j MASQUERADE
-/sbin/iptables-save > /etc/iptables.conf
+sudo /sbin/iptables -A FORWARD -i tun0 -o eth0 -j ACCEPT
+sudo /sbin/iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+sudo /sbin/iptables -t nat -A POSTROUTING -s 10.191.12.0/24 -o venet0 -j MASQUERADE
+sudo /sbin/iptables-save > /etc/iptables.conf
 echo "#\!/bin/sh" > /etc/network/if-up.d/iptables
 echo "iptables-restore < /etc/iptables.conf" >> /etc/network/if-up.d/iptables
-chmod +x /etc/network/if-up.d/iptables
-echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
+sudo chmod +x /etc/network/if-up.d/iptables
+echo "net.ipv4.ip_forward=1" | sudo tee -a /etc/sysctl.conf
 
-/etc/init.d/openvpn start
+sudo /etc/init.d/openvpn start
 cd
-rm installopenvpn.sh
 clear
 echo ""
 echo "Installation process id done."

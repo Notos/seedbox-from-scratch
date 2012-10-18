@@ -455,6 +455,7 @@ sudo chmod -R 755 /var/www/rutorrent
 
 sudo chmod +x /etc/scripts/createSeedboxUser
 sudo chmod +x /etc/scripts/deleteSeedboxUser
+sudo chmod +x /etc/scripts/installOpenVPN
 sudo chmod +x /etc/scripts/removeWebmin
 
 # 98.
