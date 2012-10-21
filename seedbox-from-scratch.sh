@@ -468,7 +468,8 @@ sudo chmod -R 755 /var/www/rutorrent
 
 #32.3
 
-sudo perl -pi -e "s/\$topDirectory, \$fm/\$homeDirectory, \$topDirectory, \$fm/g" /var/www/rutorrent/plugins/filemanager/flm.class.php
+sudo perl -pi -e "s/\$topDirectory\, \$fm/xxxxxx/i" /var/www/rutorrent/plugins/filemanager/flm.class.php
+sudo perl -pi -e "s/\$topDirectory\, \$fm/\$homeDirectory\, \$topDirectory\, \$fm/g" /var/www/rutorrent/plugins/filemanager/flm.class.php
 sudo perl -pi -e "s/\$this\-\>userdir \= addslash\(\$topDirectory\)\;/\$this\-\>userdir \= \$homeDirectory \? addslash\(\$homeDirectory\) \: addslash\(\$topDirectory\)\;/g" /var/www/rutorrent/plugins/filemanager/flm.class.php
 
 # 33.

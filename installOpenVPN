@@ -9,7 +9,7 @@
 #
 # OpenVPN in beta --- Tested on Ubuntu 12.04 64Bit
 #
-sudo sh /etc/scripts/ovni
+sudo sh /etc/scripts/ovpni
 #
 #
 #
