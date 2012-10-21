@@ -482,6 +482,7 @@ sudo chmod +x /etc/scripts/installOpenVPN
 sudo chmod +x /etc/scripts/removeWebmin
 sudo chmod +x /etc/scripts/downgradeRTorrent
 sudo chmod +x /etc/scripts/upgradeRTorrent
+sudo chmod +x /etc/scripts/ovpni
 
 # 98.
 
