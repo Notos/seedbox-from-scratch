@@ -18,6 +18,7 @@ $httpIP = null; // IP string. Or null for any.
 // for php
 @define("PHP_USE_GZIP", false, true);
 @define("PHP_GZIP_LEVEL", 2, true);
+$homeDirectory = "<homedir>";
 $do_diagnostic = true;
 $log_file = "/tmp/rutorrent_errors.log"; // path to log file (comment or leave blank to disable logging)
 $saveUploadedTorrents = true; // Save uploaded torrents to profile/torrents directory or not

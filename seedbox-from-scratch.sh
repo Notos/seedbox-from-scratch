@@ -362,6 +362,7 @@ sudo cp /etc/scripts/rutorrent.conf.users.config.php.template /var/www/rutorrent
 sudo perl -pi -e "s/5995/$SCGIPORT/g" /var/www/rutorrent/conf/users/$NEWUSER1/config.php
 sudo perl -pi -e "s/RPC123/$NEWRPC1/g" /var/www/rutorrent/conf/users/$NEWUSER1/config.php
 sudo perl -pi -e "s/<username>/$NEWUSER1/g" /var/www/rutorrent/conf/users/$NEWUSER1/config.php
+sudo perl -pi -e "s/<homedir>/\/home\/$NEWUSER1/g" rutorrent.conf.users.config.php.template
 
 # 25.
 
@@ -462,6 +463,11 @@ sudo apt-get --yes -f install
 # 32.2
 sudo chown -R www-data:www-data /var/www/rutorrent
 sudo chmod -R 755 /var/www/rutorrent
+
+#32.3
+
+sudo perl -pi -e "s/\$topDirectory, \$fm/\$homeDirectory, \$topDirectory, \$fm/g" /var/www/rutorrent/plugins/filemanager/flm.class.php
+sudo perl -pi -e "s/\$this\-\>userdir \= addslash\(\$topDirectory\)\;/\$this\-\>userdir \= \$homeDirectory \? addslash\(\$homeDirectory\) \: addslash\(\$topDirectory\)\;/g" /var/www/rutorrent/plugins/filemanager/flm.class.php
 
 # 33.
 # createSeedboxUser script creation
