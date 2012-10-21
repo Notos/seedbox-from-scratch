@@ -163,6 +163,10 @@ cd /tmp
 wget http://www.webmin.com/jcameron-key.asc
 sudo apt-key add jcameron-key.asc
 
+#add non-free sources to Debian Squeeze
+sudo perl -pi -e "s/squeeze main/squeeze main non-free/g" /etc/apt/sources.list
+sudo perl -pi -e "s/squeeze\/updates main/squeeze\/updates main non-free/g" /etc/apt/sources.list
+
 # 7.
 # update and upgrade packages
 
@@ -173,7 +177,6 @@ sudo apt-get --yes upgrade
 #install all needed packages including webmin
 
 sudo apt-get --yes build-dep znc
-
 sudo apt-get --yes install apache2 apache2-utils autoconf build-essential ca-certificates comerr-dev curl cfv quota mktorrent dtach htop irssi libapache2-mod-php5 libcloog-ppl-dev libcppunit-dev libcurl3 libcurl4-openssl-dev libncurses5-dev libterm-readline-gnu-perl libsigc++-2.0-dev libperl-dev libssl-dev libtool libxml2-dev ncurses-base ncurses-term ntp openssl patch pkg-config php5 php5-cli php5-dev php5-curl php5-geoip php5-mcrypt php5-xmlrpc pkg-config python-scgi screen ssl-cert subversion texinfo unrar-free unzip zlib1g-dev expect joe ffmpeg webmin libarchive-zip-perl libnet-ssleay-perl libhtml-parser-perl libxml-libxml-perl libjson-perl libjson-xs-perl libxml-libxslt-perl libxml-libxml-perl libjson-rpc-perl libarchive-zip-perl znc rar zip openvpn
 
 # 8.1 additional packages for Ubuntu
@@ -468,9 +471,8 @@ sudo chmod -R 755 /var/www/rutorrent
 
 #32.3
 
-sudo perl -pi -e "s/\$topDirectory\, \$fm/xxxxxx/i" /var/www/rutorrent/plugins/filemanager/flm.class.php
-sudo perl -pi -e "s/\$topDirectory\, \$fm/\$homeDirectory\, \$topDirectory\, \$fm/g" /var/www/rutorrent/plugins/filemanager/flm.class.php
-sudo perl -pi -e "s/\$this\-\>userdir \= addslash\(\$topDirectory\)\;/\$this\-\>userdir \= \$homeDirectory \? addslash\(\$homeDirectory\) \: addslash\(\$topDirectory\)\;/g" /var/www/rutorrent/plugins/filemanager/flm.class.php
+sudo perl -pi -e "s/\\\$topDirectory\, \\\$fm/\\\$homeDirectory\, \\\$topDirectory\, \\\$fm/g" /var/www/rutorrent/plugins/filemanager/flm.class.php
+sudo perl -pi -e "s/\\\$this\-\>userdir \= addslash\(\\\$topDirectory\)\;/\\\$this\-\>userdir \= \\\$homeDirectory \? addslash\(\\\$homeDirectory\) \: addslash\(\\\$topDirectory\)\;/g" /var/www/rutorrent/plugins/filemanager/flm.class.php
 
 # 33.
 # createSeedboxUser script creation
