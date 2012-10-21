@@ -64,6 +64,8 @@
 #  Version 0.89a
 #  17/08/2012 19:39 (by Notos)
 #
+# to get IP address = ip=`grep address /etc/network/interfaces | grep -v 127.0.0.1 | head -1 | awk '{print $2}'`
+#
 
 # 1.
 clear
@@ -191,9 +193,9 @@ fi
 sudo mkdir -p /etc/scripts
 
 #permanently adding scripts to PATH to all users and root
-echo "PATH=$PATH:/etc/scripts" | sudo tee -a /etc/profile > /dev/null
+echo "PATH=$PATH:/etc/scripts:/sbin" | sudo tee -a /etc/profile > /dev/null
 echo "export PATH" | sudo tee -a /etc/profile > /dev/null
-echo "PATH=$PATH:/etc/scripts" | sudo tee -a /root/.bashrc > /dev/null
+echo "PATH=$PATH:/etc/scripts:/sbin" | sudo tee -a /root/.bashrc > /dev/null
 echo "export PATH" | sudo tee -a /root/.bashrc > /dev/null
 
 sudo rm /etc/scripts/ports.txt

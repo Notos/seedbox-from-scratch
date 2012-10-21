@@ -1,6 +1,6 @@
 ##################### FIRST LINE
 # ---------------------------
-#!/bin/bash
+#!/bin/sh
 # ---------------------------
 #
 # The Seedbox From Scratch  Script
@@ -10,6 +10,7 @@
 # OpenVPN in beta --- Tested on Ubuntu 12.04 64Bit
 #
 
+sudo killall openvpn
 dpkg --purge remove openvpn
 apt-get --yes --purge remove openvpn
 rm -r /etc/openvpn
@@ -36,6 +37,7 @@ echo "--------------------------------------------------------------------------
 echo ""
 echo ""
 echo ""
+sudo touch keys/index.txt
 ./build-key-server server
 ./build-dh
 cp keys/{ca.crt,ca.key,server.crt,server.key,dh1024.pem} /etc/openvpn/
@@ -108,7 +110,7 @@ echo ""
 echo "Installation process id done."
 echo ""
 echo ""
-echo "Now you just download http://your-box-ip/vpn.zip to use in any OpenVPN client."
+echo "Now you just download http://<your-box-name-or-ip>/rutorrent/vpn.zip to use in any OpenVPN client."
 echo ""
 echo "Enjoy it!"
 echo ""
