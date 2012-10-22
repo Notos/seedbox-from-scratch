@@ -367,7 +367,7 @@ sudo cp /etc/scripts/rutorrent.conf.users.config.php.template /var/www/rutorrent
 sudo perl -pi -e "s/5995/$SCGIPORT/g" /var/www/rutorrent/conf/users/$NEWUSER1/config.php
 sudo perl -pi -e "s/RPC123/$NEWRPC1/g" /var/www/rutorrent/conf/users/$NEWUSER1/config.php
 sudo perl -pi -e "s/<username>/$NEWUSER1/g" /var/www/rutorrent/conf/users/$NEWUSER1/config.php
-sudo perl -pi -e "s/<homedir>/\/home\/$NEWUSER1/g" rutorrent.conf.users.config.php.template
+sudo perl -pi -e "s/<homedir>/\/home\/$NEWUSER1/g" /var/www/rutorrent/conf/users/$NEWUSER1/config.php
 
 # 25.
 
