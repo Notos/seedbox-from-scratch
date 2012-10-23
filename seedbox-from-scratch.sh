@@ -154,6 +154,19 @@ getString "You need to create an user for your seedbox: " NEWUSER1
 getPassword "ruTorrent password for user $NEWUSER1: " PASSWORD1
 getString "IP address or hostname of your box: " NEWHOSTNAME1 $IPADDRESS1
 getString "New SSH port: " NEWSSHPORT1 21976
+getString "Wich rTorrent would you like to use, '0.8.9' (older stable) or '0.9.2' (newer but banned in some trackers)?: " RTORRENT1 0.9.2
+getString "Do you want to install OpenVPN?: " INSTALLOPENVPN1 YES
+
+if [ "$RTORRENT1" != "0.9.2"] && [ "$RTORRENT1" != "0.9.2"]; then
+  echo "$RTORRENT1 is not 0.9.2 or 0.8.9!"
+  exit 1
+fi
+
+if [ "$RTORRENT1" = "0.9.2"]; then
+  LIBTORRENT1=0.13.2
+else
+  LIBTORRENT1=0.12.9
+fi
 
 # 3.2
 
@@ -304,38 +317,33 @@ a2ensite default-ssl
 # 15.
 cd /etc/scripts
 mkdir source
+tar xvfz /etc/scripts/rtorrent-0.8.9.tar.gz -C /etc/scripts/source/
+tar xvfz /etc/scripts/rtorrent-0.9.2.tar.gz -C /etc/scripts/source/
+tar xvfz /etc/scripts/libtorrent-0.12.9.tar.gz -C /etc/scripts/source/
+tar xvfz /etc/scripts/libtorrent-0.13.2.tar.gz -C /etc/scripts/source/
+tar xvfz /etc/scripts/notos-xmlrpc-c.tgz -C /etc/scripts/source/
 cd source
-svn co https://xmlrpc-c.svn.sourceforge.net/svnroot/xmlrpc-c/stable xmlrpc
-
-curl http://libtorrent.rakshasa.no/downloads/rtorrent-0.9.2.tar.gz | tar xz
-curl http://libtorrent.rakshasa.no/downloads/libtorrent-0.13.2.tar.gz | tar xz
-
-#curl http://libtorrent.rakshasa.no/downloads/rtorrent-0.8.9.tar.gz | tar xz
-#curl http://libtorrent.rakshasa.no/downloads/libtorrent-0.12.9.tar.gz | tar xz
 
 # 16.
-cd xmlrpc
+cd xmlrpc-c-1.16.42
 ./configure --prefix=/usr --enable-libxml2-backend --disable-libwww-client --disable-wininet-client --disable-abyss-server --disable-cgi-server
+ln -s /usr/include/curl/curl.h /usr/include/curl/types.h
 make
 make install
 
-# 16.1 - c-ares
-
-
 # 17.
-cd ../libtorrent-0.13.2
+cd ../libtorrent-$LIBTORRENT1
 ./autogen.sh
 ./configure --prefix=/usr
 make -j2
 make install
 
-cd ../rtorrent-0.9.2
+cd ../rtorrent-$RTORRENT1
 ./autogen.sh
 ./configure --prefix=/usr --with-xmlrpc-c
 make -j2
 make install
 ldconfig
-
 
 # 22.
 cd /var/www
