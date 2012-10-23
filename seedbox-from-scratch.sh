@@ -97,7 +97,7 @@ function getString()
 {
   local NEWVAR1=a
   local NEWVAR2=b
-  while [ ! $NEWVAR1 = $NEWVAR2 ];
+  while [ ! $NEWVAR1 = $NEWVAR2 ] || [ -z "$NEWVAR1" ];
   do
     clear
     echo "#"
@@ -122,7 +122,7 @@ function getPassword()
 {
   local NEWVAR1=a
   local NEWVAR2=b
-  while [ ! $NEWVAR1 = $NEWVAR2 ];
+  while [ ! $NEWVAR1 = $NEWVAR2 ] || [ -z "$NEWVAR1" ];
   do
     clear
     echo "#"
