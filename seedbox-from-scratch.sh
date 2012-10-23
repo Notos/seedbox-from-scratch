@@ -440,9 +440,15 @@ chmod +x /etc/scripts/downgradeRTorrent
 chmod +x /etc/scripts/upgradeRTorrent
 chmod +x /etc/scripts/ovpni
 
-# 97.
+# 96.
 
 /etc/scripts/createSeedboxUser $NEWUSER1 $PASSWORD1
+
+# 97.
+
+if [ "$INSTALLOPENVPN1" = "YES" ]; then
+  /etc/scripts/installOpenVPN
+fi
 
 # 98.
 
