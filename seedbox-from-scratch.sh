@@ -9,7 +9,7 @@
 #
 #
 #  git clone -b master https://github.com/Notos/seedbox-from-scratch.git /etc/scripts
-#
+#  sudo git stash; sudo git pull
 #
 #
 # Changelog
@@ -100,13 +100,13 @@ function getString()
   while [ ! $NEWVAR1 = $NEWVAR2 ];
   do
     clear
-    echo #
-    echo #
-    echo # The Seedbox From Scratch Script
-    echo #   By Notos ---> https://github.com/Notos/
-    echo #
-    echo #
-    echo #
+    echo "#"
+    echo "#"
+    echo "# The Seedbox From Scratch Script"
+    echo "#   By Notos ---> https://github.com/Notos/"
+    echo "#"
+    echo "#"
+    echo "#"
     echo
     read -e -i "$3" -p "$1" NEWVAR1
     if [ "$NEWVAR1" == "$3" ]
@@ -125,13 +125,13 @@ function getPassword()
   while [ ! $NEWVAR1 = $NEWVAR2 ];
   do
     clear
-    echo #
-    echo #
-    echo # The Seedbox From Scratch Script
-    echo #   By Notos ---> https://github.com/Notos/
-    echo #
-    echo #
-    echo #
+    echo "#"
+    echo "#"
+    echo "# The Seedbox From Scratch Script"
+    echo "#   By Notos ---> https://github.com/Notos/"
+    echo "#"
+    echo "#"
+    echo "#"
     echo
     read -s -p "$1" NEWVAR1
     echo ""
