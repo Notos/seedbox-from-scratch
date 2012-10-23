@@ -175,17 +175,19 @@ service ssh restart
 #remove cdrom from apt so it doesn't stop asking for it
 perl -pi -e "s/deb cdrom/#deb cdrom/g" /etc/apt/sources.list
 
-#add webmin source
-echo "" | tee -a /etc/apt/sources.list > /dev/null
-echo "deb http://download.webmin.com/download/repository sarge contrib" | tee -a /etc/apt/sources.list > /dev/null
-cd /tmp
-
 #if webmin isup, download key
 ping -c1 -w2 www.webmin.com > /dev/null
+WEBMINDOWN=yes
 if [ $? = 0 ] ; then
+  #add webmin source
+  echo "" | tee -a /etc/apt/sources.list > /dev/null
+  echo "deb http://download.webmin.com/download/repository sarge contrib" | tee -a /etc/apt/sources.list > /dev/null
+  cd /tmp
   wget http://www.webmin.com/jcameron-key.asc
   apt-key add jcameron-key.asc
+  WEBMINDOWN=no
 fi
+sleep 5000
 
 #add non-free sources to Debian Squeeze
 perl -pi -e "s/squeeze main/squeeze main non-free/g" /etc/apt/sources.list
@@ -215,7 +217,10 @@ if [ $? -gt 0 ]; then
   set -e
   exit 1
 fi
-apt-get --yes install webmin
+
+if [ "$WEBMINDOWN" = "no" ]; then
+  apt-get --yes install webmin
+fi
 
 # 8.1 additional packages for Ubuntu
 # this is better to be apart from the others
