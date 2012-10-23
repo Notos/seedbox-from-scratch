@@ -73,6 +73,8 @@
 
 # 0.
 
+export DEBIAN_FRONTEND=noninteractive
+
 apt-get --yes install whois sudo makepasswd git
 
 rm -f -r /etc/scripts
