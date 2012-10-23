@@ -192,7 +192,6 @@ if [ "$WEBMINDOWN"="no" ] ; then
   echo "deb http://download.webmin.com/download/repository sarge contrib" | tee -a /etc/apt/sources.list > /dev/null
   cd /tmp
 fi
-sleep 5000
 
 #add non-free sources to Debian Squeeze
 perl -pi -e "s/squeeze main/squeeze main non-free/g" /etc/apt/sources.list
