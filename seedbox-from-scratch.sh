@@ -179,8 +179,13 @@ perl -pi -e "s/deb cdrom/#deb cdrom/g" /etc/apt/sources.list
 echo "" | tee -a /etc/apt/sources.list > /dev/null
 echo "deb http://download.webmin.com/download/repository sarge contrib" | tee -a /etc/apt/sources.list > /dev/null
 cd /tmp
-wget http://www.webmin.com/jcameron-key.asc
-apt-key add jcameron-key.asc
+
+#if webmin isup, download key
+ping -c1 -w2 www.webmin.com > /dev/null
+if [ $? = 0 ] ; then
+  wget http://www.webmin.com/jcameron-key.asc
+  apt-key add jcameron-key.asc
+fi
 
 #add non-free sources to Debian Squeeze
 perl -pi -e "s/squeeze main/squeeze main non-free/g" /etc/apt/sources.list
@@ -196,9 +201,17 @@ apt-get --yes upgrade
 #install all needed packages including webmin
 
 apt-get --yes build-dep znc
-apt-get --yes install apache2 apache2-utils autoconf build-essential ca-certificates comerr-dev curl cfv quota mktorrent dtach htop irssi libapache2-mod-php5 libcloog-ppl-dev libcppunit-dev libcurl3 libcurl4-openssl-dev libncurses5-dev libterm-readline-gnu-perl libsigc++-2.0-dev libperl-dev openvpn libssl-dev libtool libxml2-dev ncurses-base ncurses-term ntp openssl patch pkg-config php5 php5-cli php5-dev php5-curl php5-geoip php5-mcrypt php5-xmlrpc pkg-config python-scgi screen ssl-cert subversion texinfo unrar-free unzip zlib1g-dev expect joe ffmpeg libarchive-zip-perl libnet-ssleay-perl libhtml-parser-perl libxml-libxml-perl libjson-perl libjson-xs-perl libxml-libxslt-perl libxml-libxml-perl libjson-rpc-perl libarchive-zip-perl znc rar zip webmin
+apt-get --yes install apache2 apache2-utils autoconf build-essential ca-certificates comerr-dev curl cfv quota mktorrent dtach htop irssi libapache2-mod-php5 libcloog-ppl-dev libcppunit-dev libcurl3 libcurl4-openssl-dev libncurses5-dev libterm-readline-gnu-perl libsigc++-2.0-dev libperl-dev openvpn libssl-dev libtool libxml2-dev ncurses-base ncurses-term ntp openssl patch pkg-config php5 php5-cli php5-dev php5-curl php5-geoip php5-mcrypt php5-xmlrpc pkg-config python-scgi screen ssl-cert subversion texinfo unrar-free unzip zlib1g-dev expect joe ffmpeg libarchive-zip-perl libnet-ssleay-perl libhtml-parser-perl libxml-libxml-perl libjson-perl libjson-xs-perl libxml-libxslt-perl libxml-libxml-perl libjson-rpc-perl libarchive-zip-perl znc rar zip
 if [ $? -gt 0 ]; then
+  set +x verbose
+  echo
+  echo
+  echo *** ERROR ***
+  echo
   echo "Looks like somethig is wrong with apt-get install, aborting."
+  echo
+  echo
+  echo
   set -e
   exit 1
 fi
