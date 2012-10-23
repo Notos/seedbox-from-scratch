@@ -1,0 +1,14 @@
+echo "" | tee -a ~/.bashrc
+echo "alias l='sudo ls -laF --color=auto'  " |  tee -a ~/.bashrc
+echo "alias md='sudo mkdir'                " |  tee -a ~/.bashrc
+echo "alias copy='sudo cp'                 " |  tee -a ~/.bashrc
+echo "alias rd='sudo rmdir'                " |  tee -a ~/.bashrc
+echo "alias del='sudo rm'                  " |  tee -a ~/.bashrc
+echo "alias cls='sudo clear'               " |  tee -a ~/.bashrc
+echo "alias dir='sudo l'                   " |  tee -a ~/.bashrc
+echo "alias cd..='cd ..'                   " |  tee -a ~/.bashrc
+echo "alias move='sudo mv'                 " |  tee -a ~/.bashrc
+echo "export TERM=linux                    " |  tee -a ~/.bashrc
+echo "export HISTFILESIZE=50000            " |  tee -a ~/.bashrc
+echo "alias locate='locate -i'             " |  tee -a ~/.bashrc
+echo "alias ed='sudo joe'                  " |  tee -a ~/.bashrc
