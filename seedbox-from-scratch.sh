@@ -159,12 +159,12 @@ getString "New SSH port: " NEWSSHPORT1 21976
 getString "Wich rTorrent would you like to use, '0.8.9' (older stable) or '0.9.2' (newer but banned in some trackers)?: " RTORRENT1 0.9.2
 getString "Do you want to install OpenVPN?: " INSTALLOPENVPN1 YES
 
-if [ "$RTORRENT1" != "0.9.2"] && [ "$RTORRENT1" != "0.9.2"]; then
+if [ "$RTORRENT1" != "0.9.2" ] && [ "$RTORRENT1" != "0.9.2" ]; then
   echo "$RTORRENT1 is not 0.9.2 or 0.8.9!"
   exit 1
 fi
 
-if [ "$RTORRENT1" = "0.9.2"]; then
+if [ "$RTORRENT1" = "0.9.2" ]; then
   LIBTORRENT1=0.13.2
 else
   LIBTORRENT1=0.12.9
