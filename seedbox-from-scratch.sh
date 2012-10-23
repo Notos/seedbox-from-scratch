@@ -308,26 +308,6 @@ make -j2
 sudo make install
 sudo ldconfig
 
-# 19.
-sudo cp /etc/scripts/rtorrent.rc.template  /home/$NEWUSER1/.rtorrent.rc > /dev/null
-
-sudo perl -pi -e "s/<username>/$NEWUSER1/g" /home/$NEWUSER1/.rtorrent.rc
-sudo perl -pi -e "s/5995/$SCGIPORT/g" /home/$NEWUSER1/.rtorrent.rc
-sudo perl -pi -e "s/99888/$NETWORKPORT/g" /home/$NEWUSER1/.rtorrent.rc
-
-sudo chown $NEWUSER1:$NEWUSER1   /home/$NEWUSER1/.rtorrent.rc:$NEWUSER1 /home/$NEWUSER1/.rtorrent.rc
-
-# 20.
-sudo mkdir -p /home/$NEWUSER1/downloads/auto
-sudo mkdir -p /home/$NEWUSER1/downloads/manual
-sudo mkdir -p /home/$NEWUSER1/downloads/watch
-sudo mkdir -p /home/$NEWUSER1/downloads/.session
-sudo chown -R $NEWUSER1:$NEWUSER1 /home/$NEWUSER1/downloads
-
-# 21.
-
-sudo cp /etc/scripts/rtorrent.conf.template /etc/init/rtorrent.$NEWUSER1.conf
-sudo perl -pi -e "s/<username>/$NEWUSER1/g" /etc/init/rtorrent.$NEWUSER1.conf
 
 # 22.
 cd /var/www
@@ -352,11 +332,6 @@ sudo make install
 cd /var/www/rutorrent/plugins
 sudo svn co https://autodl-irssi.svn.sourceforge.net/svnroot/autodl-irssi/trunk/rutorrent/autodl-irssi
 cd autodl-irssi
-
-#sudo chown -R $NEWUSER1:www-data   /var/www/rutorrent/conf/users/$NEWUSER1
-#sudo find /var/www/rutorrent/conf/users/$NEWUSER1 -type d -exec sudo chmod 770 {} \;
-#sudo find /var/www/rutorrent/conf/users/$NEWUSER1 -type d -exec sudo chmod 770 {} \;
-#chmod 660 {} \;
 
 # 31.
 
@@ -432,7 +407,6 @@ sudo chmod +x /etc/scripts/ovpni
 /etc/scripts/createSeedboxUser $NEWUSER1 $PASSWORD1
 
 # 98.
-
 
 clear
 
