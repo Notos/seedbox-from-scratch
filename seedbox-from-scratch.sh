@@ -73,7 +73,6 @@
 
 # 0.
 
-set -e
 apt-get --yes install whois sudo makepasswd git
 
 sudo mkdir -p /etc/scripts
@@ -219,13 +218,13 @@ echo "export PATH" | sudo tee -a /etc/profile > /dev/null
 echo "PATH=$PATH:/etc/scripts:/sbin" | sudo tee -a /root/.bashrc > /dev/null
 echo "export PATH" | sudo tee -a /root/.bashrc > /dev/null
 
-sudo rm /etc/scripts/ports.txt
+sudo rm -f /etc/scripts/ports.txt
 for i in $(seq 51101 51999)
 do
   echo "$i" | sudo tee -a /etc/scripts/ports.txt > /dev/null
 done
 
-sudo rm /etc/scripts/rpc.txt
+sudo rm -f /etc/scripts/rpc.txt
 for i in $(seq 2 1000)
 do
   echo "RPC$i"  | sudo tee -a /etc/scripts/rpc.txt > /dev/null
@@ -253,7 +252,7 @@ echo "Timeout 30" | sudo tee -a /etc/apache2/apache2.conf > /dev/null
 sudo service apache2 restart
 
 echo "<?php phpinfo(); ?>" | sudo tee -a /var/www/info.php > /dev/null
-sudo rm /var/www/info.php
+sudo rm -f /var/www/info.php
 
 # 11.
 
@@ -262,7 +261,7 @@ sudo chmod 600 /etc/apache2/apache.pem
 
 # 13.
 sudo mv /etc/apache2/sites-available/default /etc/apache2/sites-available/default.ORI
-sudo rm /etc/apache2/sites-available/default
+sudo rm -f /etc/apache2/sites-available/default
 
 sudo cp /etc/scripts/etc.apache2.default.template /etc/apache2/sites-available/default
 sudo perl -pi -e "s/http\:\/\/.*\/rutorrent/http\:\/\/$IPADDRESS1\/rutorrent/g" /etc/apache2/sites-available/default
@@ -333,7 +332,7 @@ sudo perl -pi -e "s/<username>/$NEWUSER1/g" /etc/init/rtorrent.$NEWUSER1.conf
 
 # 22.
 cd /var/www
-sudo rm -r rutorrent
+sudo rm -f -r rutorrent
 sudo svn checkout http://rutorrent.googlecode.com/svn/trunk/rutorrent
 sudo svn checkout http://rutorrent.googlecode.com/svn/trunk/plugins
 sudo rm -r -f rutorrent/plugins
@@ -375,14 +374,14 @@ cd autodl-irssi
 cd /var/www/rutorrent/plugins/
 sudo wget http://rutorrent-logoff.googlecode.com/files/logoff-1.0.tar.gz
 sudo tar -zxf logoff-1.0.tar.gz
-sudo rm logoff-1.0.tar.gz
+sudo rm -f logoff-1.0.tar.gz
 
 # Installing Filemanager and MediaStream
 
-sudo rm -R /var/www/rutorrent/plugins/filemanager
-sudo rm -R /var/www/rutorrent/plugins/fileupload
-sudo rm -R /var/www/rutorrent/plugins/mediastream
-sudo rm -R /var/www/stream
+sudo rm -f -R /var/www/rutorrent/plugins/filemanager
+sudo rm -f -R /var/www/rutorrent/plugins/fileupload
+sudo rm -f -R /var/www/rutorrent/plugins/mediastream
+sudo rm -f -R /var/www/stream
 
 cd /var/www/rutorrent/plugins/
 sudo svn co http://svn.rutorrent.org/svn/filemanager/trunk/mediastream
