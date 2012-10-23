@@ -10,10 +10,7 @@
 #
 sudo killall openvpn
 ip=`grep address /etc/network/interfaces | grep -v 127.0.0.1  | awk '{print $2}'`
-apt-get --yes purge openvpn libssl-dev  openssl
 rm -r /etc/openvpn/
-apt-get update &> /dev/null
-apt-get --yes -f install openvpn libssl-dev  openssl
 cp -R /usr/share/doc/openvpn/examples/easy-rsa/ /etc/openvpn/
 cd /etc/openvpn/
 cd /etc/openvpn/2.0/
