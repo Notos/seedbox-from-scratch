@@ -142,8 +142,6 @@ function getPassword()
 
 # 3.1
 
-sudo apt-get --yes install whois makepasswd
-
 #localhost is ok this rtorrent/rutorrent installation
 IPADDRESS1=`grep address /etc/network/interfaces | grep -v 127.0.0.1  | awk '{print $2}'`
 
@@ -201,7 +199,7 @@ sudo apt-get --yes install apache2 apache2-utils autoconf build-essential ca-cer
 
 # 8.1 additional packages for Ubuntu
 # this is better to be apart from the others
-sudo apt-get --yes php5-fpm
+sudo apt-get --yes install php5-fpm
 
 #Check if its Debian an do a sysvinit by upstart replacement:
 
