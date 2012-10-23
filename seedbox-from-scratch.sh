@@ -179,7 +179,7 @@ perl -pi -e "s/deb cdrom/#deb cdrom/g" /etc/apt/sources.list
 WEBMINDOWN=yes
 ping -c1 -w2 www.webmin.com > /dev/null
 if [ $? = 0 ] ; then
-  wget http://www.webmin.com/jcameron-key.asc
+  wget -t 5 http://www.webmin.com/jcameron-key.asc
   apt-key add jcameron-key.asc
   if [ $? = 0 ] ; then
     WEBMINDOWN=no
