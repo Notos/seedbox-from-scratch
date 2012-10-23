@@ -176,8 +176,8 @@ service ssh restart
 perl -pi -e "s/deb cdrom/#deb cdrom/g" /etc/apt/sources.list
 
 #if webmin isup, download key
-ping -c1 -w2 www.webmin.com > /dev/null
 WEBMINDOWN=yes
+ping -c1 -w2 www.webmin.com > /dev/null
 if [ $? = 0 ] ; then
   #add webmin source
   echo "" | tee -a /etc/apt/sources.list > /dev/null
