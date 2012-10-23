@@ -4,7 +4,7 @@
 # ---------------------------
 #
 #
-# The Seedbox From Scratch  Script
+# The Seedbox From Scratch Script
 #   By Notos ---> https://github.com/Notos/
 #
 #
@@ -13,6 +13,10 @@
 #
 #
 # Changelog
+#
+#  Version 1.30 (BETA)
+#  23/10/2012 04:54:29
+#     - Scripts now accept a full install without having to create variables and do anything else
 #
 #  Version 1.20 (BETA)
 #  19 Oct 2012 03:24 (by Notos)
@@ -67,9 +71,24 @@
 # to get IP address = ip=`grep address /etc/network/interfaces | grep -v 127.0.0.1 | head -1 | awk '{print $2}'`
 #
 
+# 0.
+
+set -e
+apt-get --yes install whois sudo makepasswd git
+
+sudo mkdir -p /etc/scripts
+sudo git clone -b fullCreate https://github.com/Notos/seedbox-from-scratch.git /etc/scripts
+#sudo git clone -b master https://github.com/Notos/seedbox-from-scratch.git /etc/scripts
+
+if [ ! -f /etc/scripts/seedbox-from-scratch.sh ]
+then
+  clear
+  echo Looks like somethig is wrong, this script was not able to download its whole git repository.
+  exit 1
+fi
+
 # 1.
 clear
-sudo apt-get --yes install whois makepasswd
 
 # 1.1 functions
 
@@ -80,6 +99,14 @@ function getString()
   while [ ! $NEWVAR1 = $NEWVAR2 ];
   do
     clear
+    echo #
+    echo #
+    echo # The Seedbox From Scratch Script
+    echo #   By Notos ---> https://github.com/Notos/
+    echo #
+    echo #
+    echo #
+    echo
     read -e -i "$3" -p "$1" NEWVAR1
     if [ "$NEWVAR1" == "$3" ]
     then
@@ -97,6 +124,14 @@ function getPassword()
   while [ ! $NEWVAR1 = $NEWVAR2 ];
   do
     clear
+    echo #
+    echo #
+    echo # The Seedbox From Scratch Script
+    echo #   By Notos ---> https://github.com/Notos/
+    echo #
+    echo #
+    echo #
+    echo
     read -s -p "$1" NEWVAR1
     echo ""
     read -s -p "Retype: " NEWVAR2
@@ -109,36 +144,22 @@ function getPassword()
 
 sudo apt-get --yes install whois makepasswd
 
+#localhost is ok this rtorrent/rutorrent installation
+IPADDRESS1=`grep address /etc/network/interfaces | grep -v 127.0.0.1  | awk '{print $2}'`
+
 #those passwords will be changed in the next steps
 PASSWORD1=a
 PASSWORD2=b
 
-#localhost is ok this rtorrent/rutorrent installation
-IPADDRESS1=127.0.0.1
-
-#create a new variable, compatible with create user script
-NEWUSER1=$USER
-
+getString "You need to create an user for your seedbox: " NEWUSER1
 getPassword "ruTorrent password for user $NEWUSER1: " PASSWORD1
-getString "IP address or hostname of your box: " NEWHOSTNAME1
+getString "IP address or hostname of your box: " NEWHOSTNAME1 $IPADDRESS1
 getString "New SSH port: " NEWSSHPORT1 21976
 
 # 3.2
 
 #show all commands
 set -x verbose
-
-echo "" | sudo tee -a /etc/sudoers > /dev/null
-echo "www-data ALL=(root) NOPASSWD: /usr/sbin/repquota" | sudo tee -a /etc/sudoers > /dev/null
-echo "$NEWUSER1 ALL=(ALL:ALL) ALL" | sudo tee -a /etc/sudoers > /dev/null
-
-#SUDOLINE="$NEWUSER1 ALL=(ALL:ALL) ALL"
-#PERLLINE="$NEWUSER1\ ALL=\(ALL\:ALL\)\ ALL"
-#PERLCOND="s/^$PERLLINE$//g"
-#sudo perl -pi -e "$PERLCOND" /etc/sudoers
-#echo $SUDOLINE | sudo tee -a /etc/sudoers > /dev/null
-#keep an empty line at the EOF
-echo "" | sudo tee -a /etc/sudoers > /dev/null
 
 # 4.
 sudo perl -pi -e "s/Port 22/Port $NEWSSHPORT1/g" /etc/ssh/sshd_config
@@ -148,7 +169,6 @@ sudo perl -pi -e "s/X11Forwarding yes/X11Forwarding no/g" /etc/ssh/sshd_config
 
 echo "" | sudo tee -a /etc/ssh/sshd_config > /dev/null
 echo "UseDNS no" | sudo tee -a /etc/ssh/sshd_config > /dev/null
-echo "AllowUsers $NEWUSER1" | sudo tee -a /etc/ssh/sshd_config > /dev/null
 
 sudo service ssh restart
 
@@ -213,20 +233,6 @@ do
   echo "RPC$i"  | sudo tee -a /etc/scripts/rpc.txt > /dev/null
 done
 
-NEWRPC1=`head -n 1 /etc/scripts/rpc.txt | tail -n 1`
-sudo perl -pi -e "s/^$NEWRPC1.*\n$//g" /etc/scripts/rpc.txt
-
-IRSSIPORT=`head -n 1 /etc/scripts/ports.txt | tail -n 1`
-sudo perl -pi -e "s/^$IRSSIPORT.*\n$//g" /etc/scripts/ports.txt
-
-SCGIPORT=`head -n 1 /etc/scripts/ports.txt | tail -n 1`
-sudo perl -pi -e "s/^$SCGIPORT.*\n$//g" /etc/scripts/ports.txt
-
-NETWORKPORT=`head -n 1 /etc/scripts/ports.txt | tail -n 1`
-sudo perl -pi -e "s/^$NETWORKPORT.*\n$//g" /etc/scripts/ports.txt
-
-IRSSIPASSWORD=`makepasswd`
-
 # 9.
 sudo a2enmod ssl
 sudo a2enmod auth_digest
@@ -256,17 +262,6 @@ sudo rm /var/www/info.php
 sudo openssl req -new -x509 -days 365 -nodes -newkey rsa:2048 -out /etc/apache2/apache.pem -keyout /etc/apache2/apache.pem -subj '/CN=www.mydom.com/O=My Company Name LTD./C=US'
 sudo chmod 600 /etc/apache2/apache.pem
 
-# 12.
-
-#create digest data file
-echo -n $NEWUSER1:rutorrent:$PASSWORD1 > /tmp/pass
-
-#remove current password from htpassword
-sudo perl -pi -e "s/^$NEWUSER1\:.*\n$//g" /etc/apache2/htpasswd
-
-#create user and password for this new rutorrent user
-echo $NEWUSER1:rutorrent:`md5sum /tmp/pass | cut -d" " -f1` | sudo tee -a /etc/apache2/htpasswd > /dev/null
-
 # 13.
 sudo mv /etc/apache2/sites-available/default /etc/apache2/sites-available/default.ORI
 sudo rm /etc/apache2/sites-available/default
@@ -283,7 +278,7 @@ sudo a2ensite default-ssl
 #sudo apt-get --yes install libxmlrpc-core-c3-dev
 
 # 15.
-cd /home/$NEWUSER1
+cd /etc/scripts
 mkdir source
 cd source
 svn co https://xmlrpc-c.svn.sourceforge.net/svnroot/xmlrpc-c/stable xmlrpc
@@ -346,32 +341,7 @@ sudo svn checkout http://rutorrent.googlecode.com/svn/trunk/plugins
 sudo rm -r -f rutorrent/plugins
 sudo mv plugins rutorrent/
 
-# prepare the tree
-sudo mkdir -p /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi
-sudo mkdir -p /var/www/rutorrent/conf/users/$NEWUSER1/plugins/diskspace
-sudo mkdir -p /var/www/rutorrent/conf/users/$NEWUSER1/plugins/fileupload
-
-echo '<?php $topDirectory = "/home"; ?>' | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins/diskspace/conf.php > /dev/null
-
 sudo cp /etc/scripts/action.php.template /var/www/rutorrent/plugins/diskspace/action.php
-
-#some of those files will be changed later in this script
-sudo cp /var/www/rutorrent/conf/access.ini   /var/www/rutorrent/conf/users/$NEWUSER1/
-sudo cp /var/www/rutorrent/conf/config.php  /var/www/rutorrent/conf/users/$NEWUSER1/
-sudo cp /var/www/rutorrent/conf/plugins.ini   /var/www/rutorrent/conf/users/$NEWUSER1/
-
-# 24.
-
-sudo cp /etc/scripts/rutorrent.conf.users.config.php.template /var/www/rutorrent/conf/users/$NEWUSER1/config.php
-
-sudo perl -pi -e "s/5995/$SCGIPORT/g" /var/www/rutorrent/conf/users/$NEWUSER1/config.php
-sudo perl -pi -e "s/RPC123/$NEWRPC1/g" /var/www/rutorrent/conf/users/$NEWUSER1/config.php
-sudo perl -pi -e "s/<username>/$NEWUSER1/g" /var/www/rutorrent/conf/users/$NEWUSER1/config.php
-sudo perl -pi -e "s/<homedir>/\/home\/$NEWUSER1/g" /var/www/rutorrent/conf/users/$NEWUSER1/config.php
-
-# 25.
-
-sudo cp /etc/scripts/rutorrent.conf.users.plugins.ini.template /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
 
 # 26.
 cd /tmp
@@ -383,38 +353,14 @@ cd MediaInfo/Project/GNU/CLI
 sudo make install
 
 
-# 29.
-
-rm -R /home/$NEWUSER1/.irssi
-mkdir -p /home/$NEWUSER1/.irssi/scripts/autorun
-cd /home/$NEWUSER1/.irssi/scripts
-wget --no-check-certificate -O autodl-irssi.zip https://sourceforge.net/projects/autodl-irssi/files/autodl-irssi-v1.31.zip/download
-unzip -o autodl-irssi.zip
-rm autodl-irssi.zip
-cp autodl-irssi.pl autorun/
-mkdir -p /home/$NEWUSER1/.autodl
-sudo touch /home/$NEWUSER1/.autodl/autodl.cfg
-
 cd /var/www/rutorrent/plugins
 sudo svn co https://autodl-irssi.svn.sourceforge.net/svnroot/autodl-irssi/trunk/rutorrent/autodl-irssi
 cd autodl-irssi
-
-sudo cp /etc/scripts/rutorrent.conf.users.plugins.autodl-irssi.conf.php.template  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi/conf.php
-sudo perl -pi -e "s/<PASSWORD>/$IRSSIPASSWORD/g"  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi/conf.php
-sudo perl -pi -e "s/<PORT>/$IRSSIPORT/g" /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi/conf.php
 
 #sudo chown -R $NEWUSER1:www-data   /var/www/rutorrent/conf/users/$NEWUSER1
 #sudo find /var/www/rutorrent/conf/users/$NEWUSER1 -type d -exec sudo chmod 770 {} \;
 #sudo find /var/www/rutorrent/conf/users/$NEWUSER1 -type d -exec sudo chmod 770 {} \;
 #chmod 660 {} \;
-
-sudo cp /etc/scripts/home.user.autodl.autodl.cfg.template  /home/$NEWUSER1/.autodl/autodl.cfg
-
-sudo perl -pi -e "s/<PASSWORD>/$IRSSIPASSWORD/g"  /home/$NEWUSER1/.autodl/autodl.cfg
-sudo perl -pi -e "s/<PORT>/$IRSSIPORT/g"  /home/$NEWUSER1/.autodl/autodl.cfg
-sudo perl -pi -e "s/use Digest\:\:SHA1 qw/use Digest\:\:SHA qw/g" /home/$NEWUSER1/.irssi/scripts/AutodlIrssi/MatchedRelease.pm
-
-sudo chown -R $NEWUSER1:$NEWUSER1  /home/$NEWUSER1/.autodl
 
 # 31.
 
@@ -459,8 +405,6 @@ echo "<?php \$streampath = 'http://$NEWHOSTNAME1/stream/view.php'; ?>" | sudo te
 cd /var/www/rutorrent/plugins/
 sudo svn co http://svn.rutorrent.org/svn/filemanager/trunk/fileupload
 sudo chmod 775 /var/www/rutorrent/plugins/fileupload/scripts/upload
-sudo cp /etc/scripts/rutorrent.conf.users.plugins.fileupload.conf.php.template  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/fileupload/config.php > /dev/null
-sudo chown -R www-data:www-data /var/www/rutorrent/conf/users/$NEWUSER1/plugins/fileupload/
 wget -O /tmp/plowshare.deb http://plowshare.googlecode.com/files/plowshare_1~git20120930-1_all.deb
 sudo dpkg -i /tmp/plowshare.deb
 sudo apt-get --yes -f install
@@ -487,7 +431,12 @@ sudo chmod +x /etc/scripts/downgradeRTorrent
 sudo chmod +x /etc/scripts/upgradeRTorrent
 sudo chmod +x /etc/scripts/ovpni
 
+# 97.
+
+/etc/scripts/createSeedboxUser $NEWUSER1 $PASSWORD1
+
 # 98.
+
 
 clear
 

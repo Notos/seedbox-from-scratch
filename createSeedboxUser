@@ -9,14 +9,26 @@
 #
 #
 # 3.1
-
-PASSWORD1=a
-PASSWORD2=b
+#
+# you can also use it this way:
+#
+#    createSeedboxUser <username> <password>
+#
 
 NEWUSER1=a
 NEWUSER2=b
+PASSWORD1=a
+PASSWORD2=b
 
-while [ ! $NEWUSER1 = $NEWUSER2 ];
+if [ $1 ] && [ $2 ]
+then
+  NEWUSER1=$1
+  NEWUSER2=$1
+  PASSWORD1=$2
+  PASSWORD2=$2
+fi
+
+while [ ! "$NEWUSER1" = "$NEWUSER2" ];
 do
   clear
 
@@ -88,32 +100,13 @@ sudo perl -pi -e "s/^$NEWUSER1\:.*\n$//g" /etc/apache2/htpasswd
 #create user and password for this new rutorrent user
 echo $NEWUSER1:rutorrent:`md5sum /tmp/pass | cut -d" " -f1` | sudo tee -a /etc/apache2/htpasswd
 
-# 19.
-sudo cp /etc/scripts/rtorrent.rc.template  /home/$NEWUSER1/.rtorrent.rc
-
-sudo perl -pi -e "s/<username>/$NEWUSER1/g" /home/$NEWUSER1/.rtorrent.rc/g /home/$NEWUSER1/.rtorrent.rc
-sudo perl -pi -e "s/5995/$SCGIPORT/g" /home/$NEWUSER1/.rtorrent.rc
-sudo perl -pi -e "s/99888/$NETWORKPORT/g" /home/$NEWUSER1/.rtorrent.rc
-
-sudo chown $NEWUSER1:$NEWUSER1   /home/$NEWUSER1/.rtorrent.rc:$NEWUSER1 /home/$NEWUSER1/.rtorrent.rc
-
-# 20.
-sudo mkdir -p /home/$NEWUSER1/downloads/auto
-sudo mkdir -p /home/$NEWUSER1/downloads/manual
-sudo mkdir -p /home/$NEWUSER1/downloads/watch
-sudo mkdir -p /home/$NEWUSER1/downloads/.session
-sudo chown -R $NEWUSER1:$NEWUSER1 /home/$NEWUSER1/downloads
-
-# 21.
-
-sudo cp /etc/scripts/rtorrent.conf.template /etc/init/rtorrent.$NEWUSER1.conf
-
-sudo perl -pi -e "s/<username>/$NEWUSER1/g" /etc/init/rtorrent.$NEWUSER1.conf
-
 # 22.
 # prepare the tree
 sudo mkdir -p /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi
 sudo mkdir -p /var/www/rutorrent/conf/users/$NEWUSER1/plugins/diskspace
+sudo mkdir -p /var/www/rutorrent/conf/users/$NEWUSER1/plugins/fileupload
+
+echo '<?php $topDirectory = "/home"; ?>' | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins/diskspace/conf.php
 
 #some of those files will be changed later in this script
 sudo cp /var/www/rutorrent/conf/access.ini   /var/www/rutorrent/conf/users/$NEWUSER1/
@@ -128,8 +121,6 @@ sudo perl -pi -e "s/5995/$SCGIPORT/g" /var/www/rutorrent/conf/users/$NEWUSER1/co
 sudo perl -pi -e "s/RPC123/$NEWRPC1/g" /var/www/rutorrent/conf/users/$NEWUSER1/config.php
 sudo perl -pi -e "s/<username>/$NEWUSER1/g" /var/www/rutorrent/conf/users/$NEWUSER1/config.php
 sudo perl -pi -e "s/<homedir>/\/home\/$NEWUSER1/g" /var/www/rutorrent/conf/users/$NEWUSER1/config.php
-
-echo '<?php $topDirectory = "/home"; ?>' | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins/diskspace/conf.php
 
 # 25.
 
@@ -147,11 +138,12 @@ sudo cp autodl-irssi.pl autorun/
 sudo mkdir -p /home/$NEWUSER1/.autodl
 sudo touch /home/$NEWUSER1/.autodl/autodl.cfg
 
-cd /var/www/rutorrent/plugins
-cd autodl-irssi
 sudo cp /etc/scripts/rutorrent.conf.users.plugins.autodl-irssi.conf.php.template  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi/conf.php
 sudo perl -pi -e "s/<PASSWORD>/$IRSSIPASSWORD/g"  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi/conf.php
 sudo perl -pi -e "s/<PORT>/$IRSSIPORT/g" /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi/conf.php
+
+sudo cp /etc/scripts/rutorrent.conf.users.plugins.fileupload.conf.php.template  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/fileupload/config.php > /dev/null
+sudo chown -R www-data:www-data /var/www/rutorrent/conf/users/$NEWUSER1/plugins/fileupload/
 
 sudo cp /etc/scripts/home.user.autodl.autodl.cfg.template  /home/$NEWUSER1/.autodl/autodl.cfg
 
@@ -166,3 +158,78 @@ sudo su --login --command "screen -d -m -S irssi irssi" $NEWUSER1
 
 sudo chown -R $NEWUSER1:$NEWUSER1  /home/$NEWUSER1/.autodl
 sudo chown -R $NEWUSER1:$NEWUSER1  /home/$NEWUSER1/.irssi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
