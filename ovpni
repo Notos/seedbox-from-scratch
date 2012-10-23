@@ -1,7 +1,6 @@
 ##################### FIRST LINE
-# ---------------------------
-#!/bin/sh
-# ---------------------------
+#!/bin/bash
+#
 #
 # The Seedbox From Scratch  Script
 #   By Notos ---> https://github.com/Notos/
@@ -9,51 +8,38 @@
 #
 # OpenVPN in beta --- Tested on Ubuntu 12.04 64Bit
 #
-
 sudo killall openvpn
-dpkg --purge remove openvpn
-apt-get --yes --purge remove openvpn
-rm -r /etc/openvpn
-mkdir -p /etc/openvpn/easy-rsa/2.0/keys
-ip=`grep address /etc/network/interfaces | grep -v 127.0.0.1 | head -1 | awk '{print $2}'`
-apt-get update
-apt-get --yes install openvpn libssl-dev  openssl
-cd /etc/openvpn/
+ip=`grep address /etc/network/interfaces | grep -v 127.0.0.1  | awk '{print $2}'`
+apt-get --yes purge openvpn libssl-dev  openssl
+rm -r /etc/openvpn/
+apt-get update &> /dev/null
+apt-get --yes -f install openvpn libssl-dev  openssl
 cp -R /usr/share/doc/openvpn/examples/easy-rsa/ /etc/openvpn/
-cd /etc/openvpn/easy-rsa/2.0/
+cd /etc/openvpn/
+cd /etc/openvpn/2.0/
+cp ./tmp/openssl-1.0.0.cnf /etc/openvpn/2.0/openssl.cnf
 chmod +rwx *
-cp openssl-1.0.0.cnf openssl.cnf
-./vars
-. ./clean-all
+. ./vars
+./clean-all
 source ./vars
-
 echo -e "\n\n\n\n\n\n\n" | ./build-ca
 clear
-echo "-----------------------------------------------------------------------------------------"
-echo ""
-echo "BE AWARE! Do not type a password if you don't want to be asked for one when connecting."
-echo ""
-echo "-----------------------------------------------------------------------------------------"
-echo ""
-echo ""
-echo ""
-sudo touch keys/index.txt
+#echo "-----------------------------------------------------------------------------------------"
+#echo ""
+#echo "BE AWARE! Do not type a password if you don't want to be asked for one when connecting."
+#echo ""
+#echo "-----------------------------------------------------------------------------------------"
 ./build-key-server server
 ./build-dh
 cp keys/{ca.crt,ca.key,server.crt,server.key,dh1024.pem} /etc/openvpn/
-
 clear
-echo ""
-echo "-----------------------------------------------------------------------------------------"
-echo ""
-echo "In this step you can give a password, if you want."
-echo ""
-echo "-----------------------------------------------------------------------------------------"
-echo ""
-echo ""
+#echo "-----------------------------------------------------------------------------------------"
+#echo ""
+#echo "In this step you can give a password, if you want."
+#echo ""
+#echo "-----------------------------------------------------------------------------------------"
 ./build-key client1
 cd keys/
-
 client="
 client
 remote $ip 1194
@@ -65,23 +51,20 @@ key client1.key
 route-delay 2
 route-method exe
 redirect-gateway def1
-dhcp-option DNS 8.8.8.8
+dhcp-option DNS 10.8.0.1
 verb 3"
-
 echo "$client" > $HOSTNAME.ovpn
-
 zip vpn.zip ca.crt ca.key client1.crt client1.csr client1.key $HOSTNAME.ovpn
 mv vpn.zip /var/www/rutorrent
-
 opvpn='
 dev tun
-server 10.191.12.0 255.255.255.0
+server 10.8.0.0 255.255.255.0
 ifconfig-pool-persist ipp.txt
 ca ca.crt
 cert server.crt
 key server.key
 dh dh1024.pem
-push "route 10.191.12.0 255.255.255.0"
+push "route 10.8.0.0 255.255.255.0"
 push "redirect-gateway"
 comp-lzo
 keepalive 10 60
@@ -90,20 +73,16 @@ persist-tun
 persist-key
 group daemon
 daemon'
-
 echo "$opvpn" > /etc/openvpn/openvpn.conf
-
 echo 1 > /proc/sys/net/ipv4/ip_forward
-/sbin/iptables -A FORWARD -i tun0 -o eth0 -j ACCEPT
-/sbin/iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-/sbin/iptables -t nat -A POSTROUTING -s 10.191.12.0/24 -o venet0 -j MASQUERADE
-/sbin/iptables-save > /etc/iptables.conf
+iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o venet0 -j MASQUERADE
+iptables-save > /etc/iptables.conf
 echo "#\!/bin/sh" > /etc/network/if-up.d/iptables
-echo "iptables-restore < /etc/iptables.conf" >> /etc/network/if-up.d/iptables
+echo "iptables-restore" > /etc/network/if-up.d/iptables
 chmod +x /etc/network/if-up.d/iptables
-echo "net.ipv4.ip_forward=1" >> -a /etc/sysctl.conf
-
+echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
 /etc/init.d/openvpn start
+clear
 cd
 clear
 echo ""
