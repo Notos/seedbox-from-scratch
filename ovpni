@@ -48,20 +48,20 @@ key client1.key
 route-delay 2
 route-method exe
 redirect-gateway def1
-dhcp-option DNS 10.8.0.1
+dhcp-option DNS 10.159.12.1
 verb 3"
 echo "$client" > $HOSTNAME.ovpn
 zip vpn.zip ca.crt ca.key client1.crt client1.csr client1.key $HOSTNAME.ovpn
 mv vpn.zip /var/www/rutorrent
 opvpn='
 dev tun
-server 10.8.0.0 255.255.255.0
+server 10.159.12.0 255.255.255.0
 ifconfig-pool-persist ipp.txt
 ca ca.crt
 cert server.crt
 key server.key
 dh dh1024.pem
-push "route 10.8.0.0 255.255.255.0"
+push "route 10.159.12.0 255.255.255.0"
 push "redirect-gateway"
 comp-lzo
 keepalive 10 60
@@ -72,7 +72,7 @@ group daemon
 daemon'
 echo "$opvpn" > /etc/openvpn/openvpn.conf
 echo 1 > /proc/sys/net/ipv4/ip_forward
-iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o venet0 -j MASQUERADE
+iptables -t nat -A POSTROUTING -s 10.159.12.0/24 -o venet0 -j MASQUERADE
 iptables-save > /etc/iptables.conf
 echo "#\!/bin/sh" > /etc/network/if-up.d/iptables
 echo "iptables-restore" > /etc/network/if-up.d/iptables
@@ -86,7 +86,7 @@ echo ""
 echo "Installation process id done."
 echo ""
 echo ""
-echo "Now you just download http://<your-box-name-or-ip>/rutorrent/vpn.zip to use in any OpenVPN client."
+echo "Now you just download http://$ip/rutorrent/vpn.zip to use in any OpenVPN client."
 echo ""
 echo "Enjoy it!"
 echo ""
