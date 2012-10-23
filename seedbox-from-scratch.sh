@@ -75,6 +75,7 @@
 
 apt-get --yes install whois sudo makepasswd git
 
+sudo rm -f -r /etc/scripts
 sudo mkdir -p /etc/scripts
 sudo git clone -b fullCreate https://github.com/Notos/seedbox-from-scratch.git /etc/scripts
 #sudo git clone -b master https://github.com/Notos/seedbox-from-scratch.git /etc/scripts
@@ -83,6 +84,7 @@ if [ ! -f /etc/scripts/seedbox-from-scratch.sh ]
 then
   clear
   echo Looks like somethig is wrong, this script was not able to download its whole git repository.
+  set -e
   exit 1
 fi
 
@@ -208,9 +210,6 @@ if [ -f /etc/debian_version ]
 fi
 
 # 8.3 Generate our lists of ports and RPC and create variables
-
-#lists are being created in a permanent directory because other scripts will need this
-sudo mkdir -p /etc/scripts
 
 #permanently adding scripts to PATH to all users and root
 echo "PATH=$PATH:/etc/scripts:/sbin" | sudo tee -a /etc/profile > /dev/null
