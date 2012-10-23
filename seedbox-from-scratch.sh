@@ -179,13 +179,18 @@ perl -pi -e "s/deb cdrom/#deb cdrom/g" /etc/apt/sources.list
 WEBMINDOWN=yes
 ping -c1 -w2 www.webmin.com > /dev/null
 if [ $? = 0 ] ; then
+  wget http://www.webmin.com/jcameron-key.asc
+  apt-key add jcameron-key.asc
+  if [ $? = 0 ] ; then
+    WEBMINDOWN=no
+  fi
+fi
+
+if [ "$WEBMINDOWN"="no" ] ; then
   #add webmin source
   echo "" | tee -a /etc/apt/sources.list > /dev/null
   echo "deb http://download.webmin.com/download/repository sarge contrib" | tee -a /etc/apt/sources.list > /dev/null
   cd /tmp
-  wget http://www.webmin.com/jcameron-key.asc
-  apt-key add jcameron-key.asc
-  WEBMINDOWN=no
 fi
 sleep 5000
 
