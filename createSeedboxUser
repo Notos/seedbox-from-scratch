@@ -20,58 +20,67 @@ NEWUSER2=b
 PASSWORD1=a
 PASSWORD2=b
 
-if [ $1 ] && [ $2 ]
-then
+if [ $1 ]; then
   NEWUSER1=$1
   NEWUSER2=$1
-  PASSWORD1=$2
-  PASSWORD2=$2
+else
+  getString NO  "Username for your seedbox user: " NEWUSER1
 fi
 
-while [ ! "$NEWUSER1" = "$NEWUSER2" ];
-do
-  clear
+if [ $2 ]; then
+  PASSWORD1=$2
+  PASSWORD2=$2
+else
+  getString YES "ruTorrent password for user $NEWUSER1: " PASSWORD1
+fi
 
-  unset NEWUSER1
-  unset NEWUSER2
+if [ $3 ]
+then
+  if [ "$3" == "YES" ] || [ "$3" == "NO" ]; then
+    CHROOTJAIL1=$3
+    CHROOTJAIL2=$3
+  else
+    getString NO  "User should be in a chroot jail?: " CHROOTJAIL1 YES
+  fi
+else
+  getString NO  "User should be in a chroot jail?: " CHROOTJAIL1 YES
+fi
 
-  echo -n "Type a new username: "
-  read NEWUSER1
-
-  echo -n "Retype username: "
-  read NEWUSER2
-  echo ""         # force a carriage return to be output
-done
-
-while [ ! $PASSWORD1 = $PASSWORD2 ];
-do
-  clear
-
-  echo -n "ruTorrent password for user $NEWUSER1: "
-  stty -echo
-  read PASSWORD1
-  stty echo
-  echo ""         # force a carriage return to be output
-
-  echo -n "Retype: "
-  stty -echo
-  read PASSWORD2
-  stty echo
-  echo ""         # force a carriage return to be output
-done
-
-#localhost is ok this rtorrent/rutorrent installation
-IPADDRESS1=127.0.0.1
+HOMEDIR=/home/$NEWUSER1
+if [ "CHROOTJAIL1" == "YES" ]; then
+  HOMEDIR=$HOMEDIR/jail/$HOMEDIR/home
+fi
 
 # 3.2
 
 set -x verbose
 
-sudo useradd --create-home --user-group --password $(mkpasswd -s -m md5 $PASSWORD1) --shell /bin/bash $NEWUSER1
+# 3.3
+
+if [ "CHROOTJAIL1" == "YES" ]; then
+  mkdir -p $HOMEDIR/home
+  mkdir -p $HOMEDIR/jail
+  chown root:root $HOMEDIR/jail
+  useradd --create-home --home $HOMEDIR --user-group --password $(mkpasswd -s -m md5 $PASSWORD1) --shell /bin/bash $NEWUSER1
+  jk_init -v $HOMEDIR/jail basicshell editors extendedshell jk_lsh netutils netutils openvpn scp ssh
+  jk_jailuser -m -j $HOMEDIR/jail $NEWUSER1
+  jk_cp -j $HOMEDIR/jail /lib/x86_64-linux-gnu/libnss_compat.so.2
+  cp /usr/sbin/jk_lsh $HOMEDIR/jail/usr/sbin/jk_lsh
+  cp /etc/skel/.bashrc $HOMEDIR/jail$HOMEDIR
+  sudo perl -pi -e "s/\/usr\/sbin\/jk_lsh/\/bin\/bash/g" $HOMEDIR/jail/etc/passwd
+  mkdir -p $HOMEDIR/jail$HOMEDIR
+  chown $NEWUSER1: $HOMEDIR/jail$HOMEDIR
+  chown $NEWUSER1: $HOMEDIR/jail/$HOMEDIR/home
+  cp /usr/sbin/jk_lsh $HOMEDIR/jail/usr/sbin/jk_lsh
+  killall jk_socketd
+  jk_socketd
+fi
+
+# 3.4
 
 echo "" | sudo tee -a /etc/sudoers
 echo "$NEWUSER1  ALL=(ALL) ALL" | sudo tee -a /etc/sudoers
-echo "AllowUsers $NEWUSER1" | sudo tee -a /etc/ssh/sshd_config
+addgroup $NEWUSER1 sshdusers
 
 sudo service ssh restart
 
@@ -101,20 +110,20 @@ sudo perl -pi -e "s/^$NEWUSER1\:.*\n$//g" /etc/apache2/htpasswd
 echo $NEWUSER1:rutorrent:`md5sum /tmp/pass | cut -d" " -f1` | sudo tee -a /etc/apache2/htpasswd
 
 # 19.
-sudo cp /etc/scripts/rtorrent.rc.template  /home/$NEWUSER1/.rtorrent.rc > /dev/null
+sudo cp /etc/scripts/rtorrent.rc.template  $HOMEDIR/.rtorrent.rc > /dev/null
 
-sudo perl -pi -e "s/<username>/$NEWUSER1/g" /home/$NEWUSER1/.rtorrent.rc
-sudo perl -pi -e "s/5995/$SCGIPORT/g" /home/$NEWUSER1/.rtorrent.rc
-sudo perl -pi -e "s/99888/$NETWORKPORT/g" /home/$NEWUSER1/.rtorrent.rc
+sudo perl -pi -e "s/<username>/$NEWUSER1/g" $HOMEDIR/.rtorrent.rc
+sudo perl -pi -e "s/5995/$SCGIPORT/g" $HOMEDIR/.rtorrent.rc
+sudo perl -pi -e "s/99888/$NETWORKPORT/g" $HOMEDIR/.rtorrent.rc
 
-sudo chown $NEWUSER1:$NEWUSER1   /home/$NEWUSER1/.rtorrent.rc:$NEWUSER1 /home/$NEWUSER1/.rtorrent.rc
+sudo chown $NEWUSER1:$NEWUSER1   $HOMEDIR/.rtorrent.rc:$NEWUSER1 $HOMEDIR/.rtorrent.rc
 
 # 20.
-sudo mkdir -p /home/$NEWUSER1/downloads/auto
-sudo mkdir -p /home/$NEWUSER1/downloads/manual
-sudo mkdir -p /home/$NEWUSER1/downloads/watch
-sudo mkdir -p /home/$NEWUSER1/downloads/.session
-sudo chown -R $NEWUSER1:$NEWUSER1 /home/$NEWUSER1/downloads
+sudo mkdir -p $HOMEDIR/downloads/auto
+sudo mkdir -p $HOMEDIR/downloads/manual
+sudo mkdir -p $HOMEDIR/downloads/watch
+sudo mkdir -p $HOMEDIR/downloads/.session
+sudo chown -R $NEWUSER1:$NEWUSER1 $HOMEDIR/downloads
 
 # 21.
 
@@ -149,15 +158,15 @@ sudo cp /etc/scripts/rutorrent.conf.users.plugins.ini.template /var/www/rutorren
 
 # 29.
 
-sudo rm -R /home/$NEWUSER1/.irssi
-sudo mkdir -p /home/$NEWUSER1/.irssi/scripts/autorun
-cd /home/$NEWUSER1/.irssi/scripts
+sudo rm -R $HOMEDIR/.irssi
+sudo mkdir -p $HOMEDIR/.irssi/scripts/autorun
+cd $HOMEDIR/.irssi/scripts
 sudo wget --no-check-certificate -O autodl-irssi.zip https://sourceforge.net/projects/autodl-irssi/files/autodl-irssi-v1.31.zip/download
 sudo unzip -o autodl-irssi.zip
 sudo rm autodl-irssi.zip
 sudo cp autodl-irssi.pl autorun/
-sudo mkdir -p /home/$NEWUSER1/.autodl
-sudo touch /home/$NEWUSER1/.autodl/autodl.cfg
+sudo mkdir -p $HOMEDIR/.autodl
+sudo touch $HOMEDIR/.autodl/autodl.cfg
 
 sudo cp /etc/scripts/rutorrent.conf.users.plugins.autodl-irssi.conf.php.template  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi/conf.php
 sudo perl -pi -e "s/<PASSWORD>/$IRSSIPASSWORD/g"  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi/conf.php
@@ -166,22 +175,65 @@ sudo perl -pi -e "s/<PORT>/$IRSSIPORT/g" /var/www/rutorrent/conf/users/$NEWUSER1
 sudo cp /etc/scripts/rutorrent.conf.users.plugins.fileupload.conf.php.template  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/fileupload/config.php > /dev/null
 sudo chown -R www-data:www-data /var/www/rutorrent/conf/users/$NEWUSER1/plugins/fileupload/
 
-sudo cp /etc/scripts/home.user.autodl.autodl.cfg.template  /home/$NEWUSER1/.autodl/autodl.cfg
+sudo cp /etc/scripts/home.user.autodl.autodl.cfg.template  $HOMEDIR/.autodl/autodl.cfg
 
-sudo perl -pi -e "s/<PASSWORD>/$IRSSIPASSWORD/g"  /home/$NEWUSER1/.autodl/autodl.cfg
-sudo perl -pi -e "s/<PORT>/$IRSSIPORT/g"  /home/$NEWUSER1/.autodl/autodl.cfg
-sudo perl -pi -e "s/use Digest\:\:SHA1 qw/use Digest\:\:SHA qw/g" /home/$NEWUSER1/.irssi/scripts/AutodlIrssi/MatchedRelease.pm
+sudo perl -pi -e "s/<PASSWORD>/$IRSSIPASSWORD/g"  $HOMEDIR/.autodl/autodl.cfg
+sudo perl -pi -e "s/<PORT>/$IRSSIPORT/g"  $HOMEDIR/.autodl/autodl.cfg
+sudo perl -pi -e "s/use Digest\:\:SHA1 qw/use Digest\:\:SHA qw/g" $HOMEDIR/.irssi/scripts/AutodlIrssi/MatchedRelease.pm
 
 sleep 3
 sudo su --login --command "screen -d -m -S rtorrent rtorrent" $NEWUSER1
 sleep 3
 sudo su --login --command "screen -d -m -S irssi irssi" $NEWUSER1
 
-sudo chown -R $NEWUSER1:$NEWUSER1  /home/$NEWUSER1/.autodl
-sudo chown -R $NEWUSER1:$NEWUSER1  /home/$NEWUSER1/.irssi
+sudo chown -R $NEWUSER1:$NEWUSER1  $HOMEDIR/.autodl
+sudo chown -R $NEWUSER1:$NEWUSER1  $HOMEDIR/.irssi
 
+##################### FUNCTIONS
 
+function getString
+{
+  local ISPASSWORD=$1
+  local LABEL=$2
+  local RETURN=$3
+  local DEFAULT=$4
+  local NEWVAR1=a
+  local NEWVAR2=b
 
+  while [ ! $NEWVAR1 = $NEWVAR2 ] || [ -z "$NEWVAR1" ];
+  do
+    clear
+    echo "#"
+    echo "#"
+    echo "# The Seedbox From Scratch Script"
+    echo "#   By Notos ---> https://github.com/Notos/"
+    echo "#"
+    echo "#"
+    echo "#"
+    echo
+
+    if [ "$ISPASSWORD" == "YES" ]; then
+      read -s -p "$DEFAULT" -p "$LABEL" NEWVAR1
+    else
+      read -e -i "$DEFAULT" -p "$LABEL" NEWVAR1
+    fi
+
+    if [ "$NEWVAR1" == "$DEFAULT" ]
+    then
+      NEWVAR2=$NEWVAR1
+    else
+      if [ "$ISPASSWORD" == "YES" ]; then
+        echo
+        read -s -p "Retype: " NEWVAR2
+      else
+        read -p "Retype: " NEWVAR2
+      fi
+    fi
+  done
+  eval $RETURN=\$NEWVAR1
+}
+
+##################### LAST LINE ###########
 
 
 

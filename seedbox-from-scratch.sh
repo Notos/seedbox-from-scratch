@@ -70,9 +70,55 @@
 #
 # to get IP address = ip=`grep address /etc/network/interfaces | grep -v 127.0.0.1 | head -1 | awk '{print $2}'`
 #
+# quota notes
+#  fstab:,usrjquota=quota.user,grpjquota=quota.group,jqfmt=vfsv0
+#  quotacheck -avugm
+#  quotaon -avug
+#
+#
+# Fail2ban -> Fail2ban scans log files (e.g. /var/log/apache/error_log) and bans IPs that show the malicious signs -- too many password failures, seeking for exploits, etc. Generally Fail2Ban then used to update firewall rules to reject the IP addresses for a specified amount of time, although any arbitrary other action (e.g. sending an email, or ejecting CD-ROM tray) could also be configured. Out of the box Fail2Ban comes with filters for various services (apache, curier, ssh, etc).
+#   http://www.fail2ban.org/wiki/index.php/Main_Page
+#
+#   apt-get install fail2ban
+#   ed /etc/fail2ban/jail.local **** SSH? Apache2??
+#
+# Jailkit -> http://olivier.sessink.nl/jailkit/
+#   apt-get install build-essential autoconf automake1.9 libtool flex bison debhelper binutils-gold
+#
+#   cd /etc/scripts
+#   wget http://olivier.sessink.nl/jailkit/jailkit-2.15.tar.gz
+#   tar xvfz jailkit-2.15.tar.gz -C /etc/scripts/source/
+#   cd source/jailkit-2.15
+#   ./debian/rules binary
+#   cd ..
+#   dpkg -i jailkit_2.15-1_*.deb
+#   rm -rf jailkit-2.15*
+#   ---- creating a jailed user
+#   # Initialise the jail
+#   mkdir /home/aline
+#   chown root:root /home/aline
+#   chmod 0755 /home/aline
+#   jk_init -j /home/aline jk_lsh
+#   jk_init -j /home/aline sftp
+#   jk_init -j /home/aline scp
+#   jk_init -j /home/aline ssh
+#   # Create the account
+#   jk_jailuser
+#   useradd --create-home --user-group --password $(mkpasswd -s -m md5 txu) --shell /bin/bash aline
+#   jk_jailuser --jail=/home/aline/ aline
+#   ############ DEPRECATED ############# jk_addjailuser -j /home/aline test
+#   # Edit the jk_lsh configfile in the jail; see man jk_lsh..
+#   # You can use every editor you want; I choose 'joe'
+#   joe /home/aline/etc/jailkit/jk_lsh.ini
+#   # Restart jk_socketd so that log messages are transferred
+#   killall jk_socketd
+#   jk_socketd
+#   # Test the account
+#   sftp test@localhost
+#   # Check the logs to see if everything is correct
+#   tail /var/log/daemon.log /var/log/auth.log
 
 # 0.
-
 export DEBIAN_FRONTEND=noninteractive
 
 apt-get --yes install whois sudo makepasswd git
@@ -95,54 +141,6 @@ clear
 
 # 1.1 functions
 
-function getString()
-{
-  local NEWVAR1=a
-  local NEWVAR2=b
-  while [ ! $NEWVAR1 = $NEWVAR2 ] || [ -z "$NEWVAR1" ];
-  do
-    clear
-    echo "#"
-    echo "#"
-    echo "# The Seedbox From Scratch Script"
-    echo "#   By Notos ---> https://github.com/Notos/"
-    echo "#"
-    echo "#"
-    echo "#"
-    echo
-    read -e -i "$3" -p "$1" NEWVAR1
-    if [ "$NEWVAR1" == "$3" ]
-    then
-      NEWVAR2=$NEWVAR1
-    else
-      read -p "Retype: " NEWVAR2
-    fi
-  done
-  eval $2=\$NEWVAR1
-}
-function getPassword()
-{
-  local NEWVAR1=a
-  local NEWVAR2=b
-  while [ ! $NEWVAR1 = $NEWVAR2 ] || [ -z "$NEWVAR1" ];
-  do
-    clear
-    echo "#"
-    echo "#"
-    echo "# The Seedbox From Scratch Script"
-    echo "#   By Notos ---> https://github.com/Notos/"
-    echo "#"
-    echo "#"
-    echo "#"
-    echo
-    read -s -p "$1" NEWVAR1
-    echo ""
-    read -s -p "Retype: " NEWVAR2
-    echo ""
-  done
-  eval $2=\$NEWVAR1
-}
-
 # 3.1
 
 #localhost is ok this rtorrent/rutorrent installation
@@ -152,12 +150,13 @@ IPADDRESS1=`grep address /etc/network/interfaces | grep -v 127.0.0.1  | awk '{pr
 PASSWORD1=a
 PASSWORD2=b
 
-getString "You need to create an user for your seedbox: " NEWUSER1
-getPassword "ruTorrent password for user $NEWUSER1: " PASSWORD1
-getString "IP address or hostname of your box: " NEWHOSTNAME1 $IPADDRESS1
-getString "New SSH port: " NEWSSHPORT1 21976
-getString "Wich rTorrent would you like to use, '0.8.9' (older stable) or '0.9.2' (newer but banned in some trackers)?: " RTORRENT1 0.9.2
-getString "Do you want to install OpenVPN?: " INSTALLOPENVPN1 YES
+getString NO  "You need to create an user for your seedbox: " NEWUSER1
+getString YES "ruTorrent password for user $NEWUSER1: " PASSWORD1
+getString NO  "IP address or hostname of your box: " NEWHOSTNAME1 $IPADDRESS1
+getString NO  "New SSH port: " NEWSSHPORT1 21976
+getString NO  "Wich rTorrent would you like to use, '0.8.9' (older stable) or '0.9.2' (newer but banned in some trackers)?: " RTORRENT1 0.9.2
+getString NO  "Do you want to install OpenVPN?: " INSTALLOPENVPN1 YES
+getString NO  "Do you want to have some of your users in a chroot jail?: " CHROOTJAIL1 YES
 
 if [ "$RTORRENT1" != "0.9.2" ] && [ "$RTORRENT1" != "0.9.2" ]; then
   echo "$RTORRENT1 is not 0.9.2 or 0.8.9!"
@@ -181,8 +180,10 @@ perl -pi -e "s/PermitRootLogin yes/PermitRootLogin no/g" /etc/ssh/sshd_config
 perl -pi -e "s/#Protocol 2/Protocol 2/g" /etc/ssh/sshd_config
 perl -pi -e "s/X11Forwarding yes/X11Forwarding no/g" /etc/ssh/sshd_config
 
+groupadd sshdusers
 echo "" | tee -a /etc/ssh/sshd_config > /dev/null
 echo "UseDNS no" | tee -a /etc/ssh/sshd_config > /dev/null
+echo "AllowGroups sshdusers" >> /etc/ssh/sshd_config
 
 service ssh restart
 
@@ -222,7 +223,7 @@ apt-get --yes upgrade
 #install all needed packages including webmin
 
 apt-get --yes build-dep znc
-apt-get --yes install apache2 apache2-utils autoconf build-essential ca-certificates comerr-dev curl cfv quota mktorrent dtach htop irssi libapache2-mod-php5 libcloog-ppl-dev libcppunit-dev libcurl3 libcurl4-openssl-dev libncurses5-dev libterm-readline-gnu-perl libsigc++-2.0-dev libperl-dev openvpn libssl-dev libtool libxml2-dev ncurses-base ncurses-term ntp openssl patch pkg-config php5 php5-cli php5-dev php5-curl php5-geoip php5-mcrypt php5-xmlrpc pkg-config python-scgi screen ssl-cert subversion texinfo unrar-free unzip zlib1g-dev expect joe ffmpeg libarchive-zip-perl libnet-ssleay-perl libhtml-parser-perl libxml-libxml-perl libjson-perl libjson-xs-perl libxml-libxslt-perl libxml-libxml-perl libjson-rpc-perl libarchive-zip-perl znc rar zip
+apt-get --yes install apache2 apache2-utils autoconf build-essential ca-certificates comerr-dev curl cfv quota mktorrent dtach htop irssi libapache2-mod-php5 libcloog-ppl-dev libcppunit-dev libcurl3 libcurl4-openssl-dev libncurses5-dev libterm-readline-gnu-perl libsigc++-2.0-dev libperl-dev openvpn libssl-dev libtool libxml2-dev ncurses-base ncurses-term ntp openssl patch pkg-config php5 php5-cli php5-dev php5-curl php5-geoip php5-mcrypt php5-xmlrpc pkg-config python-scgi screen ssl-cert subversion texinfo unrar-free unzip zlib1g-dev expect joe automake1.9 flex bison debhelper binutils-gold ffmpeg libarchive-zip-perl libnet-ssleay-perl libhtml-parser-perl libxml-libxml-perl libjson-perl libjson-xs-perl libxml-libxslt-perl libxml-libxml-perl libjson-rpc-perl libarchive-zip-perl znc rar zip
 if [ $? -gt 0 ]; then
   set +x verbose
   echo
@@ -241,9 +242,20 @@ if [ "$WEBMINDOWN" = "no" ]; then
   apt-get --yes install webmin
 fi
 
+if [ "$CHROOTJAIL1" = "YES" ]; then
+  cd /etc/scripts
+  tar xvfz jailkit-2.15.tar.gz -C /etc/scripts/source/
+  cd source/jailkit-2.15
+  ./debian/rules binary
+  cd ..
+  dpkg -i jailkit_2.15-1_*.deb
+  rm -rf jailkit-2.15*
+fi
+
 # 8.1 additional packages for Ubuntu
 # this is better to be apart from the others
 apt-get --yes install php5-fpm
+apt-get --yes install php5-xcache
 
 #Check if its Debian an do a sysvinit by upstart replacement:
 
@@ -442,7 +454,8 @@ chmod +x /etc/scripts/ovpni
 
 # 96.
 
-/etc/scripts/createSeedboxUser $NEWUSER1 $PASSWORD1
+#first user will not be jailed
+/etc/scripts/createSeedboxUser $NEWUSER1 $PASSWORD1 NO
 
 # 97.
 
@@ -476,5 +489,48 @@ echo ""
 
 reboot
 
-##################### LAST LINE ###########
+##################### FUNCTIONS
 
+function getString
+{
+  local ISPASSWORD=$1
+  local LABEL=$2
+  local RETURN=$3
+  local DEFAULT=$4
+  local NEWVAR1=a
+  local NEWVAR2=b
+
+  while [ ! $NEWVAR1 = $NEWVAR2 ] || [ -z "$NEWVAR1" ];
+  do
+    clear
+    echo "#"
+    echo "#"
+    echo "# The Seedbox From Scratch Script"
+    echo "#   By Notos ---> https://github.com/Notos/"
+    echo "#"
+    echo "#"
+    echo "#"
+    echo
+
+    if [ "$ISPASSWORD" == "YES" ]; then
+      read -s -p "$DEFAULT" -p "$LABEL" NEWVAR1
+    else
+      read -e -i "$DEFAULT" -p "$LABEL" NEWVAR1
+    fi
+
+    if [ "$NEWVAR1" == "$DEFAULT" ]
+    then
+      NEWVAR2=$NEWVAR1
+    else
+      if [ "$ISPASSWORD" == "YES" ]; then
+        echo
+        read -s -p "Retype: " NEWVAR2
+      else
+        read -p "Retype: " NEWVAR2
+      fi
+    fi
+  done
+  eval $RETURN=\$NEWVAR1
+}
+
+##################### LAST LINE ###########
