@@ -14,6 +14,50 @@
 #
 #    createSeedboxUser <username> <password>
 #
+#
+function getString
+{
+  local ISPASSWORD=$1
+  local LABEL=$2
+  local RETURN=$3
+  local DEFAULT=$4
+  local NEWVAR1=a
+  local NEWVAR2=b
+
+  while [ ! $NEWVAR1 = $NEWVAR2 ] || [ -z "$NEWVAR1" ];
+  do
+    clear
+    echo "#"
+    echo "#"
+    echo "# The Seedbox From Scratch Script"
+    echo "#   By Notos ---> https://github.com/Notos/"
+    echo "#"
+    echo "#"
+    echo "#"
+    echo
+
+    if [ "$ISPASSWORD" == "YES" ]; then
+      read -s -p "$DEFAULT" -p "$LABEL" NEWVAR1
+    else
+      read -e -i "$DEFAULT" -p "$LABEL" NEWVAR1
+    fi
+
+    if [ "$NEWVAR1" == "$DEFAULT" ]
+    then
+      NEWVAR2=$NEWVAR1
+    else
+      if [ "$ISPASSWORD" == "YES" ]; then
+        echo
+        read -s -p "Retype: " NEWVAR2
+      else
+        read -p "Retype: " NEWVAR2
+      fi
+    fi
+  done
+  eval $RETURN=\$NEWVAR1
+}
+#
+#
 
 NEWUSER1=a
 NEWUSER2=b
@@ -188,50 +232,6 @@ sudo su --login --command "screen -d -m -S irssi irssi" $NEWUSER1
 
 sudo chown -R $NEWUSER1:$NEWUSER1  $HOMEDIR/.autodl
 sudo chown -R $NEWUSER1:$NEWUSER1  $HOMEDIR/.irssi
-
-##################### FUNCTIONS
-
-function getString
-{
-  local ISPASSWORD=$1
-  local LABEL=$2
-  local RETURN=$3
-  local DEFAULT=$4
-  local NEWVAR1=a
-  local NEWVAR2=b
-
-  while [ ! $NEWVAR1 = $NEWVAR2 ] || [ -z "$NEWVAR1" ];
-  do
-    clear
-    echo "#"
-    echo "#"
-    echo "# The Seedbox From Scratch Script"
-    echo "#   By Notos ---> https://github.com/Notos/"
-    echo "#"
-    echo "#"
-    echo "#"
-    echo
-
-    if [ "$ISPASSWORD" == "YES" ]; then
-      read -s -p "$DEFAULT" -p "$LABEL" NEWVAR1
-    else
-      read -e -i "$DEFAULT" -p "$LABEL" NEWVAR1
-    fi
-
-    if [ "$NEWVAR1" == "$DEFAULT" ]
-    then
-      NEWVAR2=$NEWVAR1
-    else
-      if [ "$ISPASSWORD" == "YES" ]; then
-        echo
-        read -s -p "Retype: " NEWVAR2
-      else
-        read -p "Retype: " NEWVAR2
-      fi
-    fi
-  done
-  eval $RETURN=\$NEWVAR1
-}
 
 ##################### LAST LINE ###########
 

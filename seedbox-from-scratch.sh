@@ -117,8 +117,50 @@
 #   sftp test@localhost
 #   # Check the logs to see if everything is correct
 #   tail /var/log/daemon.log /var/log/auth.log
+#
+function getString
+{
+  local ISPASSWORD=$1
+  local LABEL=$2
+  local RETURN=$3
+  local DEFAULT=$4
+  local NEWVAR1=a
+  local NEWVAR2=b
 
+  while [ ! $NEWVAR1 = $NEWVAR2 ] || [ -z "$NEWVAR1" ];
+  do
+    clear
+    echo "#"
+    echo "#"
+    echo "# The Seedbox From Scratch Script"
+    echo "#   By Notos ---> https://github.com/Notos/"
+    echo "#"
+    echo "#"
+    echo "#"
+    echo
+
+    if [ "$ISPASSWORD" == "YES" ]; then
+      read -s -p "$DEFAULT" -p "$LABEL" NEWVAR1
+    else
+      read -e -i "$DEFAULT" -p "$LABEL" NEWVAR1
+    fi
+
+    if [ "$NEWVAR1" == "$DEFAULT" ]
+    then
+      NEWVAR2=$NEWVAR1
+    else
+      if [ "$ISPASSWORD" == "YES" ]; then
+        echo
+        read -s -p "Retype: " NEWVAR2
+      else
+        read -p "Retype: " NEWVAR2
+      fi
+    fi
+  done
+  eval $RETURN=\$NEWVAR1
+}
 # 0.
+
 export DEBIAN_FRONTEND=noninteractive
 
 apt-get --yes install whois sudo makepasswd git
@@ -488,49 +530,5 @@ echo ""
 # 99.
 
 reboot
-
-##################### FUNCTIONS
-
-function getString
-{
-  local ISPASSWORD=$1
-  local LABEL=$2
-  local RETURN=$3
-  local DEFAULT=$4
-  local NEWVAR1=a
-  local NEWVAR2=b
-
-  while [ ! $NEWVAR1 = $NEWVAR2 ] || [ -z "$NEWVAR1" ];
-  do
-    clear
-    echo "#"
-    echo "#"
-    echo "# The Seedbox From Scratch Script"
-    echo "#   By Notos ---> https://github.com/Notos/"
-    echo "#"
-    echo "#"
-    echo "#"
-    echo
-
-    if [ "$ISPASSWORD" == "YES" ]; then
-      read -s -p "$DEFAULT" -p "$LABEL" NEWVAR1
-    else
-      read -e -i "$DEFAULT" -p "$LABEL" NEWVAR1
-    fi
-
-    if [ "$NEWVAR1" == "$DEFAULT" ]
-    then
-      NEWVAR2=$NEWVAR1
-    else
-      if [ "$ISPASSWORD" == "YES" ]; then
-        echo
-        read -s -p "Retype: " NEWVAR2
-      else
-        read -p "Retype: " NEWVAR2
-      fi
-    fi
-  done
-  eval $RETURN=\$NEWVAR1
-}
 
 ##################### LAST LINE ###########
