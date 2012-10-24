@@ -101,11 +101,12 @@ set -x verbose
 
 # 3.3
 
+useradd --create-home --home $HOMEDIR --user-group --password $(mkpasswd -s -m md5 $PASSWORD1) --shell /bin/bash $NEWUSER1
+
 if [ "CHROOTJAIL1" == "YES" ]; then
   mkdir -p $HOMEDIR/home
   mkdir -p $HOMEDIR/jail
   chown root:root $HOMEDIR/jail
-  useradd --create-home --home $HOMEDIR --user-group --password $(mkpasswd -s -m md5 $PASSWORD1) --shell /bin/bash $NEWUSER1
   jk_init -v $HOMEDIR/jail basicshell editors extendedshell jk_lsh netutils netutils openvpn scp ssh
   jk_jailuser -m -j $HOMEDIR/jail $NEWUSER1
   jk_cp -j $HOMEDIR/jail /lib/x86_64-linux-gnu/libnss_compat.so.2
