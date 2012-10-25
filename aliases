@@ -1,3 +1,16 @@
+##################### FIRST LINE
+# ---------------------------
+#!/bin/bash
+# ---------------------------
+#
+# The Seedbox From Scratch Script
+#   By Notos ---> https://github.com/Notos/
+#
+# Those aliases are moslty for Notos, he uses them a lot, but your are allowed to add more, if you need
+#
+#
+#
+
 echo "" | tee -a ~/.bashrc
 echo "alias l='sudo ls -laF --color=auto'  " |  tee -a ~/.bashrc
 echo "alias md='sudo mkdir'                " |  tee -a ~/.bashrc
@@ -12,3 +25,20 @@ echo "export TERM=linux                    " |  tee -a ~/.bashrc
 echo "export HISTFILESIZE=50000            " |  tee -a ~/.bashrc
 echo "alias locate='locate -i'             " |  tee -a ~/.bashrc
 echo "alias ed='sudo joe'                  " |  tee -a ~/.bashrc
+
+
+alias l='sudo ls -laF --color=auto'
+alias md='sudo mkdir'              
+alias copy='sudo cp'               
+alias rd='sudo rmdir'              
+alias del='sudo rm'                
+alias cls='sudo clear'             
+alias dir='sudo l'                 
+alias cd..='cd ..'                 
+alias move='sudo mv'               
+export TERM=linux                  
+export HISTFILESIZE=50000          
+alias locate='locate -i'           
+alias ed='sudo joe'
+
+##################### LAST LINE ###########

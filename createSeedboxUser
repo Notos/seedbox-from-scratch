@@ -59,6 +59,17 @@ function getString
 #
 #
 
+if [[ "$0" == "-bash" ]]; then
+  echo "This script is not executable, please run chmod +x on it."
+  exit 0
+fi
+
+echo " param 0 == $0 "
+echo " param 1 == $1 "
+echo " param 2 == $2 "
+echo " param 3 == $3 "
+echo " param 4 == $4 "
+
 NEWUSER1=a
 NEWUSER2=b
 PASSWORD1=a
@@ -90,10 +101,50 @@ else
   getString NO  "User should be in a chroot jail?: " CHROOTJAIL1 YES
 fi
 
-HOMEDIR=/home/$NEWUSER1
-if [ "CHROOTJAIL1" == "YES" ]; then
-  HOMEDIR=$HOMEDIR/jail/$HOMEDIR/home
+if [ "$CHROOTJAIL1" == "NO" ]; then
+  if [ $4 ]
+  then
+    if [ "$4" == "YES" ] || [ "$4" == "NO" ]; then
+      USERHASSSHACCESS1=$4
+      USERHASSSHACCESS2=$4
+    else
+      getString NO  "User can login via SSH?: " USERHASSSHACCESS1 YES
+    fi
+  else
+    getString NO  "User can login via SSH?: " USERHASSSHACCESS1 YES
+  fi
+else
+  USERHASSSHACCESS1=YES
 fi
+
+if [ $5 ]
+then
+  if [ "$5" == "YES" ] || [ "$5" == "NO" ]; then
+    USERINSUDOERS1=$5
+    USERINSUDOERS2=$5
+  else
+    getString NO  "Add user to sudoers?: " USERINSUDOERS1 NO
+  fi
+else
+  getString NO  "Add user to sudoers?: " USERINSUDOERS1 NO
+fi
+
+HOMEBASE=/home/$NEWUSER1
+HOMEDIR=$HOMEBASE
+HOMEJAILED=$HOMEBASE
+if [ "$CHROOTJAIL1" == "YES" ]; then
+  JAILDIR=$HOMEDIR/jail
+  HOMEDIR=$HOMEDIR/home
+  HOMEJAILED=$JAILDIR/home
+fi
+
+echo " NEWUSER1 == $NEWUSER1 "
+echo " PASSWORD1 == $PASSWORD1 "
+echo " CHROOTJAIL1 == $CHROOTJAIL1 "
+echo " HOMEBASE == $HOMEBASE "
+echo " HOMEDIR == $HOMEDIR "
+echo " JAILDIR == $JAILDIR "
+echo " HOMEJAILED == $HOMEJAILED "
 
 # 3.2
 
@@ -101,31 +152,100 @@ set -x verbose
 
 # 3.3
 
-useradd --create-home --home $HOMEDIR --user-group --password $(mkpasswd -s -m md5 $PASSWORD1) --shell /bin/bash $NEWUSER1
+sudo rm -f -r $HOMEDIR
+sudo mkdir -p $HOMEDIR
+sudo useradd --create-home --home $HOMEDIR --user-group --password $(mkpasswd -s -m md5 $PASSWORD1) --shell /bin/bash $NEWUSER1
+if [ ! -f $HOMEDIR/.profile ]; then
+  sudo cp /etc/skel/.bashrc $HOMEDIR
+  sudo cp /etc/skel/.bash_logout $HOMEDIR
+  sudo cp /etc/skel/.profile $HOMEDIR
+  sudo chown $NEWUSER1: $HOMEDIR
+  sudo chown $NEWUSER1: $HOMEDIR/.bashrc
+  sudo chown $NEWUSER1: $HOMEDIR/.bash_logout
+  sudo chown $NEWUSER1: $HOMEDIR/.profile
+fi
 
-if [ "CHROOTJAIL1" == "YES" ]; then
-  mkdir -p $HOMEDIR/home
-  mkdir -p $HOMEDIR/jail
-  chown root:root $HOMEDIR/jail
-  jk_init -v $HOMEDIR/jail basicshell editors extendedshell jk_lsh netutils netutils openvpn scp ssh
-  jk_jailuser -m -j $HOMEDIR/jail $NEWUSER1
-  jk_cp -j $HOMEDIR/jail /lib/x86_64-linux-gnu/libnss_compat.so.2
-  cp /usr/sbin/jk_lsh $HOMEDIR/jail/usr/sbin/jk_lsh
-  cp /etc/skel/.bashrc $HOMEDIR/jail$HOMEDIR
-  sudo perl -pi -e "s/\/usr\/sbin\/jk_lsh/\/bin\/bash/g" $HOMEDIR/jail/etc/passwd
-  mkdir -p $HOMEDIR/jail$HOMEDIR
-  chown $NEWUSER1: $HOMEDIR/jail$HOMEDIR
-  chown $NEWUSER1: $HOMEDIR/jail/$HOMEDIR/home
-  cp /usr/sbin/jk_lsh $HOMEDIR/jail/usr/sbin/jk_lsh
-  killall jk_socketd
-  jk_socketd
+if [ "$CHROOTJAIL1" == "YES" ]; then
+  sudo mkdir -p $JAILDIR
+  sudo chown root: $HOMEDIR
+  sudo chown root: $JAILDIR
+  sudo jk_init -v $JAILDIR basicshell editors extendedshell jk_lsh git rsync openvpn perl vncserver netbasics netutils openvpn scp ssh terminfo rtorrent irssi screen id php pgrep mediainfo ffmpeg curl plowup unzip unrar ping wget dig nslookup
+  sudo jk_jailuser -m -j $JAILDIR $NEWUSER1
+  sudo jk_cp -j $JAILDIR /etc/ld.so.cache
+  sudo jk_cp -j $JAILDIR /usr/lib/liblwres.so.80
+  sudo jk_cp -j $JAILDIR /usr/lib/libdns.so.81
+  sudo jk_cp -j $JAILDIR /usr/lib/libbind9.so.80
+  sudo jk_cp -j $JAILDIR /usr/lib/libisccfg.so.82
+  sudo jk_cp -j $JAILDIR /usr/lib/libisc.so.83
+  sudo jk_cp -j $JAILDIR /usr/lib/libGeoIP.so.1
+  sudo jk_cp -j $JAILDIR /usr/lib/ssl/openssl.cnf
+  sudo jk_cp -j $JAILDIR /usr/lib/`uname -m`-linux-gnu/openssl-1.0.0/engines/libgost.so
+  sudo jk_cp -j $JAILDIR /lib/`uname -m`-linux-gnu/libpthread.so.0
+  sudo jk_cp -j $JAILDIR /lib/`uname -m`-linux-gnu/libc.so.6
+  sudo jk_cp -j $JAILDIR /usr/lib/`uname -m`-linux-gnu/libgssapi_krb5.so.2
+  sudo jk_cp -j $JAILDIR /lib/`uname -m`-linux-gnu/libcrypto.so.1.0.0
+  sudo jk_cp -j $JAILDIR /usr/lib/`uname -m`-linux-gnu/libxml2.so.2
+  sudo jk_cp -j $JAILDIR /usr/lib/`uname -m`-linux-gnu/libkrb5.so.3
+  sudo jk_cp -j $JAILDIR /usr/lib/`uname -m`-linux-gnu/libk5crypto.so.3
+  sudo jk_cp -j $JAILDIR /lib/`uname -m`-linux-gnu/libcom_err.so.2
+  sudo jk_cp -j $JAILDIR /usr/lib/`uname -m`-linux-gnu/libkrb5support.so.0
+  sudo jk_cp -j $JAILDIR /lib/`uname -m`-linux-gnu/libdl.so.2
+  sudo jk_cp -j $JAILDIR /lib/`uname -m`-linux-gnu/libz.so.1
+  sudo jk_cp -j $JAILDIR /lib/`uname -m`-linux-gnu/libm.so.6
+  sudo jk_cp -j $JAILDIR /lib/`uname -m`-linux-gnu/libkeyutils.so.1
+  sudo jk_cp -j $JAILDIR /lib/`uname -m`-linux-gnu/libresolv.so.2
+  sudo jk_cp -j $JAILDIR /lib/`uname -m`-linux-gnu/libnss_compat.so.2
+  sudo jk_cp -j $JAILDIR /lib/`uname -m`-linux-gnu/libnss_dns.so.2
+  sudo jk_cp -j $JAILDIR /lib/`uname -m`-linux-gnu/libnss_files.so.2
+  sudo jk_cp -j $JAILDIR /usr/bin/rtorrent
+  sudo jk_cp -j $JAILDIR /usr/bin/irssi
+  sudo jk_cp -j $JAILDIR /dev/tty*
+  sudo cp /etc/skel/.bashrc $HOMEJAILED
+  sudo cp /usr/sbin/jk_lsh $JAILDIR/usr/sbin/jk_lsh
+  sudo perl -pi -e "s/\/usr\/sbin\/jk_lsh/\/bin\/bash/g" $JAILDIR/etc/passwd
+  sudo mkdir -p $HOMEJAILED
+  sudo chown -R $NEWUSER1: $HOMEJAILED
+  sudo cp /usr/sbin/jk_lsh $JAILDIR/usr/sbin/jk_lsh
+  sudo killall jk_socketd
+  sudo jk_socketd
+  echo "[$NEWUSER1]" | sudo tee -a /etc/jailkit/jk_chrootsh.ini
+  echo "environment=TERM=linux" | sudo tee -a /etc/jailkit/jk_chrootsh.ini
+  echo "env= TERM" | sudo tee -a /etc/jailkit/jk_chrootsh.ini
+  echo "export TERM=linux" | sudo tee -a $JAILDIR/home/$NEWUSER1/home/.bashrc
+  sudo ldconfig -r $JAILDIR
+  sudo mkdir $JAILDIR/proc
+  sudo mount proc $JAILDIR/proc -t proc
+  sudo mount -t devpts devpts $JAILDIR/dev/pts -o mode=666
+  sudo chown root: $JAILDIR/run/screen
+  sudo chmod u+s $JAILDIR/usr/bin/screen
+  sudo chmod -R 777 $JAILDIR/run
+  sudo chmod -R 777 $JAILDIR/var/run/screen
+  sudo chmod -R 777 $JAILDIR/dev/pts
+  sudo chmod 666 $JAILDIR/dev/null
+  #sudo chmod 777 /dev/pts/3
+  sudo chmod -R 755 $JAILDIR/run/screen
+  sudo chmod -R 700 $JAILDIR/run/screen/S-$NEWUSER1
+  HOMEJAILED=$HOMEJAILED/$NEWUSER1/home
+  ADDHOME1=\\/home
+  sudo mkdir $JAILDIR/tmp
+  sudo chmod 1777 $JAILDIR/tmp
+  sudo mount --bind /tmp $JAILDIR/tmp
+  sudo mkdir -p $JAILDIR/var/www/rutorrent
+  sudo chmod 1777 $JAILDIR/var/www/rutorrent
+  sudo mount --bind /var/www/rutorrent $JAILDIR/var/www/rutorrent
+  sudo chmod 777 /var/www/rutorrent/share
 fi
 
 # 3.4
 
-echo "" | sudo tee -a /etc/sudoers
-echo "$NEWUSER1  ALL=(ALL) ALL" | sudo tee -a /etc/sudoers
-addgroup $NEWUSER1 sshdusers
+if [ "$USERINSUDOERS1" == "YES" ]; then
+  echo "" | sudo tee -a /etc/sudoers
+  echo "$NEWUSER1  ALL=(ALL) ALL" | sudo tee -a /etc/sudoers
+fi
+
+if [ "$USERHASSSHACCESS1" == "YES" ]; then
+  sudo addgroup $NEWUSER1 sshdusers
+fi
 
 sudo service ssh restart
 
@@ -155,20 +275,20 @@ sudo perl -pi -e "s/^$NEWUSER1\:.*\n$//g" /etc/apache2/htpasswd
 echo $NEWUSER1:rutorrent:`md5sum /tmp/pass | cut -d" " -f1` | sudo tee -a /etc/apache2/htpasswd
 
 # 19.
-sudo cp /etc/scripts/rtorrent.rc.template  $HOMEDIR/.rtorrent.rc > /dev/null
+sudo cp /etc/scripts/rtorrent.rc.template  $HOMEJAILED/.rtorrent.rc > /dev/null
 
-sudo perl -pi -e "s/<username>/$NEWUSER1/g" $HOMEDIR/.rtorrent.rc
-sudo perl -pi -e "s/5995/$SCGIPORT/g" $HOMEDIR/.rtorrent.rc
-sudo perl -pi -e "s/99888/$NETWORKPORT/g" $HOMEDIR/.rtorrent.rc
+sudo perl -pi -e "s/<username>/$NEWUSER1$ADDHOME1/g" $HOMEJAILED/.rtorrent.rc
+sudo perl -pi -e "s/5995/$SCGIPORT/g" $HOMEJAILED/.rtorrent.rc
+sudo perl -pi -e "s/99888/$NETWORKPORT/g" $HOMEJAILED/.rtorrent.rc
 
-sudo chown $NEWUSER1:$NEWUSER1   $HOMEDIR/.rtorrent.rc:$NEWUSER1 $HOMEDIR/.rtorrent.rc
+sudo chown $NEWUSER1:$NEWUSER1   $HOMEJAILED/.rtorrent.rc:$NEWUSER1 $HOMEJAILED/.rtorrent.rc
 
 # 20.
-sudo mkdir -p $HOMEDIR/downloads/auto
-sudo mkdir -p $HOMEDIR/downloads/manual
-sudo mkdir -p $HOMEDIR/downloads/watch
-sudo mkdir -p $HOMEDIR/downloads/.session
-sudo chown -R $NEWUSER1:$NEWUSER1 $HOMEDIR/downloads
+sudo mkdir -p $HOMEJAILED/downloads/auto
+sudo mkdir -p $HOMEJAILED/downloads/manual
+sudo mkdir -p $HOMEJAILED/downloads/watch
+sudo mkdir -p $HOMEJAILED/downloads/.session
+sudo chown -R $NEWUSER1:$NEWUSER1 $HOMEJAILED/downloads
 
 # 21.
 
@@ -203,15 +323,15 @@ sudo cp /etc/scripts/rutorrent.conf.users.plugins.ini.template /var/www/rutorren
 
 # 29.
 
-sudo rm -R $HOMEDIR/.irssi
-sudo mkdir -p $HOMEDIR/.irssi/scripts/autorun
-cd $HOMEDIR/.irssi/scripts
+sudo rm -R $HOMEJAILED/.irssi
+sudo mkdir -p $HOMEJAILED/.irssi/scripts/autorun
+cd $HOMEJAILED/.irssi/scripts
 sudo wget --no-check-certificate -O autodl-irssi.zip https://sourceforge.net/projects/autodl-irssi/files/autodl-irssi-v1.31.zip/download
 sudo unzip -o autodl-irssi.zip
 sudo rm autodl-irssi.zip
 sudo cp autodl-irssi.pl autorun/
-sudo mkdir -p $HOMEDIR/.autodl
-sudo touch $HOMEDIR/.autodl/autodl.cfg
+sudo mkdir -p $HOMEJAILED/.autodl
+sudo touch $HOMEJAILED/.autodl/autodl.cfg
 
 sudo cp /etc/scripts/rutorrent.conf.users.plugins.autodl-irssi.conf.php.template  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi/conf.php
 sudo perl -pi -e "s/<PASSWORD>/$IRSSIPASSWORD/g"  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi/conf.php
@@ -220,90 +340,18 @@ sudo perl -pi -e "s/<PORT>/$IRSSIPORT/g" /var/www/rutorrent/conf/users/$NEWUSER1
 sudo cp /etc/scripts/rutorrent.conf.users.plugins.fileupload.conf.php.template  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/fileupload/config.php > /dev/null
 sudo chown -R www-data:www-data /var/www/rutorrent/conf/users/$NEWUSER1/plugins/fileupload/
 
-sudo cp /etc/scripts/home.user.autodl.autodl.cfg.template  $HOMEDIR/.autodl/autodl.cfg
+sudo cp /etc/scripts/home.user.autodl.autodl.cfg.template  $HOMEJAILED/.autodl/autodl.cfg
 
-sudo perl -pi -e "s/<PASSWORD>/$IRSSIPASSWORD/g"  $HOMEDIR/.autodl/autodl.cfg
-sudo perl -pi -e "s/<PORT>/$IRSSIPORT/g"  $HOMEDIR/.autodl/autodl.cfg
-sudo perl -pi -e "s/use Digest\:\:SHA1 qw/use Digest\:\:SHA qw/g" $HOMEDIR/.irssi/scripts/AutodlIrssi/MatchedRelease.pm
+sudo perl -pi -e "s/<PASSWORD>/$IRSSIPASSWORD/g"  $HOMEJAILED/.autodl/autodl.cfg
+sudo perl -pi -e "s/<PORT>/$IRSSIPORT/g"  $HOMEJAILED/.autodl/autodl.cfg
+sudo perl -pi -e "s/use Digest\:\:SHA1 qw/use Digest\:\:SHA qw/g" $HOMEJAILED/.irssi/scripts/AutodlIrssi/MatchedRelease.pm
 
 sleep 3
 sudo su --login --command "screen -d -m -S rtorrent rtorrent" $NEWUSER1
 sleep 3
 sudo su --login --command "screen -d -m -S irssi irssi" $NEWUSER1
 
-sudo chown -R $NEWUSER1:$NEWUSER1  $HOMEDIR/.autodl
-sudo chown -R $NEWUSER1:$NEWUSER1  $HOMEDIR/.irssi
+sudo chown -R $NEWUSER1:$NEWUSER1  $HOMEJAILED/.autodl
+sudo chown -R $NEWUSER1:$NEWUSER1  $HOMEJAILED/.irssi
 
 ##################### LAST LINE ###########
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

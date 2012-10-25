@@ -118,6 +118,14 @@
 #   # Check the logs to see if everything is correct
 #   tail /var/log/daemon.log /var/log/auth.log
 #
+#add to /etc/jailkit/jk_init.ini
+#[rtorrent]
+#comment = rtorrent
+#paths = /usr/bin/rtorrent
+#
+#[irssi]
+#comment = irssi
+#paths = /usr/bin/irssi
 function getString
 {
   local ISPASSWORD=$1
@@ -226,6 +234,7 @@ groupadd sshdusers
 echo "" | tee -a /etc/ssh/sshd_config > /dev/null
 echo "UseDNS no" | tee -a /etc/ssh/sshd_config > /dev/null
 echo "AllowGroups sshdusers" >> /etc/ssh/sshd_config
+sudo cp /lib/terminfo/l/linux /usr/share/terminfo/l/
 
 service ssh restart
 
@@ -291,7 +300,6 @@ if [ "$CHROOTJAIL1" = "YES" ]; then
   ./debian/rules binary
   cd ..
   dpkg -i jailkit_2.15-1_*.deb
-  rm -rf jailkit-2.15*
 fi
 
 # 8.1 additional packages for Ubuntu
@@ -377,11 +385,12 @@ tar xvfz /etc/scripts/rtorrent-0.8.9.tar.gz -C /etc/scripts/source/
 tar xvfz /etc/scripts/rtorrent-0.9.2.tar.gz -C /etc/scripts/source/
 tar xvfz /etc/scripts/libtorrent-0.12.9.tar.gz -C /etc/scripts/source/
 tar xvfz /etc/scripts/libtorrent-0.13.2.tar.gz -C /etc/scripts/source/
-tar xvfz /etc/scripts/notos-xmlrpc-c.tgz -C /etc/scripts/source/
 cd source
+unzip ../xmlrpc-c-1.31.06.zip
 
 # 16.
-cd xmlrpc-c-1.16.42
+#cd xmlrpc-c-1.16.42
+cd xmlrpc-c-1.31.06
 ./configure --prefix=/usr --enable-libxml2-backend --disable-libwww-client --disable-wininet-client --disable-abyss-server --disable-cgi-server
 ln -s /usr/include/curl/curl.h /usr/include/curl/types.h
 make
@@ -424,6 +433,73 @@ make install
 cd /var/www/rutorrent/plugins
 svn co https://autodl-irssi.svn.sourceforge.net/svnroot/autodl-irssi/trunk/rutorrent/autodl-irssi
 cd autodl-irssi
+
+# 30.
+
+echo "" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "[rtorrent]" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "comment = rtorrent" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "paths = /usr/bin/rtorrent" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "[irssi]" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "comment = irssi" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "paths = /usr/bin/irssi" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "[id]" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "comment = id" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "paths = /usr/bin/id" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "[php]" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "comment = php" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "paths = /usr/bin/php" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "[pgrep]" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "comment = pgrep" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "paths = /usr/bin/pgrep" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "[mediainfo]" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "comment = mediainfo" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "paths = /usr/local/bin/mediainfo" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "[ffmpeg]" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "comment = ffmpeg" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "paths = /usr/bin/ffmpeg" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "[curl]" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "comment = curl" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "paths = /usr/bin/curl" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "[plowup]" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "comment = plowup" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "paths = /usr/bin/plowup" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "[unzip]" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "comment = unzip" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "paths = /usr/bin/unzip" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "[unrar]" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "comment = unrar" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+echo "paths = /usr/bin/unrar" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
+
+[ping]
+comment = ping
+paths = /bin/ping
+
+[wget]
+comment = wget
+paths = /usr/bin/wget
+
+[dig]
+comment = dig
+paths = /usr/bin/dig
+
+[nslookup]
+comment = nslookup
+paths = /usr/bin/nslookup
+
+[openssl]
+comment = openssl
+paths = /usr/bin/openssl
+
 
 # 31.
 
@@ -497,7 +573,8 @@ chmod +x /etc/scripts/ovpni
 # 96.
 
 #first user will not be jailed
-/etc/scripts/createSeedboxUser $NEWUSER1 $PASSWORD1 NO
+#  createSeedboxUser <username> <password> <user jailed?> <ssh access?> <sudo ?>
+/etc/scripts/createSeedboxUser $NEWUSER1 $PASSWORD1 NO YES YES
 
 # 97.
 
