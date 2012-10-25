@@ -385,14 +385,15 @@ tar xvfz /etc/scripts/rtorrent-0.8.9.tar.gz -C /etc/scripts/source/
 tar xvfz /etc/scripts/rtorrent-0.9.2.tar.gz -C /etc/scripts/source/
 tar xvfz /etc/scripts/libtorrent-0.12.9.tar.gz -C /etc/scripts/source/
 tar xvfz /etc/scripts/libtorrent-0.13.2.tar.gz -C /etc/scripts/source/
+tar xvfz /etc/scripts/xmlrpc-c-1.31.06.tgz -C /etc/scripts/source/
 cd source
 unzip ../xmlrpc-c-1.31.06.zip
 
 # 16.
-#cd xmlrpc-c-1.16.42
+#cd xmlrpc-c-1.16.42 ### old, but stable, version, needs a missing old types.h file
+#ln -s /usr/include/curl/curl.h /usr/include/curl/types.h
 cd xmlrpc-c-1.31.06
 ./configure --prefix=/usr --enable-libxml2-backend --disable-libwww-client --disable-wininet-client --disable-abyss-server --disable-cgi-server
-ln -s /usr/include/curl/curl.h /usr/include/curl/types.h
 make
 make install
 
@@ -436,70 +437,9 @@ cd autodl-irssi
 
 # 30.
 
+sudo cp /etc/jailkit/jk_init.ini /etc/jailkit/jk_init.ini.original
 echo "" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "[rtorrent]" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "comment = rtorrent" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "paths = /usr/bin/rtorrent" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "[irssi]" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "comment = irssi" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "paths = /usr/bin/irssi" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "[id]" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "comment = id" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "paths = /usr/bin/id" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "[php]" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "comment = php" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "paths = /usr/bin/php" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "[pgrep]" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "comment = pgrep" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "paths = /usr/bin/pgrep" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "[mediainfo]" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "comment = mediainfo" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "paths = /usr/local/bin/mediainfo" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "[ffmpeg]" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "comment = ffmpeg" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "paths = /usr/bin/ffmpeg" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "[curl]" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "comment = curl" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "paths = /usr/bin/curl" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "[plowup]" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "comment = plowup" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "paths = /usr/bin/plowup" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "[unzip]" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "comment = unzip" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "paths = /usr/bin/unzip" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "[unrar]" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "comment = unrar" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-echo "paths = /usr/bin/unrar" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-
-[ping]
-comment = ping
-paths = /bin/ping
-
-[wget]
-comment = wget
-paths = /usr/bin/wget
-
-[dig]
-comment = dig
-paths = /usr/bin/dig
-
-[nslookup]
-comment = nslookup
-paths = /usr/bin/nslookup
-
-[openssl]
-comment = openssl
-paths = /usr/bin/openssl
-
+bash /etc/scritps/updatejkinit
 
 # 31.
 

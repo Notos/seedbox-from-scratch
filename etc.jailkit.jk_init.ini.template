@@ -1,0 +1,70 @@
+[rtorrent]
+comment = rtorrent
+paths = /usr/bin/rtorrent
+
+[irssi]
+comment = irssi
+paths = /usr/bin/irssi
+
+[screen]
+comment = files and devices for screen
+groups = tty
+executables = /usr/bin/screen, /usr/bin/dircolors
+paths_w_owner = /usr/share/terminfo, /dev/pts, /var/run/screen
+devices = /dev/ptypa, /dev/ttypa, /dev/ptmx, /dev/null
+
+[id]
+comment = id
+paths = /usr/bin/id
+
+[php]
+comment = php
+paths = /usr/bin/php
+
+[pgrep]
+comment = pgrep
+paths = /usr/bin/pgrep
+
+[mediainfo]
+comment = mediainfo
+paths = /usr/local/bin/mediainfo
+
+[ffmpeg]
+comment = ffmpeg
+paths = /usr/bin/ffmpeg
+
+[curl]
+comment = curl
+paths = /usr/bin/curl
+
+[plowup]
+comment = plowup
+paths = /usr/bin/plowup
+
+[unzip]
+comment = unzip
+paths = /usr/bin/unzip
+
+[unrar]
+comment = unrar
+paths = /usr/bin/unrar
+
+[ping]
+comment = ping
+paths = /bin/ping
+
+[wget]
+comment = wget
+paths = /usr/bin/wget
+
+[dig]
+comment = dig
+paths = /usr/bin/dig
+
+[nslookup]
+comment = nslookup
+paths = /usr/bin/nslookup
+
+[openssl]
+comment = openssl
+paths = /usr/bin/openssl

@@ -1,0 +1,16 @@
+##################### FIRST LINE
+# ---------------------------
+#!/bin/bash
+# ---------------------------
+#
+#
+# The Seedbox From Scratch Script
+#   By Notos ---> https://github.com/Notos/
+#
+#
+
+sudo cp /etc/jailkit/jk_init.ini.original /etc/jailkit/jk_init.ini
+echo "" | sudo tee -a /etc/jailkit/jk_init.ini >> /dev/null
+cat /etc/scripts/etc.jailkit.jk_init.ini.template | sudo tee -a /etc/jailkit/jk_init.ini >> /dev/null
+
+##################### LAST LINE ###########
