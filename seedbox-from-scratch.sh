@@ -134,6 +134,9 @@ clear
 
 # 1.
 
+#localhost is ok this rtorrent/rutorrent installation
+IPADDRESS1=`grep address /etc/network/interfaces | grep -v 127.0.0.1  | awk '{print $2}'`
+
 #those passwords will be changed in the next steps
 PASSWORD1=a
 PASSWORD2=b
@@ -173,14 +176,7 @@ then
   exit 1
 fi
 
-# 1.1 functions
-
 # 3.1
-
-#localhost is ok this rtorrent/rutorrent installation
-IPADDRESS1=`grep address /etc/network/interfaces | grep -v 127.0.0.1  | awk '{print $2}'`
-
-# 3.2
 
 #show all commands
 set -x verbose
