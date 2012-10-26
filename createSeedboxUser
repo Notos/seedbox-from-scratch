@@ -92,29 +92,29 @@ fi
 if [ $3 ]
 then
   if [ "$3" == "YES" ] || [ "$3" == "NO" ]; then
-    CHROOTJAIL1=$3
-    CHROOTJAIL2=$3
+    USERHASSSHACCESS1=$3
+    USERHASSSHACCESS2=$3
   else
-    getString NO  "User should be in a chroot jail?: " CHROOTJAIL1 YES
+    getString NO  "User can login via SSH?: " USERHASSSHACCESS1 NO
   fi
 else
-  getString NO  "User should be in a chroot jail?: " CHROOTJAIL1 YES
+  getString NO  "User can login via SSH?: " USERHASSSHACCESS1 NO
 fi
 
-if [ "$CHROOTJAIL1" == "NO" ]; then
+if [ "$USERHASSSHACCESS1" == "YES" ]; then
   if [ $4 ]
   then
     if [ "$4" == "YES" ] || [ "$4" == "NO" ]; then
-      USERHASSSHACCESS1=$4
-      USERHASSSHACCESS2=$4
+      CHROOTJAIL1=$4
+      CHROOTJAIL2=$4
     else
-      getString NO  "User can login via SSH?: " USERHASSSHACCESS1 YES
+      getString NO  "User should be in a chroot jail?: " CHROOTJAIL1 NO
     fi
   else
-    getString NO  "User can login via SSH?: " USERHASSSHACCESS1 YES
+    getString NO  "User should be in a chroot jail?: " CHROOTJAIL1 NO
   fi
 else
-  USERHASSSHACCESS1=YES
+  CHROOTJAIL1=NO
 fi
 
 if [ $5 ]
