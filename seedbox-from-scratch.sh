@@ -130,29 +130,9 @@ function getString
 
 export DEBIAN_FRONTEND=noninteractive
 
-apt-get --yes install whois sudo makepasswd git
-
-rm -f -r /etc/seedbox-from-scratch
-mkdir -p /etc/seedbox-from-scratch
-git clone -b v$SBFSCURRENTVERSION https://github.com/Notos/seedbox-from-scratch.git /etc/seedbox-from-scratch
-
-if [ ! -f /etc/seedbox-from-scratch/seedbox-from-scratch.sh ]
-then
-  clear
-  echo Looks like somethig is wrong, this script was not able to download its whole git repository.
-  set -e
-  exit 1
-fi
-
-# 1.
 clear
 
-# 1.1 functions
-
-# 3.1
-
-#localhost is ok this rtorrent/rutorrent installation
-IPADDRESS1=`grep address /etc/network/interfaces | grep -v 127.0.0.1  | awk '{print $2}'`
+# 1.
 
 #those passwords will be changed in the next steps
 PASSWORD1=a
@@ -178,6 +158,27 @@ if [ "$RTORRENT1" = "0.9.2" ]; then
 else
   LIBTORRENT1=0.12.9
 fi
+
+apt-get --yes install whois sudo makepasswd git
+
+rm -f -r /etc/seedbox-from-scratch
+mkdir -p /etc/seedbox-from-scratch
+git clone -b v$SBFSCURRENTVERSION https://github.com/Notos/seedbox-from-scratch.git /etc/seedbox-from-scratch
+
+if [ ! -f /etc/seedbox-from-scratch/seedbox-from-scratch.sh ]
+then
+  clear
+  echo Looks like somethig is wrong, this script was not able to download its whole git repository.
+  set -e
+  exit 1
+fi
+
+# 1.1 functions
+
+# 3.1
+
+#localhost is ok this rtorrent/rutorrent installation
+IPADDRESS1=`grep address /etc/network/interfaces | grep -v 127.0.0.1  | awk '{print $2}'`
 
 # 3.2
 
