@@ -8,7 +8,7 @@
 #   By Notos ---> https://github.com/Notos/
 #
 #
-#  git clone -b master https://github.com/Notos/seedbox-from-scratch.git /etc/scripts
+#  git clone -b master https://github.com/Notos/seedbox-from-scratch.git /etc/seedbox-from-scratch
 #  sudo git stash; sudo git pull
 #
   SBFSCURRENTVERSION=2.0.0
@@ -132,11 +132,11 @@ export DEBIAN_FRONTEND=noninteractive
 
 apt-get --yes install whois sudo makepasswd git
 
-rm -f -r /etc/scripts
-mkdir -p /etc/scripts
-git clone -b v$SBFSCURRENTVERSION https://github.com/Notos/seedbox-from-scratch.git /etc/scripts
+rm -f -r /etc/seedbox-from-scratch
+mkdir -p /etc/seedbox-from-scratch
+git clone -b v$SBFSCURRENTVERSION https://github.com/Notos/seedbox-from-scratch.git /etc/seedbox-from-scratch
 
-if [ ! -f /etc/scripts/seedbox-from-scratch.sh ]
+if [ ! -f /etc/seedbox-from-scratch/seedbox-from-scratch.sh ]
 then
   clear
   echo Looks like somethig is wrong, this script was not able to download its whole git repository.
@@ -232,8 +232,8 @@ if [ $? -gt 0 ]; then
 fi
 
 if [ "$CHROOTJAIL1" = "YES" ]; then
-  cd /etc/scripts
-  tar xvfz jailkit-2.15.tar.gz -C /etc/scripts/source/
+  cd /etc/seedbox-from-scratch
+  tar xvfz jailkit-2.15.tar.gz -C /etc/seedbox-from-scratch/source/
   cd source/jailkit-2.15
   ./debian/rules binary
   cd ..
@@ -255,21 +255,21 @@ fi
 # 8.3 Generate our lists of ports and RPC and create variables
 
 #permanently adding scripts to PATH to all users and root
-echo "PATH=$PATH:/etc/scripts:/sbin" | tee -a /etc/profile > /dev/null
+echo "PATH=$PATH:/etc/seedbox-from-scratch:/sbin" | tee -a /etc/profile > /dev/null
 echo "export PATH" | tee -a /etc/profile > /dev/null
-echo "PATH=$PATH:/etc/scripts:/sbin" | tee -a /root/.bashrc > /dev/null
+echo "PATH=$PATH:/etc/seedbox-from-scratch:/sbin" | tee -a /root/.bashrc > /dev/null
 echo "export PATH" | tee -a /root/.bashrc > /dev/null
 
-rm -f /etc/scripts/ports.txt
+rm -f /etc/seedbox-from-scratch/ports.txt
 for i in $(seq 51101 51999)
 do
-  echo "$i" | tee -a /etc/scripts/ports.txt > /dev/null
+  echo "$i" | tee -a /etc/seedbox-from-scratch/ports.txt > /dev/null
 done
 
-rm -f /etc/scripts/rpc.txt
+rm -f /etc/seedbox-from-scratch/rpc.txt
 for i in $(seq 2 1000)
 do
-  echo "RPC$i"  | tee -a /etc/scripts/rpc.txt > /dev/null
+  echo "RPC$i"  | tee -a /etc/seedbox-from-scratch/rpc.txt > /dev/null
 done
 
 # 8.4
@@ -301,7 +301,8 @@ fi
 if [ "$INSTALLFAIL2BAN1" = "YES" ]; then
   apt-get --yes install fail2ban
   cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.conf.original
-  cp /etc/scripts/etc.fail2ban.jail.conf.template /etc/fail2ban/jail.conf
+  cp /etc/seedbox-from-scratch/etc.fail2ban.jail.conf.template /etc/fail2ban/jail.conf
+  fail2ban-client reload
 fi
 
 # 9.
@@ -337,7 +338,7 @@ chmod 600 /etc/apache2/apache.pem
 mv /etc/apache2/sites-available/default /etc/apache2/sites-available/default.ORI
 rm -f /etc/apache2/sites-available/default
 
-cp /etc/scripts/etc.apache2.default.template /etc/apache2/sites-available/default
+cp /etc/seedbox-from-scratch/etc.apache2.default.template /etc/apache2/sites-available/default
 perl -pi -e "s/http\:\/\/.*\/rutorrent/http\:\/\/$IPADDRESS1\/rutorrent/g" /etc/apache2/sites-available/default
 
 # 14.
@@ -349,13 +350,13 @@ a2ensite default-ssl
 #apt-get --yes install libxmlrpc-core-c3-dev
 
 # 15.
-cd /etc/scripts
+cd /etc/seedbox-from-scratch
 mkdir source
-tar xvfz /etc/scripts/rtorrent-0.8.9.tar.gz -C /etc/scripts/source/
-tar xvfz /etc/scripts/rtorrent-0.9.2.tar.gz -C /etc/scripts/source/
-tar xvfz /etc/scripts/libtorrent-0.12.9.tar.gz -C /etc/scripts/source/
-tar xvfz /etc/scripts/libtorrent-0.13.2.tar.gz -C /etc/scripts/source/
-tar xvfz /etc/scripts/xmlrpc-c-1.31.06.tgz -C /etc/scripts/source/
+tar xvfz /etc/seedbox-from-scratch/rtorrent-0.8.9.tar.gz -C /etc/seedbox-from-scratch/source/
+tar xvfz /etc/seedbox-from-scratch/rtorrent-0.9.2.tar.gz -C /etc/seedbox-from-scratch/source/
+tar xvfz /etc/seedbox-from-scratch/libtorrent-0.12.9.tar.gz -C /etc/seedbox-from-scratch/source/
+tar xvfz /etc/seedbox-from-scratch/libtorrent-0.13.2.tar.gz -C /etc/seedbox-from-scratch/source/
+tar xvfz /etc/seedbox-from-scratch/xmlrpc-c-1.31.06.tgz -C /etc/seedbox-from-scratch/source/
 cd source
 unzip ../xmlrpc-c-1.31.06.zip
 
@@ -389,7 +390,7 @@ svn checkout http://rutorrent.googlecode.com/svn/trunk/plugins
 rm -r -f rutorrent/plugins
 mv plugins rutorrent/
 
-cp /etc/scripts/action.php.template /var/www/rutorrent/plugins/diskspace/action.php
+cp /etc/seedbox-from-scratch/action.php.template /var/www/rutorrent/plugins/diskspace/action.php
 
 # 26.
 cd /tmp
@@ -441,7 +442,7 @@ svn co http://svn.rutorrent.org/svn/filemanager/trunk/mediastream
 cd /var/www/rutorrent/plugins/
 svn co http://svn.rutorrent.org/svn/filemanager/trunk/filemanager
 
-cp /etc/scripts/rutorrent.plugins.filemanager.conf.php.template /var/www/rutorrent/plugins/filemanager/conf.php
+cp /etc/seedbox-from-scratch/rutorrent.plugins.filemanager.conf.php.template /var/www/rutorrent/plugins/filemanager/conf.php
 
 mkdir -p /var/www/stream/
 ln -s /var/www/rutorrent/plugins/mediastream/view.php /var/www/stream/view.php
@@ -472,24 +473,24 @@ perl -pi -e "s/\\\$this\-\>userdir \= addslash\(\\\$topDirectory\)\;/\\\$this\-\
 
 # scripts are now in git form :)
 
-chmod +x /etc/scripts/createSeedboxUser
-chmod +x /etc/scripts/deleteSeedboxUser
-chmod +x /etc/scripts/installOpenVPN
-chmod +x /etc/scripts/removeWebmin
-chmod +x /etc/scripts/downgradeRTorrent
-chmod +x /etc/scripts/upgradeRTorrent
-chmod +x /etc/scripts/ovpni
+chmod +x /etc/seedbox-from-scratch/createSeedboxUser
+chmod +x /etc/seedbox-from-scratch/deleteSeedboxUser
+chmod +x /etc/seedbox-from-scratch/installOpenVPN
+chmod +x /etc/seedbox-from-scratch/removeWebmin
+chmod +x /etc/seedbox-from-scratch/downgradeRTorrent
+chmod +x /etc/seedbox-from-scratch/upgradeRTorrent
+chmod +x /etc/seedbox-from-scratch/ovpni
 
 # 96.
 
 #first user will not be jailed
 #  createSeedboxUser <username> <password> <user jailed?> <ssh access?> <sudo ?>
-/etc/scripts/createSeedboxUser $NEWUSER1 $PASSWORD1 YES NO YES
+/etc/seedbox-from-scratch/createSeedboxUser $NEWUSER1 $PASSWORD1 YES NO YES
 
 # 97.
 
 if [ "$INSTALLOPENVPN1" = "YES" ]; then
-  /etc/scripts/installOpenVPN
+  /etc/seedbox-from-scratch/installOpenVPN
 fi
 
 # 98.

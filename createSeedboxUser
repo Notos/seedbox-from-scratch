@@ -235,17 +235,17 @@ fi
 
 sudo service ssh restart
 
-NEWRPC1=`head -n 1 /etc/scripts/rpc.txt | tail -n 1`
-sudo perl -pi -e "s/^$NEWRPC1.*\n$//g" /etc/scripts/rpc.txt
+NEWRPC1=`head -n 1 /etc/seedbox-from-scratch/rpc.txt | tail -n 1`
+sudo perl -pi -e "s/^$NEWRPC1.*\n$//g" /etc/seedbox-from-scratch/rpc.txt
 
-IRSSIPORT=`head -n 1 /etc/scripts/ports.txt | tail -n 1`
-sudo perl -pi -e "s/^$IRSSIPORT.*\n$//g" /etc/scripts/ports.txt
+IRSSIPORT=`head -n 1 /etc/seedbox-from-scratch/ports.txt | tail -n 1`
+sudo perl -pi -e "s/^$IRSSIPORT.*\n$//g" /etc/seedbox-from-scratch/ports.txt
 
-SCGIPORT=`head -n 1 /etc/scripts/ports.txt | tail -n 1`
-sudo perl -pi -e "s/^$SCGIPORT.*\n$//g" /etc/scripts/ports.txt
+SCGIPORT=`head -n 1 /etc/seedbox-from-scratch/ports.txt | tail -n 1`
+sudo perl -pi -e "s/^$SCGIPORT.*\n$//g" /etc/seedbox-from-scratch/ports.txt
 
-NETWORKPORT=`head -n 1 /etc/scripts/ports.txt | tail -n 1`
-sudo perl -pi -e "s/^$NETWORKPORT.*\n$//g" /etc/scripts/ports.txt
+NETWORKPORT=`head -n 1 /etc/seedbox-from-scratch/ports.txt | tail -n 1`
+sudo perl -pi -e "s/^$NETWORKPORT.*\n$//g" /etc/seedbox-from-scratch/ports.txt
 
 IRSSIPASSWORD=`makepasswd`
 
@@ -261,7 +261,7 @@ sudo perl -pi -e "s/^$NEWUSER1\:.*\n$//g" /etc/apache2/htpasswd
 echo $NEWUSER1:rutorrent:`md5sum /tmp/pass | cut -d" " -f1` | sudo tee -a /etc/apache2/htpasswd
 
 # 19.
-sudo cp /etc/scripts/rtorrent.rc.template  $HOMEJAILED/.rtorrent.rc > /dev/null
+sudo cp /etc/seedbox-from-scratch/rtorrent.rc.template  $HOMEJAILED/.rtorrent.rc > /dev/null
 
 sudo perl -pi -e "s/<username>/$NEWUSER1$ADDHOME1/g" $HOMEJAILED/.rtorrent.rc
 sudo perl -pi -e "s/5995/$SCGIPORT/g" $HOMEJAILED/.rtorrent.rc
@@ -278,7 +278,7 @@ sudo chown -R $NEWUSER1:$NEWUSER1 $HOMEJAILED/downloads
 
 # 21.
 
-sudo cp /etc/scripts/rtorrent.conf.template /etc/init/rtorrent.$NEWUSER1.conf
+sudo cp /etc/seedbox-from-scratch/rtorrent.conf.template /etc/init/rtorrent.$NEWUSER1.conf
 sudo perl -pi -e "s/<username>/$NEWUSER1/g" /etc/init/rtorrent.$NEWUSER1.conf
 
 # 22.
@@ -296,7 +296,7 @@ sudo cp /var/www/rutorrent/conf/plugins.ini   /var/www/rutorrent/conf/users/$NEW
 
 # 24.
 
-sudo cp /etc/scripts/rutorrent.conf.users.config.php.template /var/www/rutorrent/conf/users/$NEWUSER1/config.php
+sudo cp /etc/seedbox-from-scratch/rutorrent.conf.users.config.php.template /var/www/rutorrent/conf/users/$NEWUSER1/config.php
 
 sudo perl -pi -e "s/5995/$SCGIPORT/g" /var/www/rutorrent/conf/users/$NEWUSER1/config.php
 sudo perl -pi -e "s/RPC123/$NEWRPC1/g" /var/www/rutorrent/conf/users/$NEWUSER1/config.php
@@ -305,7 +305,7 @@ sudo perl -pi -e "s/<homedir>/\/home\/$NEWUSER1/g" /var/www/rutorrent/conf/users
 
 # 25.
 
-sudo cp /etc/scripts/rutorrent.conf.users.plugins.ini.template /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
+sudo cp /etc/seedbox-from-scratch/rutorrent.conf.users.plugins.ini.template /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
 if [ "$CHROOTJAIL1" == "YES" ]; then
   echo "" | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
   echo "[fileupload]" | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
@@ -340,14 +340,14 @@ sudo cp autodl-irssi.pl autorun/
 sudo mkdir -p $HOMEJAILED/.autodl
 sudo touch $HOMEJAILED/.autodl/autodl.cfg
 
-sudo cp /etc/scripts/rutorrent.conf.users.plugins.autodl-irssi.conf.php.template  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi/conf.php
+sudo cp /etc/seedbox-from-scratch/rutorrent.conf.users.plugins.autodl-irssi.conf.php.template  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi/conf.php
 sudo perl -pi -e "s/<PASSWORD>/$IRSSIPASSWORD/g"  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi/conf.php
 sudo perl -pi -e "s/<PORT>/$IRSSIPORT/g" /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi/conf.php
 
-sudo cp /etc/scripts/rutorrent.conf.users.plugins.fileupload.conf.php.template  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/fileupload/config.php > /dev/null
+sudo cp /etc/seedbox-from-scratch/rutorrent.conf.users.plugins.fileupload.conf.php.template  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/fileupload/config.php > /dev/null
 sudo chown -R www-data:www-data /var/www/rutorrent/conf/users/$NEWUSER1/plugins/fileupload/
 
-sudo cp /etc/scripts/home.user.autodl.autodl.cfg.template  $HOMEJAILED/.autodl/autodl.cfg
+sudo cp /etc/seedbox-from-scratch/home.user.autodl.autodl.cfg.template  $HOMEJAILED/.autodl/autodl.cfg
 
 sudo perl -pi -e "s/<PASSWORD>/$IRSSIPASSWORD/g"  $HOMEJAILED/.autodl/autodl.cfg
 sudo perl -pi -e "s/<PORT>/$IRSSIPORT/g"  $HOMEJAILED/.autodl/autodl.cfg
