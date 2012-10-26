@@ -11,10 +11,12 @@
 #  git clone -b master https://github.com/Notos/seedbox-from-scratch.git /etc/scripts
 #  sudo git stash; sudo git pull
 #
+  SBFSCURRENTVERSION=2.0.0
 #
 # Changelog
 #
-#  Version 2.00 (testing)
+#  Version 2.0.0 (testing)
+#
 #  Oct 26 2012 16:19
 #     - chroot jail for users, using JailKit (http://olivier.sessink.nl/jailkit/)
 #     - Fail2ban for apache and ssh exploits: bans IPs that show the malicious signs -- too many password failures, seeking for exploits, etc.
@@ -22,7 +24,7 @@
 #     - createSeedboxUser script now asks if you want your user jailed, to have SSH access and if it should be added to sudoers
 #     - Optionally install packages JailKit, Webmin, Fail2ban and OpenVPN
 #     - Full automated install, now you just have to download script and run it in your box:
-#        > wget -N https://raw.github.com/Notos/seedbox-from-scratch/fullCreate/seedbox-from-scratch.sh
+#        > wget -N https://raw.github.com/Notos/seedbox-from-scratch/v2.x.x/seedbox-from-scratch.sh
 #        > time bash ~/seedbox-from-scratch.sh
 #     - Due to a recent outage of Webmin site and SourceForge's svn repositories, some packages are now in git and will not be downloaded from those sites
 #     - Updated list of trackers in Autodl-irssi
@@ -188,8 +190,7 @@ apt-get --yes install whois sudo makepasswd git
 
 rm -f -r /etc/scripts
 mkdir -p /etc/scripts
-git clone -b fullCreate https://github.com/Notos/seedbox-from-scratch.git /etc/scripts
-#git clone -b master https://github.com/Notos/seedbox-from-scratch.git /etc/scripts
+git clone -b v$SBFSCURRENTVERSION https://github.com/Notos/seedbox-from-scratch.git /etc/scripts
 
 if [ ! -f /etc/scripts/seedbox-from-scratch.sh ]
 then
