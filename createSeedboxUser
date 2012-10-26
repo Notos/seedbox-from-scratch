@@ -340,6 +340,10 @@ sudo rm autodl-irssi.zip
 sudo cp autodl-irssi.pl autorun/
 sudo mkdir -p $HOMEJAILED/.autodl
 sudo touch $HOMEJAILED/.autodl/autodl.cfg
+sudo mv $HOMEJAILED/.irssi/scripts/AutodlIrssi/trackers $HOMEJAILED/.irssi/scripts/AutodlIrssi/trackers.original
+sudo unzip /etc/seedbox-from-scratch/autodl-trackers.zip -d $HOMEJAILED/.irssi/scripts/AutodlIrssi/trackers/
+sudo chown -R $NEWUSER1: $HOMEJAILED/.irssi/scripts/AutodlIrssi/trackers
+
 
 sudo cp /etc/seedbox-from-scratch/rutorrent.conf.users.plugins.autodl-irssi.conf.php.template  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi/conf.php
 sudo perl -pi -e "s/<PASSWORD>/$IRSSIPASSWORD/g"  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi/conf.php
