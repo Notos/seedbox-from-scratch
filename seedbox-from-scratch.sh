@@ -14,17 +14,30 @@
 #
 # Changelog
 #
-#  Version 1.30 (BETA)
-#  23/10/2012 04:54:29
+#  Version 2.00 (testing)
+#  Oct 26 2012 16:19
+#     - chroot jail for users, using JailKit (http://olivier.sessink.nl/jailkit/)
+#     - Fail2ban for apache and ssh exploits: bans IPs that show the malicious signs -- too many password failures, seeking for exploits, etc.
+#     - OpenVPN (after install you can download your key from http://<IP address or host name of your box>/rutorrent/vpn.zip)
+#     - createSeedboxUser script now asks if you want your user jailed, to have SSH access and if it should be added to sudoers
+#     - Optionally install packages JailKit, Webmin, Fail2ban and OpenVPN
+#     - Full automated install, now you just have to download script and run it in your box:
+#        > wget -N https://raw.github.com/Notos/seedbox-from-scratch/fullCreate/seedbox-from-scratch.sh
+#        > time bash ~/seedbox-from-scratch.sh
+#     - Due to a recent outage of Webmin site and SourceForge's svn repositories, some packages are now in git and will not be downloaded from those sites
+#     - Updated list of trackers in Autodl-irssi
+#
+#  Version 1.30
+#  Oct 23 2012 04:54:29
 #     - Scripts now accept a full install without having to create variables and do anything else
 #
-#  Version 1.20 (BETA)
-#  19 Oct 2012 03:24 (by Notos)
+#  Version 1.20
+#  Oct 19 2012 03:24 (by Notos)
 #    - Install OpenVPN - (BETA) Still not in the script, just an outside script
 #      Tested client: http://openvpn.net/index.php?option=com_content&id=357
 #
 #  Version 1.11
-#  18/10/2012 05:13 (by Notos)
+#  Oct 18 2012 05:13 (by Notos)
 #    - Added scripts to downgrade and upgrade rTorrent
 #
 #    - Added all supported plowshare sites into fileupload plugin: 115, 1fichier, 2shared, 4shared, bayfiles, bitshare, config, cramit, data_hu, dataport_cz,
@@ -204,9 +217,11 @@ getString NO  "You need to create an user for your seedbox: " NEWUSER1
 getString YES "ruTorrent password for user $NEWUSER1: " PASSWORD1
 getString NO  "IP address or hostname of your box: " NEWHOSTNAME1 $IPADDRESS1
 getString NO  "New SSH port: " NEWSSHPORT1 21976
-getString NO  "Wich rTorrent would you like to use, '0.8.9' (older stable) or '0.9.2' (newer but banned in some trackers)?: " RTORRENT1 0.9.2
-getString NO  "Do you want to install OpenVPN?: " INSTALLOPENVPN1 YES
-getString NO  "Do you want to have some of your users in a chroot jail?: " CHROOTJAIL1 YES
+getString NO  "Wich rTorrent would you like to use, '0.8.9' (older stable) or '0.9.2' (newer but banned in some trackers)? " RTORRENT1 0.9.2
+getString NO  "Do you want to have some of your users in a chroot jail? " CHROOTJAIL1 YES
+getString NO  "Install OpenVPN? " INSTALLOPENVPN1 YES
+getString NO  "Install Webmin? " INSTALLWEBMIN1 NO
+getString NO  "Install Fail2ban? " INSTALLFAIL2BAN1 NO
 
 if [ "$RTORRENT1" != "0.9.2" ] && [ "$RTORRENT1" != "0.9.2" ]; then
   echo "$RTORRENT1 is not 0.9.2 or 0.8.9!"
@@ -242,24 +257,6 @@ service ssh restart
 #remove cdrom from apt so it doesn't stop asking for it
 perl -pi -e "s/deb cdrom/#deb cdrom/g" /etc/apt/sources.list
 
-#if webmin isup, download key
-WEBMINDOWN=yes
-ping -c1 -w2 www.webmin.com > /dev/null
-if [ $? = 0 ] ; then
-  wget -t 5 http://www.webmin.com/jcameron-key.asc
-  apt-key add jcameron-key.asc
-  if [ $? = 0 ] ; then
-    WEBMINDOWN=no
-  fi
-fi
-
-if [ "$WEBMINDOWN"="no" ] ; then
-  #add webmin source
-  echo "" | tee -a /etc/apt/sources.list > /dev/null
-  echo "deb http://download.webmin.com/download/repository sarge contrib" | tee -a /etc/apt/sources.list > /dev/null
-  cd /tmp
-fi
-
 #add non-free sources to Debian Squeeze
 perl -pi -e "s/squeeze main/squeeze main non-free/g" /etc/apt/sources.list
 perl -pi -e "s/squeeze\/updates main/squeeze\/updates main non-free/g" /etc/apt/sources.list
@@ -271,7 +268,7 @@ sudo apt-get --yes update
 apt-get --yes upgrade
 
 # 8.
-#install all needed packages including webmin
+#install all needed packages
 
 apt-get --yes build-dep znc
 apt-get --yes install apache2 apache2-utils autoconf build-essential ca-certificates comerr-dev curl cfv quota mktorrent dtach htop irssi libapache2-mod-php5 libcloog-ppl-dev libcppunit-dev libcurl3 libcurl4-openssl-dev libncurses5-dev libterm-readline-gnu-perl libsigc++-2.0-dev libperl-dev openvpn libssl-dev libtool libxml2-dev ncurses-base ncurses-term ntp openssl patch pkg-config php5 php5-cli php5-dev php5-curl php5-geoip php5-mcrypt php5-xmlrpc pkg-config python-scgi screen ssl-cert subversion texinfo unrar-free unzip zlib1g-dev expect joe automake1.9 flex bison debhelper binutils-gold ffmpeg libarchive-zip-perl libnet-ssleay-perl libhtml-parser-perl libxml-libxml-perl libjson-perl libjson-xs-perl libxml-libxslt-perl libxml-libxml-perl libjson-rpc-perl libarchive-zip-perl znc rar zip
@@ -287,10 +284,6 @@ if [ $? -gt 0 ]; then
   echo
   set -e
   exit 1
-fi
-
-if [ "$WEBMINDOWN" = "no" ]; then
-  apt-get --yes install webmin
 fi
 
 if [ "$CHROOTJAIL1" = "YES" ]; then
@@ -333,6 +326,38 @@ for i in $(seq 2 1000)
 do
   echo "RPC$i"  | tee -a /etc/scripts/rpc.txt > /dev/null
 done
+
+# 8.4
+
+if [ "$INSTALLWEBMIN1" = "YES" ]; then
+  #if webmin isup, download key
+  WEBMINDOWN=YES
+  ping -c1 -w2 www.webmin.com > /dev/null
+  if [ $? = 0 ] ; then
+    wget -t 5 http://www.webmin.com/jcameron-key.asc
+    apt-key add jcameron-key.asc
+    if [ $? = 0 ] ; then
+      WEBMINDOWN=NO
+    fi
+  fi
+
+  if [ "$WEBMINDOWN"="NO" ] ; then
+    #add webmin source
+    echo "" | tee -a /etc/apt/sources.list > /dev/null
+    echo "deb http://download.webmin.com/download/repository sarge contrib" | tee -a /etc/apt/sources.list > /dev/null
+    cd /tmp
+  fi
+
+  if [ "$WEBMINDOWN" = "NO" ]; then
+    apt-get --yes install webmin
+  fi
+fi
+
+if [ "$INSTALLFAIL2BAN1" = "YES" ]; then
+  apt-get --yes install fail2ban
+  cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.conf.original
+  cp /etc/scripts/etc.fail2ban.jail.conf.template /etc/fail2ban/jail.conf
+fi
 
 # 9.
 a2enmod ssl
