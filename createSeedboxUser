@@ -320,6 +320,27 @@ sudo perl -pi -e "s/<homedir>/\/home\/$NEWUSER1/g" /var/www/rutorrent/conf/users
 # 25.
 
 sudo cp /etc/scripts/rutorrent.conf.users.plugins.ini.template /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
+if [ "$CHROOTJAIL1" == "YES" ]; then
+  echo "" | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
+  echo "[fileupload]" | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
+  echo "enabled = no" | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
+  echo "" | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
+  echo "[mediastream]" | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
+  echo "enabled = no" | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
+  echo "" | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
+  echo "[filemanager]" | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
+  echo "enabled = no" | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
+else
+  echo "" | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
+  echo "[fileupload]" | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
+  echo "enabled = yes" | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
+  echo "" | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
+  echo "[mediastream]" | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
+  echo "enabled = yes" | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
+  echo "" | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
+  echo "[filemanager]" | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
+  echo "enabled = user-defined" | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
+fi
 
 # 29.
 
