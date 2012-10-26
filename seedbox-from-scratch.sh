@@ -407,7 +407,7 @@ cd autodl-irssi
 
 sudo cp /etc/jailkit/jk_init.ini /etc/jailkit/jk_init.ini.original
 echo "" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
-bash /etc/scritps/updatejkinit
+bash /etc/seedbox-from-scratch/updatejkinit
 
 # 31.
 

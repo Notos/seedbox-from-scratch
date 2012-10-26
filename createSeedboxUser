@@ -102,10 +102,10 @@ if [ "$USERHASSSHACCESS1" == "YES" ]; then
       CHROOTJAIL1=$4
       CHROOTJAIL2=$4
     else
-      getString NO  "User should be in a chroot jail?: " CHROOTJAIL1 NO
+      getString NO  "User should be in a chroot jail?: " CHROOTJAIL1 YES
     fi
   else
-    getString NO  "User should be in a chroot jail?: " CHROOTJAIL1 NO
+    getString NO  "User should be in a chroot jail?: " CHROOTJAIL1 YES
   fi
 else
   CHROOTJAIL1=NO
@@ -204,13 +204,14 @@ if [ "$CHROOTJAIL1" == "YES" ]; then
   sudo mount -t devpts devpts $JAILDIR/dev/pts -o mode=666
   sudo chown root: $JAILDIR/run/screen
   sudo chmod u+s $JAILDIR/usr/bin/screen
-  sudo chmod -R 777 $JAILDIR/run
+  #sudo chmod -R 777 $JAILDIR/run
   sudo chmod -R 777 $JAILDIR/var/run/screen
   sudo chmod -R 777 $JAILDIR/dev/pts
   sudo chmod 666 $JAILDIR/dev/null
   #sudo chmod 777 /dev/pts/3
   sudo chmod -R 755 $JAILDIR/run/screen
   sudo chmod -R 700 $JAILDIR/run/screen/S-$NEWUSER1
+  sudo chmod -R 755 /var/run/screen
   HOMEJAILED=$HOMEJAILED/$NEWUSER1/home
   ADDHOME1=\\/home
   sudo mkdir $JAILDIR/tmp
