@@ -15,7 +15,7 @@ sudo killall rtorrent
 svn co https://xmlrpc-c.svn.sourceforge.net/svnroot/xmlrpc-c/stable xmlrpc
 curl http://libtorrent.rakshasa.no/downloads/libtorrent-0.12.9.tar.gz | tar xz
 curl http://libtorrent.rakshasa.no/downloads/rtorrent-0.8.9.tar.gz | tar xz
-cd /etc/scripts/source/xmlrpc-c-1.16.42/
+cd /etc/seedbox-from-scratch/source/xmlrpc-c-1.16.42/
 ./configure --prefix=/usr --enable-libxml2-backend --disable-libwww-client --disable-wininet-client --disable-abyss-server --disable-cgi-server
 make
 sudo make install
