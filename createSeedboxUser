@@ -64,12 +64,6 @@ if [[ "$0" == "-bash" ]]; then
   exit 0
 fi
 
-echo " param 0 == $0 "
-echo " param 1 == $1 "
-echo " param 2 == $2 "
-echo " param 3 == $3 "
-echo " param 4 == $4 "
-
 NEWUSER1=a
 NEWUSER2=b
 PASSWORD1=a
@@ -137,14 +131,6 @@ if [ "$CHROOTJAIL1" == "YES" ]; then
   HOMEDIR=$HOMEDIR/home
   HOMEJAILED=$JAILDIR/home
 fi
-
-echo " NEWUSER1 == $NEWUSER1 "
-echo " PASSWORD1 == $PASSWORD1 "
-echo " CHROOTJAIL1 == $CHROOTJAIL1 "
-echo " HOMEBASE == $HOMEBASE "
-echo " HOMEDIR == $HOMEDIR "
-echo " JAILDIR == $JAILDIR "
-echo " HOMEJAILED == $HOMEJAILED "
 
 # 3.2
 
