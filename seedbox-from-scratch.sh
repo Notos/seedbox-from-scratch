@@ -165,8 +165,8 @@ fi
 apt-get --yes install whois sudo makepasswd git
 
 rm -f -r /etc/seedbox-from-scratch
-mkdir -p cd /etc/seedbox-from-scratch/source
 git clone -b v$SBFSCURRENTVERSION https://github.com/Notos/seedbox-from-scratch.git /etc/seedbox-from-scratch
+mkdir -p cd /etc/seedbox-from-scratch/source
 
 if [ ! -f /etc/seedbox-from-scratch/seedbox-from-scratch.sh ]
 then
