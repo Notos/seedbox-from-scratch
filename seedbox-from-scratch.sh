@@ -165,7 +165,7 @@ fi
 apt-get --yes install whois sudo makepasswd git
 
 rm -f -r /etc/seedbox-from-scratch
-mkdir -p /etc/seedbox-from-scratch
+mkdir -p cd /etc/seedbox-from-scratch/source
 git clone -b v$SBFSCURRENTVERSION https://github.com/Notos/seedbox-from-scratch.git /etc/seedbox-from-scratch
 
 if [ ! -f /etc/seedbox-from-scratch/seedbox-from-scratch.sh ]
@@ -347,8 +347,6 @@ a2ensite default-ssl
 #apt-get --yes install libxmlrpc-core-c3-dev
 
 # 15.
-cd /etc/seedbox-from-scratch
-mkdir source
 tar xvfz /etc/seedbox-from-scratch/rtorrent-0.8.9.tar.gz -C /etc/seedbox-from-scratch/source/
 tar xvfz /etc/seedbox-from-scratch/rtorrent-0.9.2.tar.gz -C /etc/seedbox-from-scratch/source/
 tar xvfz /etc/seedbox-from-scratch/libtorrent-0.12.9.tar.gz -C /etc/seedbox-from-scratch/source/
