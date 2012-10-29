@@ -123,13 +123,13 @@ else
   getString NO  "Add user to sudoers?: " USERINSUDOERS1 NO
 fi
 
-HOMEBASE=/home/$NEWUSER1
-HOMEDIR=$HOMEBASE
-HOMEJAILED=$HOMEBASE
+HOMEBASE1=/home/$NEWUSER1
+HOMEDIR1=$HOMEBASE1
+HOMEJAILED1=$HOMEBASE1
 if [ "$CHROOTJAIL1" == "YES" ]; then
-  JAILDIR=$HOMEDIR/jail
-  HOMEDIR=$HOMEDIR/home
-  HOMEJAILED=$JAILDIR1/home
+  JAILDIR1=$HOMEDIR1/jail
+  HOMEDIR1=$HOMEDIR1/home
+  HOMEJAILED1=$JAILDIR1/home
 fi
 
 # 3.2
@@ -138,22 +138,22 @@ set -x verbose
 
 # 3.3
 
-sudo rm -f -r $HOMEDIR
-sudo mkdir -p $HOMEDIR
-sudo useradd --create-home --home $HOMEDIR --user-group --password $(mkpasswd -s -m md5 $PASSWORD1) --shell /bin/bash $NEWUSER1
-if [ ! -f $HOMEDIR/.profile ]; then
-  sudo cp /etc/skel/.bashrc $HOMEDIR
-  sudo cp /etc/skel/.bash_logout $HOMEDIR
-  sudo cp /etc/skel/.profile $HOMEDIR
-  sudo chown $NEWUSER1: $HOMEDIR
-  sudo chown $NEWUSER1: $HOMEDIR/.bashrc
-  sudo chown $NEWUSER1: $HOMEDIR/.bash_logout
-  sudo chown $NEWUSER1: $HOMEDIR/.profile
+sudo rm -f -r $HOMEDIR1
+sudo mkdir -p $HOMEDIR1
+sudo useradd --create-home --home $HOMEDIR1 --user-group --password $(mkpasswd -s -m md5 $PASSWORD1) --shell /bin/bash $NEWUSER1
+if [ ! -f $HOMEDIR1/.profile ]; then
+  sudo cp /etc/skel/.bashrc $HOMEDIR1
+  sudo cp /etc/skel/.bash_logout $HOMEDIR1
+  sudo cp /etc/skel/.profile $HOMEDIR1
+  sudo chown $NEWUSER1: $HOMEDIR1
+  sudo chown $NEWUSER1: $HOMEDIR1/.bashrc
+  sudo chown $NEWUSER1: $HOMEDIR1/.bash_logout
+  sudo chown $NEWUSER1: $HOMEDIR1/.profile
 fi
 
 if [ "$CHROOTJAIL1" == "YES" ]; then
   sudo mkdir -p $JAILDIR1
-  sudo chown root: $HOMEDIR
+  sudo chown root: $HOMEDIR1
   sudo chown root: $JAILDIR1
   sudo jk_init -v $JAILDIR1 basicshell editors extendedshell jk_lsh git rsync openvpn perl vncserver netbasics netutils openvpn scp ssh terminfo rtorrent irssi screen id php pgrep mediainfo ffmpeg curl plowup unzip unrar ping wget dig nslookup groups
   sudo jk_jailuser -m -j $JAILDIR1 $NEWUSER1
@@ -186,11 +186,11 @@ if [ "$CHROOTJAIL1" == "YES" ]; then
   sudo jk_cp -j $JAILDIR1 /usr/bin/rtorrent
   sudo jk_cp -j $JAILDIR1 /usr/bin/irssi
   sudo jk_cp -j $JAILDIR1 /dev/tty*
-  sudo cp /etc/skel/.bashrc $HOMEJAILED
+  sudo cp /etc/skel/.bashrc $HOMEJAILED1
   sudo cp /usr/sbin/jk_lsh $JAILDIR1/usr/sbin/jk_lsh
   sudo perl -pi -e "s/\/usr\/sbin\/jk_lsh/\/bin\/bash/g" $JAILDIR1/etc/passwd
-  sudo mkdir -p $HOMEJAILED
-  sudo chown -R $NEWUSER1: $HOMEJAILED
+  sudo mkdir -p $HOMEJAILED1
+  sudo chown -R $NEWUSER1: $HOMEJAILED1
   sudo cp /usr/sbin/jk_lsh $JAILDIR1/usr/sbin/jk_lsh
   sudo killall jk_socketd
   sudo jk_socketd
@@ -210,7 +210,7 @@ if [ "$CHROOTJAIL1" == "YES" ]; then
   sudo chmod -R 777 $JAILDIR1/dev/pts
   sudo chmod 666 $JAILDIR1/dev/null
   sudo chmod -R 700 $JAILDIR1/run/screen/S-$NEWUSER1
-  HOMEJAILED=$HOMEJAILED/$NEWUSER1/home
+  HOMEJAILED1=$HOMEJAILED1/$NEWUSER1/home
   ADDHOME1=\\/home
   sudo mkdir $JAILDIR1/tmp
   sudo chmod 1777 $JAILDIR1/tmp
@@ -260,20 +260,20 @@ sudo perl -pi -e "s/^$NEWUSER1\:.*\n$//g" /etc/apache2/htpasswd
 echo $NEWUSER1:rutorrent:`md5sum /tmp/pass | cut -d" " -f1` | sudo tee -a /etc/apache2/htpasswd
 
 # 19.
-sudo cp /etc/seedbox-from-scratch/rtorrent.rc.template  $HOMEJAILED/.rtorrent.rc > /dev/null
+sudo cp /etc/seedbox-from-scratch/rtorrent.rc.template  $HOMEJAILED1/.rtorrent.rc > /dev/null
 
-sudo perl -pi -e "s/<username>/$NEWUSER1$ADDHOME1/g" $HOMEJAILED/.rtorrent.rc
-sudo perl -pi -e "s/5995/$SCGIPORT/g" $HOMEJAILED/.rtorrent.rc
-sudo perl -pi -e "s/99888/$NETWORKPORT/g" $HOMEJAILED/.rtorrent.rc
+sudo perl -pi -e "s/<username>/$NEWUSER1$ADDHOME1/g" $HOMEJAILED1/.rtorrent.rc
+sudo perl -pi -e "s/5995/$SCGIPORT/g" $HOMEJAILED1/.rtorrent.rc
+sudo perl -pi -e "s/99888/$NETWORKPORT/g" $HOMEJAILED1/.rtorrent.rc
 
-sudo chown $NEWUSER1:$NEWUSER1   $HOMEJAILED/.rtorrent.rc:$NEWUSER1 $HOMEJAILED/.rtorrent.rc
+sudo chown $NEWUSER1:$NEWUSER1   $HOMEJAILED1/.rtorrent.rc:$NEWUSER1 $HOMEJAILED1/.rtorrent.rc
 
 # 20.
-sudo mkdir -p $HOMEJAILED/downloads/auto
-sudo mkdir -p $HOMEJAILED/downloads/manual
-sudo mkdir -p $HOMEJAILED/downloads/watch
-sudo mkdir -p $HOMEJAILED/downloads/.session
-sudo chown -R $NEWUSER1:$NEWUSER1 $HOMEJAILED/downloads
+sudo mkdir -p $HOMEJAILED1/downloads/auto
+sudo mkdir -p $HOMEJAILED1/downloads/manual
+sudo mkdir -p $HOMEJAILED1/downloads/watch
+sudo mkdir -p $HOMEJAILED1/downloads/.session
+sudo chown -R $NEWUSER1:$NEWUSER1 $HOMEJAILED1/downloads
 
 # 21.
 
@@ -330,18 +330,18 @@ fi
 
 # 29.
 
-sudo rm -R $HOMEJAILED/.irssi
-sudo mkdir -p $HOMEJAILED/.irssi/scripts/autorun
-cd $HOMEJAILED/.irssi/scripts
+sudo rm -R $HOMEJAILED1/.irssi
+sudo mkdir -p $HOMEJAILED1/.irssi/scripts/autorun
+cd $HOMEJAILED1/.irssi/scripts
 sudo wget --no-check-certificate -O autodl-irssi.zip https://sourceforge.net/projects/autodl-irssi/files/autodl-irssi-v1.31.zip/download
 sudo unzip -o autodl-irssi.zip
 sudo rm autodl-irssi.zip
 sudo cp autodl-irssi.pl autorun/
-sudo mkdir -p $HOMEJAILED/.autodl
-sudo touch $HOMEJAILED/.autodl/autodl.cfg
-sudo mv $HOMEJAILED/.irssi/scripts/AutodlIrssi/trackers $HOMEJAILED/.irssi/scripts/AutodlIrssi/trackers.original
-sudo unzip /etc/seedbox-from-scratch/autodl-trackers.zip -d $HOMEJAILED/.irssi/scripts/AutodlIrssi/trackers/
-sudo chown -R $NEWUSER1: $HOMEJAILED/.irssi/scripts/AutodlIrssi/trackers
+sudo mkdir -p $HOMEJAILED1/.autodl
+sudo touch $HOMEJAILED1/.autodl/autodl.cfg
+sudo mv $HOMEJAILED1/.irssi/scripts/AutodlIrssi/trackers $HOMEJAILED1/.irssi/scripts/AutodlIrssi/trackers.original
+sudo unzip /etc/seedbox-from-scratch/autodl-trackers.zip -d $HOMEJAILED1/.irssi/scripts/AutodlIrssi/trackers/
+sudo chown -R $NEWUSER1: $HOMEJAILED1/.irssi/scripts/AutodlIrssi/trackers
 
 
 sudo cp /etc/seedbox-from-scratch/rutorrent.conf.users.plugins.autodl-irssi.conf.php.template  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi/conf.php
@@ -351,18 +351,18 @@ sudo perl -pi -e "s/<PORT>/$IRSSIPORT/g" /var/www/rutorrent/conf/users/$NEWUSER1
 sudo cp /etc/seedbox-from-scratch/rutorrent.conf.users.plugins.fileupload.conf.php.template  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/fileupload/config.php > /dev/null
 sudo chown -R www-data:www-data /var/www/rutorrent/conf/users/$NEWUSER1/plugins/fileupload/
 
-sudo cp /etc/seedbox-from-scratch/home.user.autodl.autodl.cfg.template  $HOMEJAILED/.autodl/autodl.cfg
+sudo cp /etc/seedbox-from-scratch/home.user.autodl.autodl.cfg.template  $HOMEJAILED1/.autodl/autodl.cfg
 
-sudo perl -pi -e "s/<PASSWORD>/$IRSSIPASSWORD/g"  $HOMEJAILED/.autodl/autodl.cfg
-sudo perl -pi -e "s/<PORT>/$IRSSIPORT/g"  $HOMEJAILED/.autodl/autodl.cfg
-sudo perl -pi -e "s/use Digest\:\:SHA1 qw/use Digest\:\:SHA qw/g" $HOMEJAILED/.irssi/scripts/AutodlIrssi/MatchedRelease.pm
+sudo perl -pi -e "s/<PASSWORD>/$IRSSIPASSWORD/g"  $HOMEJAILED1/.autodl/autodl.cfg
+sudo perl -pi -e "s/<PORT>/$IRSSIPORT/g"  $HOMEJAILED1/.autodl/autodl.cfg
+sudo perl -pi -e "s/use Digest\:\:SHA1 qw/use Digest\:\:SHA qw/g" $HOMEJAILED1/.irssi/scripts/AutodlIrssi/MatchedRelease.pm
 
 sleep 3
 sudo su --login --command "screen -d -m -S rtorrent rtorrent" $NEWUSER1
 sleep 3
 sudo su --login --command "screen -d -m -S irssi irssi" $NEWUSER1
 
-sudo chown -R $NEWUSER1:$NEWUSER1  $HOMEJAILED/.autodl
-sudo chown -R $NEWUSER1:$NEWUSER1  $HOMEJAILED/.irssi
+sudo chown -R $NEWUSER1:$NEWUSER1  $HOMEJAILED1/.autodl
+sudo chown -R $NEWUSER1:$NEWUSER1  $HOMEJAILED1/.irssi
 
 ##################### LAST LINE ###########
