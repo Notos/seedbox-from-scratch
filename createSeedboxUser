@@ -129,7 +129,7 @@ HOMEJAILED=$HOMEBASE
 if [ "$CHROOTJAIL1" == "YES" ]; then
   JAILDIR=$HOMEDIR/jail
   HOMEDIR=$HOMEDIR/home
-  HOMEJAILED=$JAILDIR/home
+  HOMEJAILED=$JAILDIR1/home
 fi
 
 # 3.2
@@ -152,74 +152,72 @@ if [ ! -f $HOMEDIR/.profile ]; then
 fi
 
 if [ "$CHROOTJAIL1" == "YES" ]; then
-  sudo mkdir -p $JAILDIR
+  sudo mkdir -p $JAILDIR1
   sudo chown root: $HOMEDIR
-  sudo chown root: $JAILDIR
-  sudo jk_init -v $JAILDIR basicshell editors extendedshell jk_lsh git rsync openvpn perl vncserver netbasics netutils openvpn scp ssh terminfo rtorrent irssi screen id php pgrep mediainfo ffmpeg curl plowup unzip unrar ping wget dig nslookup
-  sudo jk_jailuser -m -j $JAILDIR $NEWUSER1
-  sudo jk_cp -j $JAILDIR /etc/ld.so.cache
-  sudo jk_cp -j $JAILDIR /usr/lib/liblwres.so.80
-  sudo jk_cp -j $JAILDIR /usr/lib/libdns.so.81
-  sudo jk_cp -j $JAILDIR /usr/lib/libbind9.so.80
-  sudo jk_cp -j $JAILDIR /usr/lib/libisccfg.so.82
-  sudo jk_cp -j $JAILDIR /usr/lib/libisc.so.83
-  sudo jk_cp -j $JAILDIR /usr/lib/libGeoIP.so.1
-  sudo jk_cp -j $JAILDIR /usr/lib/ssl/openssl.cnf
-  sudo jk_cp -j $JAILDIR /usr/lib/`uname -m`-linux-gnu/openssl-1.0.0/engines/libgost.so
-  sudo jk_cp -j $JAILDIR /lib/`uname -m`-linux-gnu/libpthread.so.0
-  sudo jk_cp -j $JAILDIR /lib/`uname -m`-linux-gnu/libc.so.6
-  sudo jk_cp -j $JAILDIR /usr/lib/`uname -m`-linux-gnu/libgssapi_krb5.so.2
-  sudo jk_cp -j $JAILDIR /lib/`uname -m`-linux-gnu/libcrypto.so.1.0.0
-  sudo jk_cp -j $JAILDIR /usr/lib/`uname -m`-linux-gnu/libxml2.so.2
-  sudo jk_cp -j $JAILDIR /usr/lib/`uname -m`-linux-gnu/libkrb5.so.3
-  sudo jk_cp -j $JAILDIR /usr/lib/`uname -m`-linux-gnu/libk5crypto.so.3
-  sudo jk_cp -j $JAILDIR /lib/`uname -m`-linux-gnu/libcom_err.so.2
-  sudo jk_cp -j $JAILDIR /usr/lib/`uname -m`-linux-gnu/libkrb5support.so.0
-  sudo jk_cp -j $JAILDIR /lib/`uname -m`-linux-gnu/libdl.so.2
-  sudo jk_cp -j $JAILDIR /lib/`uname -m`-linux-gnu/libz.so.1
-  sudo jk_cp -j $JAILDIR /lib/`uname -m`-linux-gnu/libm.so.6
-  sudo jk_cp -j $JAILDIR /lib/`uname -m`-linux-gnu/libkeyutils.so.1
-  sudo jk_cp -j $JAILDIR /lib/`uname -m`-linux-gnu/libresolv.so.2
-  sudo jk_cp -j $JAILDIR /lib/`uname -m`-linux-gnu/libnss_compat.so.2
-  sudo jk_cp -j $JAILDIR /lib/`uname -m`-linux-gnu/libnss_dns.so.2
-  sudo jk_cp -j $JAILDIR /lib/`uname -m`-linux-gnu/libnss_files.so.2
-  sudo jk_cp -j $JAILDIR /usr/bin/rtorrent
-  sudo jk_cp -j $JAILDIR /usr/bin/irssi
-  sudo jk_cp -j $JAILDIR /dev/tty*
+  sudo chown root: $JAILDIR1
+  sudo jk_init -v $JAILDIR1 basicshell editors extendedshell jk_lsh git rsync openvpn perl vncserver netbasics netutils openvpn scp ssh terminfo rtorrent irssi screen id php pgrep mediainfo ffmpeg curl plowup unzip unrar ping wget dig nslookup groups
+  sudo jk_jailuser -m -j $JAILDIR1 $NEWUSER1
+  sudo jk_cp -j $JAILDIR1 /etc/ld.so.cache
+  sudo jk_cp -j $JAILDIR1 /usr/lib/liblwres.so.80
+  sudo jk_cp -j $JAILDIR1 /usr/lib/libdns.so.81
+  sudo jk_cp -j $JAILDIR1 /usr/lib/libbind9.so.80
+  sudo jk_cp -j $JAILDIR1 /usr/lib/libisccfg.so.82
+  sudo jk_cp -j $JAILDIR1 /usr/lib/libisc.so.83
+  sudo jk_cp -j $JAILDIR1 /usr/lib/libGeoIP.so.1
+  sudo jk_cp -j $JAILDIR1 /usr/lib/ssl/openssl.cnf
+  sudo jk_cp -j $JAILDIR1 /usr/lib/`uname -m`-linux-gnu/openssl-1.0.0/engines/libgost.so
+  sudo jk_cp -j $JAILDIR1 /lib/`uname -m`-linux-gnu/libpthread.so.0
+  sudo jk_cp -j $JAILDIR1 /lib/`uname -m`-linux-gnu/libc.so.6
+  sudo jk_cp -j $JAILDIR1 /usr/lib/`uname -m`-linux-gnu/libgssapi_krb5.so.2
+  sudo jk_cp -j $JAILDIR1 /lib/`uname -m`-linux-gnu/libcrypto.so.1.0.0
+  sudo jk_cp -j $JAILDIR1 /usr/lib/`uname -m`-linux-gnu/libxml2.so.2
+  sudo jk_cp -j $JAILDIR1 /usr/lib/`uname -m`-linux-gnu/libkrb5.so.3
+  sudo jk_cp -j $JAILDIR1 /usr/lib/`uname -m`-linux-gnu/libk5crypto.so.3
+  sudo jk_cp -j $JAILDIR1 /lib/`uname -m`-linux-gnu/libcom_err.so.2
+  sudo jk_cp -j $JAILDIR1 /usr/lib/`uname -m`-linux-gnu/libkrb5support.so.0
+  sudo jk_cp -j $JAILDIR1 /lib/`uname -m`-linux-gnu/libdl.so.2
+  sudo jk_cp -j $JAILDIR1 /lib/`uname -m`-linux-gnu/libz.so.1
+  sudo jk_cp -j $JAILDIR1 /lib/`uname -m`-linux-gnu/libm.so.6
+  sudo jk_cp -j $JAILDIR1 /lib/`uname -m`-linux-gnu/libkeyutils.so.1
+  sudo jk_cp -j $JAILDIR1 /lib/`uname -m`-linux-gnu/libresolv.so.2
+  sudo jk_cp -j $JAILDIR1 /lib/`uname -m`-linux-gnu/libnss_compat.so.2
+  sudo jk_cp -j $JAILDIR1 /lib/`uname -m`-linux-gnu/libnss_dns.so.2
+  sudo jk_cp -j $JAILDIR1 /lib/`uname -m`-linux-gnu/libnss_files.so.2
+  sudo jk_cp -j $JAILDIR1 /usr/bin/rtorrent
+  sudo jk_cp -j $JAILDIR1 /usr/bin/irssi
+  sudo jk_cp -j $JAILDIR1 /dev/tty*
   sudo cp /etc/skel/.bashrc $HOMEJAILED
-  sudo cp /usr/sbin/jk_lsh $JAILDIR/usr/sbin/jk_lsh
-  sudo perl -pi -e "s/\/usr\/sbin\/jk_lsh/\/bin\/bash/g" $JAILDIR/etc/passwd
+  sudo cp /usr/sbin/jk_lsh $JAILDIR1/usr/sbin/jk_lsh
+  sudo perl -pi -e "s/\/usr\/sbin\/jk_lsh/\/bin\/bash/g" $JAILDIR1/etc/passwd
   sudo mkdir -p $HOMEJAILED
   sudo chown -R $NEWUSER1: $HOMEJAILED
-  sudo cp /usr/sbin/jk_lsh $JAILDIR/usr/sbin/jk_lsh
+  sudo cp /usr/sbin/jk_lsh $JAILDIR1/usr/sbin/jk_lsh
   sudo killall jk_socketd
   sudo jk_socketd
   echo "[$NEWUSER1]" | sudo tee -a /etc/jailkit/jk_chrootsh.ini
   echo "environment=TERM=linux" | sudo tee -a /etc/jailkit/jk_chrootsh.ini
   echo "env= TERM" | sudo tee -a /etc/jailkit/jk_chrootsh.ini
-  echo "export TERM=linux" | sudo tee -a $JAILDIR/home/$NEWUSER1/home/.bashrc
-  sudo ldconfig -r $JAILDIR
-  sudo mkdir $JAILDIR/proc
-  sudo mount proc $JAILDIR/proc -t proc
-  sudo mount -t devpts devpts $JAILDIR/dev/pts -o mode=666
+  echo "export TERM=linux" | sudo tee -a $JAILDIR1/home/$NEWUSER1/home/.bashrc
+  sudo ldconfig -r $JAILDIR1
+  sudo mkdir $JAILDIR1/proc
+  sudo cp /lib/terminfo/l/linux $JAILDIR1/usr/share/terminfo/l/
+  sudo mount proc $JAILDIR1/proc -t proc
+  sudo mount -t devpts devpts $JAILDIR1/dev/pts -o mode=666
   #chrrot /var/run === /run
-  sudo chown root: $JAILDIR/run/screen
-  sudo chmod u+s $JAILDIR/usr/bin/screen
-  #sudo chmod -R 777 $JAILDIR/run
-  sudo chmod -R 755 $JAILDIR/run/screen
-  sudo chmod -R 777 $JAILDIR/dev/pts
-  sudo chmod 666 $JAILDIR/dev/null
-  #sudo chmod 777 /dev/pts/3
-  sudo chmod -R 700 $JAILDIR/run/screen/S-$NEWUSER1
-  sudo chmod -R 755 /var/run/screen
+  sudo chown root: $JAILDIR1/run/screen
+  sudo chmod u+s $JAILDIR1/usr/bin/screen
+  sudo chmod 755 $JAILDIR1/run/screen
+  sudo chmod -R 777 $JAILDIR1/dev/pts
+  sudo chmod 666 $JAILDIR1/dev/null
+  sudo chmod -R 700 $JAILDIR1/run/screen/S-$NEWUSER1
   HOMEJAILED=$HOMEJAILED/$NEWUSER1/home
   ADDHOME1=\\/home
-  sudo mkdir $JAILDIR/tmp
-  sudo chmod 1777 $JAILDIR/tmp
-  sudo mount --bind /tmp $JAILDIR/tmp
-  sudo mkdir -p $JAILDIR/var/www/rutorrent
-  sudo chmod 1777 $JAILDIR/var/www/rutorrent
-  sudo mount --bind /var/www/rutorrent $JAILDIR/var/www/rutorrent
+  sudo mkdir $JAILDIR1/tmp
+  sudo chmod 1777 $JAILDIR1/tmp
+  sudo mount --bind /tmp $JAILDIR1/tmp
+  sudo mkdir -p $JAILDIR1/var/www/rutorrent
+  sudo chmod 1777 $JAILDIR1/var/www/rutorrent
+  sudo mount --bind /var/www/rutorrent $JAILDIR1/var/www/rutorrent
   sudo chmod 777 /var/www/rutorrent/share
 fi
 
@@ -281,6 +279,7 @@ sudo chown -R $NEWUSER1:$NEWUSER1 $HOMEJAILED/downloads
 
 sudo cp /etc/seedbox-from-scratch/rtorrent.conf.template /etc/init/rtorrent.$NEWUSER1.conf
 sudo perl -pi -e "s/<username>/$NEWUSER1/g" /etc/init/rtorrent.$NEWUSER1.conf
+sudo perl -pi -e "s/<jaildir>/$JAILDIR1/g" /etc/init/rtorrent.$NEWUSER1.conf
 
 # 22.
 # prepare the tree

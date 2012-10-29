@@ -68,3 +68,8 @@ paths = /usr/bin/nslookup
 [openssl]
 comment = openssl
 paths = /usr/bin/openssl
+
+[groups]
+comment = groups
+paths = /usr/bin/groups
+
