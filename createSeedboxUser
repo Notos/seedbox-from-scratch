@@ -95,7 +95,7 @@ else
   getString NO  "User can login via SSH?: " USERHASSSHACCESS1 NO
 fi
 
-if [ "$USERHASSSHACCESS1" == "YES" ]; then
+if [ -f /etc/jailkit/jk_init.ini ] && [ "$USERHASSSHACCESS1" == "YES" ]; then
   if [ $4 ]
   then
     if [ "$4" == "YES" ] || [ "$4" == "NO" ]; then
@@ -222,7 +222,7 @@ if [ "$CHROOTJAIL1" == "YES" ]; then
   sudo mount --bind /var/www/rutorrent $JAILDIR/var/www/rutorrent
   sudo chmod 777 /var/www/rutorrent/share
 fi
-                                    
+
 # 3.4
 
 if [ "$USERINSUDOERS1" == "YES" ]; then
