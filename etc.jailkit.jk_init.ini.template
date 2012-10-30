@@ -73,3 +73,6 @@ paths = /usr/bin/openssl
 comment = groups
 paths = /usr/bin/groups
 
+[pkill]
+comment = pkill
+paths = /usr/bin/pkill

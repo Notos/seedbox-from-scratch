@@ -1,0 +1,17 @@
+#
+# The Seedbox From Scratch  Script
+#   By Notos ---> https://github.com/Notos/
+#
+#
+#
+
+description "ncurses BitTorrent client based on LibTorrent"
+start on stopped rc RUNLEVEL=[2345]
+stop on runlevel [016]
+
+script
+  jk_chrootlaunch -u <username> -j <jaildir> -x /bin/bash -- /restartSeedbox
+end script
+
+#do not remove or edit this line
+

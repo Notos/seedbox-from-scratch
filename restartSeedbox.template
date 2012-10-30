@@ -1,0 +1,8 @@
+kill `screen -ls | grep Detached | awk '{print $1}' | cut -d. -f 1`
+sleep 3
+kill -9 `screen -ls | grep Detached | awk '{print $1}' | cut -d. -f 1`
+screen -wipe
+sleep 3
+screen -d -m -S rtorrent rtorrent
+sleep 3
+screen -d -m -S irssi irssi

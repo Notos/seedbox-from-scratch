@@ -159,7 +159,7 @@ if [ "$CHROOTJAIL1" == "YES" ]; then
   sudo mkdir -p $JAILDIR1
   sudo chown root: $HOMEDIR1
   sudo chown root: $JAILDIR1
-  sudo jk_init -v $JAILDIR1 basicshell editors extendedshell jk_lsh git rsync openvpn perl vncserver netbasics netutils openvpn scp ssh terminfo rtorrent irssi screen id php pgrep mediainfo ffmpeg curl plowup unzip unrar ping wget dig nslookup groups
+  sudo jk_init -v $JAILDIR1 basicshell editors extendedshell jk_lsh git rsync openvpn perl vncserver netbasics netutils openvpn scp ssh terminfo rtorrent irssi screen id php pgrep mediainfo ffmpeg curl plowup unzip unrar ping wget dig nslookup groups pkill
   sudo jk_jailuser -m -j $JAILDIR1 $NEWUSER1
   sudo jk_cp -j $JAILDIR1 /etc/ld.so.cache
   sudo jk_cp -j $JAILDIR1 /usr/lib/liblwres.so.80
@@ -283,9 +283,17 @@ sudo chown -R $NEWUSER1:$NEWUSER1 $HOMEJAILED1/downloads
 
 # 21.
 
-sudo cp /etc/seedbox-from-scratch/rtorrent.conf.template /etc/init/rtorrent.$NEWUSER1.conf
-sudo perl -pi -e "s/<username>/$NEWUSER1/g" /etc/init/rtorrent.$NEWUSER1.conf
-sudo perl -pi -e "s/<jaildir>/$JAILDIR1/g" /etc/init/rtorrent.$NEWUSER1.conf
+if [ "$CHROOTJAIL1" == "YES" ]; then
+  sudo cp /etc/seedbox-from-scratch/rtorrent.jailed.conf.template /etc/init/rtorrent.$NEWUSER1.conf
+  sudo cp /etc/seedbox-from-scratch/restartSeedbox.template $JAILDIR1/restartSeedbox
+  sudo chmod +x $JAILDIR1/restartSeedbox
+  sudo perl -pi -e "s/<username>/$NEWUSER1/g" /etc/init/rtorrent.$NEWUSER1.conf
+  sudo perl -pi -e "s/<jaildir>/$JAILDIR1/g" /etc/init/rtorrent.$NEWUSER1.conf
+else
+  sudo cp /etc/seedbox-from-scratch/rtorrent.conf.template /etc/init/rtorrent.$NEWUSER1.conf
+  sudo perl -pi -e "s/<username>/$NEWUSER1/g" /etc/init/rtorrent.$NEWUSER1.conf
+  sudo perl -pi -e "s/<jaildir>/$JAILDIR1/g" /etc/init/rtorrent.$NEWUSER1.conf
+fi
 
 # 22.
 # prepare the tree
