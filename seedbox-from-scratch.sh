@@ -162,11 +162,13 @@ else
   LIBTORRENT1=0.12.9
 fi
 
-apt-get --yes install whois sudo makepasswd git
+apt-get --yes install whois sudo makepasswd git python-software-properties
 
 rm -f -r /etc/seedbox-from-scratch
 git clone -b v$SBFSCURRENTVERSION https://github.com/Notos/seedbox-from-scratch.git /etc/seedbox-from-scratch
 mkdir -p cd /etc/seedbox-from-scratch/source
+
+sudo add-apt-repository --yes ppa:thefrontiergroup/vsftpd
 
 if [ ! -f /etc/seedbox-from-scratch/seedbox-from-scratch.sh ]
 then
@@ -213,7 +215,7 @@ apt-get --yes upgrade
 #install all needed packages
 
 apt-get --yes build-dep znc
-apt-get --yes install apache2 apache2-utils autoconf build-essential ca-certificates comerr-dev curl cfv quota mktorrent dtach htop irssi libapache2-mod-php5 libcloog-ppl-dev libcppunit-dev libcurl3 libcurl4-openssl-dev libncurses5-dev libterm-readline-gnu-perl libsigc++-2.0-dev libperl-dev openvpn libssl-dev libtool libxml2-dev ncurses-base ncurses-term ntp openssl patch libc-ares-dev pkg-config php5 php5-cli php5-dev php5-curl php5-geoip php5-mcrypt php5-xmlrpc pkg-config python-scgi screen ssl-cert subversion texinfo unrar-free unzip zlib1g-dev expect joe automake1.9 flex bison debhelper binutils-gold ffmpeg libarchive-zip-perl libnet-ssleay-perl libhtml-parser-perl libxml-libxml-perl libjson-perl libjson-xs-perl libxml-libxslt-perl libxml-libxml-perl libjson-rpc-perl libarchive-zip-perl znc rar zip
+apt-get --yes install apache2 apache2-utils autoconf build-essential ca-certificates comerr-dev curl cfv quota mktorrent dtach htop irssi libapache2-mod-php5 libcloog-ppl-dev libcppunit-dev libcurl3 libcurl4-openssl-dev libncurses5-dev libterm-readline-gnu-perl libsigc++-2.0-dev libperl-dev openvpn libssl-dev libtool libxml2-dev ncurses-base ncurses-term ntp openssl patch libc-ares-dev pkg-config php5 php5-cli php5-dev php5-curl php5-geoip php5-mcrypt php5-xmlrpc pkg-config python-scgi screen ssl-cert subversion texinfo unrar-free unzip zlib1g-dev expect joe automake1.9 flex bison debhelper binutils-gold ffmpeg libarchive-zip-perl libnet-ssleay-perl libhtml-parser-perl libxml-libxml-perl libjson-perl libjson-xs-perl libxml-libxslt-perl libxml-libxml-perl libjson-rpc-perl libarchive-zip-perl znc rar zip python-software-properties vsftpd
 if [ $? -gt 0 ]; then
   set +x verbose
   echo
@@ -376,6 +378,23 @@ cd ../rtorrent-$RTORRENT1
 make -j2
 make install
 ldconfig
+
+#18.
+perl -pi -e "s/anonymous_enable\=YES/\#anonymous_enable\=YES/g" /etc/vsftpd.conf
+perl -pi -e "s/connect_from_port_20\=YES/#connect_from_port_20\=YES/g" /etc/vsftpd.conf
+echo "" | tee -a /etc/vsftpd.conf >> /dev/null
+echo "anonymous_enable=NO" | tee -a /etc/vsftpd.conf >> /dev/null
+echo "listen_port=21201" | tee -a /etc/vsftpd.conf >> /dev/null
+echo "local_enable=YES" | tee -a /etc/vsftpd.conf >> /dev/null
+echo "allow_writeable_chroot=YES" | tee -a /etc/vsftpd.conf >> /dev/null
+echo "chroot_local_user=YES" | tee -a /etc/vsftpd.conf >> /dev/null
+echo "write_enable=YES" | tee -a /etc/vsftpd.conf >> /dev/null
+echo "local_umask=022" | tee -a /etc/vsftpd.conf >> /dev/null
+echo "ftpd_banner=Welcome to your seedbox FTP service." | tee -a /etc/vsftpd.conf >> /dev/null
+echo "connect_from_port_20=NO" | tee -a /etc/vsftpd.conf >> /dev/null
+echo "chroot_list_enable=YES" | tee -a /etc/vsftpd.conf >> /dev/null
+echo "chroot_list_file=/etc/vsftpd.chroot_list" | tee -a /etc/vsftpd.conf >> /dev/null
+echo "chroot_list_file=/etc/vsftpd.chroot_list" | tee -a /etc/vsftpd.conf >> /dev/null
 
 # 22.
 cd /var/www

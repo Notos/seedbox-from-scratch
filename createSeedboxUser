@@ -123,6 +123,10 @@ else
   getString NO  "Add user to sudoers?: " USERINSUDOERS1 NO
 fi
 
+if [ "$CHROOTJAIL1" == "NO" ] && [ "$USERINSUDOERS1" == "YES" ]; then
+  echo "$NEWUSER1" >> /etc/vsftpd.chroot_list
+fi
+
 HOMEBASE1=/home/$NEWUSER1
 HOMEDIR1=$HOMEBASE1
 HOMEJAILED1=$HOMEBASE1
