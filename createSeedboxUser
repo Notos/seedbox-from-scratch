@@ -372,7 +372,7 @@ sudo perl -pi -e "s/<PORT>/$IRSSIPORT/g"  $HOMEJAILED1/.autodl/autodl.cfg
 sudo perl -pi -e "s/use Digest\:\:SHA1 qw/use Digest\:\:SHA qw/g" $HOMEJAILED1/.irssi/scripts/AutodlIrssi/MatchedRelease.pm
 
 if [ "$CHROOTJAIL1" == "YES" ]; then
-  sudo jk_chrootlaunch -u <username> -j <jaildir> -x /bin/bash -- /restartSeedbox
+  sudo jk_chrootlaunch -u $NEWUSER1 -j $JAILDIR1 -x /bin/bash -- /restartSeedbox
 else
   sleep 3
   sudo su --login --command "screen -d -m -S rtorrent rtorrent" $NEWUSER1

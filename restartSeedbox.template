@@ -1,6 +1,6 @@
-kill `screen -ls | grep Detached | awk '{print $1}' | cut -d. -f 1`
+kill `screen -ls | grep Detached | awk '{print $1}' | cut -d. -f 1` &> /dev/null
 sleep 3
-kill -9 `screen -ls | grep Detached | awk '{print $1}' | cut -d. -f 1`
+kill -9 `screen -ls | grep Detached | awk '{print $1}' | cut -d. -f 1` &> /dev/null
 screen -wipe
 sleep 3
 screen -d -m -S rtorrent rtorrent
