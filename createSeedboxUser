@@ -286,6 +286,7 @@ sudo chown -R $NEWUSER1:$NEWUSER1 $HOMEJAILED1/downloads
 if [ "$CHROOTJAIL1" == "YES" ]; then
   sudo cp /etc/seedbox-from-scratch/rtorrent.jailed.conf.template /etc/init/rtorrent.$NEWUSER1.conf
   sudo cp /etc/seedbox-from-scratch/restartSeedbox.template $JAILDIR1/restartSeedbox
+  sudo perl -pi -e "s/<username>/$NEWUSER1/g" $JAILDIR1/restartSeedbox
   sudo chmod +x $JAILDIR1/restartSeedbox
 else
   sudo cp /etc/seedbox-from-scratch/rtorrent.conf.template /etc/init/rtorrent.$NEWUSER1.conf

@@ -1,3 +1,4 @@
+export HOME=/home/<username>/home
 kill `screen -ls | grep Detached | awk '{print $1}' | cut -d. -f 1` &> /dev/null
 sleep 3
 kill -9 `screen -ls | grep Detached | awk '{print $1}' | cut -d. -f 1` &> /dev/null
