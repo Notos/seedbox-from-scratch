@@ -249,7 +249,6 @@ log.open_file = "rtorrent", ~/log/rtorrent.log
 log.open_file = "tracker", ~/log/tracker.log
 log.open_file = "storage", ~/log/storage.log
 
-log.add_output = "level", "rtorrent"
 log.add_output = "info", "rtorrent"
 log.add_output = "critical", "rtorrent"
 log.add_output = "error", "rtorrent"
