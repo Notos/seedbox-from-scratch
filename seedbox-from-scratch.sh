@@ -30,6 +30,7 @@
 #        > time bash ~/seedbox-from-scratch.sh
 #     - Due to a recent outage of Webmin site and SourceForge's svn repositories, some packages are now in git and will not be downloaded from those sites
 #     - Updated list of trackers in Autodl-irssi
+#     - New ruTorrent default theme: Oblivion
 #
 #  Version 1.30
 #  Oct 23 2012 04:54:29

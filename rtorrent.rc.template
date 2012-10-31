@@ -222,6 +222,7 @@ system.file.split_suffix.set = .part
 # set whether the client should try to connect to UDP trackers
 # use_udp_trackers = yes
 trackers.use_udp.set = yes
+use_udp_trackers = yes
 
 # use a http proxy. [url] ;an empty string disables this setting
 # http_proxy =
