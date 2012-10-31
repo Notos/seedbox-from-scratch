@@ -244,3 +244,20 @@ trackers.use_udp.set = yes
 # qwerty | azerty | qwertz | dvorak
 # key_layout = dvorak
 # keys.layout.set = dvorak
+
+log.open_file = "rtorrent", ~/log/rtorrent.log
+log.open_file = "tracker", ~/log/tracker.log
+log.open_file = "storage", ~/log/storage.log
+
+log.add_output = "level", "rtorrent"
+log.add_output = "info", "rtorrent"
+log.add_output = "critical", "rtorrent"
+log.add_output = "error", "rtorrent"
+log.add_output = "warn", "rtorrent"
+log.add_output = "notice", "rtorrent"
+log.add_output = "debug", "rtorrent"
+
+log.add_output = "dht_debug", "tracker"
+log.add_output = "tracker_debug", "tracker"
+
+log.add_output = "storage_debug", "storage"

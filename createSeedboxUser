@@ -280,6 +280,9 @@ sudo mkdir -p $HOMEJAILED1/downloads/manual
 sudo mkdir -p $HOMEJAILED1/downloads/watch
 sudo mkdir -p $HOMEJAILED1/downloads/.session
 sudo chown -R $NEWUSER1:$NEWUSER1 $HOMEJAILED1/downloads
+sudo mkdir $HOMEJAILED1/log
+sudo chown $NEWUSER1: $HOMEJAILED1/log
+sudo chmod 770 $HOMEJAILED1/log
 
 # 21.
 
