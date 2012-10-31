@@ -28,6 +28,7 @@ $quotaUser = "<username>"; /// to completely disable quota, just comment this li
 $forbidUserSettings = false;
 $scgi_port = 5995;
 $scgi_host = "127.0.0.1";
+$defaultTheme = "Oblivion";
 // For web->rtorrent link through unix domain socket
 // (scgi_local in rtorrent conf file), change variables
 // above to something like this:

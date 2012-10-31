@@ -30,6 +30,7 @@
 #        > time bash ~/seedbox-from-scratch.sh
 #     - Due to a recent outage of Webmin site and SourceForge's svn repositories, some packages are now in git and will not be downloaded from those sites
 #     - Updated list of trackers in Autodl-irssi
+#     - Vsftpd FTP Server (working in chroot jail)
 #     - New ruTorrent default theme: Oblivion
 #
 #  Version 1.30
@@ -466,7 +467,7 @@ chown www-data: /var/www/stream/view.php
 
 echo "<?php \$streampath = 'http://$NEWHOSTNAME1/stream/view.php'; ?>" | tee /var/www/rutorrent/plugins/mediastream/conf.php > /dev/null
 
-# 32.1 # FILEUPLOAD
+# 32.2 # FILEUPLOAD
 cd /var/www/rutorrent/plugins/
 svn co http://svn.rutorrent.org/svn/filemanager/trunk/fileupload
 chmod 775 /var/www/rutorrent/plugins/fileupload/scripts/upload
@@ -482,6 +483,14 @@ chmod -R 755 /var/www/rutorrent
 
 perl -pi -e "s/\\\$topDirectory\, \\\$fm/\\\$homeDirectory\, \\\$topDirectory\, \\\$fm/g" /var/www/rutorrent/plugins/filemanager/flm.class.php
 perl -pi -e "s/\\\$this\-\>userdir \= addslash\(\\\$topDirectory\)\;/\\\$this\-\>userdir \= \\\$homeDirectory \? addslash\(\\\$homeDirectory\) \: addslash\(\\\$topDirectory\)\;/g" /var/www/rutorrent/plugins/filemanager/flm.class.php
+
+#32.4
+unzip /etc/seedbox-from-scratch/rutorrent-oblivion.zip -d /var/www/rutorrent/plugins/
+echo "" | tee -a /var/www/rutorrent/css/style.css > /dev/null
+echo "/* for Oblivion */" | tee -a /var/www/rutorrent/css/style.css > /dev/null
+echo ".meter-value-start-color { background-color: #E05400 }" | tee -a /var/www/rutorrent/css/style.css > /dev/null
+echo ".meter-value-end-color { background-color: #8FBC00 }" | tee -a /var/www/rutorrent/css/style.css > /dev/null
+echo "::-webkit-scrollbar {width:12px;height:12px;padding:0px;margin:0px;}" | tee -a /var/www/rutorrent/css/style.css > /dev/null
 
 # 33.
 # createSeedboxUser script creation
