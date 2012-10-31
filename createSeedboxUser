@@ -222,7 +222,8 @@ if [ "$CHROOTJAIL1" == "YES" ]; then
   sudo mkdir -p $JAILDIR1/var/www/rutorrent
   sudo chmod 1777 $JAILDIR1/var/www/rutorrent
   sudo mount --bind /var/www/rutorrent $JAILDIR1/var/www/rutorrent
-  sudo mkdir -p /var/www/rutorrent/share/users/$NEWUSER1
+  sudo mkdir -p /var/www/rutorrent/share/users/$NEWUSER1/torrents
+  sudo mkdir -p /var/www/rutorrent/share/users/$NEWUSER1/settings
   sudo chmod -R 777 /var/www/rutorrent/share/users/$NEWUSER1
   sudo chmod a-w $HOMEJAILED1
 fi
