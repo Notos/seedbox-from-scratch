@@ -1,0 +1,18 @@
+##################### FIRST LINE
+# ---------------------------
+#!/bin/bash
+# ---------------------------
+#
+# The Seedbox From Scratch  Script
+#   By Notos ---> https://github.com/Notos/
+#
+#
+#
+
+cd /tmp
+sudo wget -t 5 http://www.webmin.com/jcameron-key.asc
+sudo apt-key add jcameron-key.asc
+echo "" | sudo tee -a /etc/apt/sources.list > /dev/null
+echo "deb http://download.webmin.com/download/repository sarge contrib" | sudo tee -a /etc/apt/sources.list > /dev/null
+sudo apt-get update
+sudo apt-get --yes install webmin

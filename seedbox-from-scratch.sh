@@ -15,9 +15,9 @@
 #
 # Changelog
 #
-#  Version 2.0.0 (testing)
+#  Version 2.0.0 (not stable yet)
 #
-#  Oct 26 2012 16:19
+#  Oct 31 2012 23:59
 #     - chroot jail for users, using JailKit (http://olivier.sessink.nl/jailkit/)
 #     - Fail2ban for apache and ssh exploits: bans IPs that show the malicious signs -- too many password failures, seeking for exploits, etc.
 #     - OpenVPN (after install you can download your key from http://<IP address or host name of your box>/rutorrent/vpn.zip)
@@ -30,7 +30,7 @@
 #        > time bash ~/seedbox-from-scratch.sh
 #     - Due to a recent outage of Webmin site and SourceForge's svn repositories, some packages are now in git and will not be downloaded from those sites
 #     - Updated list of trackers in Autodl-irssi
-#     - Vsftpd FTP Server (working in chroot jail)
+#     - vsftpd FTP Server (working in chroot jail)
 #     - New ruTorrent default theme: Oblivion
 #
 #  Version 1.30
@@ -544,6 +544,7 @@ chmod +x /etc/seedbox-from-scratch/createSeedboxUser
 chmod +x /etc/seedbox-from-scratch/deleteSeedboxUser
 chmod +x /etc/seedbox-from-scratch/installOpenVPN
 chmod +x /etc/seedbox-from-scratch/removeWebmin
+chmod +x /etc/seedbox-from-scratch/installWebmin
 chmod +x /etc/seedbox-from-scratch/downgradeRTorrent
 chmod +x /etc/seedbox-from-scratch/upgradeRTorrent
 chmod +x /etc/seedbox-from-scratch/ovpni
