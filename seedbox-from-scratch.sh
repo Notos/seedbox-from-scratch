@@ -116,6 +116,10 @@ function getString
     else
       read -e -i "$DEFAULT" -p "$LABEL" NEWVAR1
     fi
+    if [ -z "$NEWVAR1" ]; then
+      NEWVAR1=a
+      continue
+    fi
 
     if grep -q "$DEFAULT" <<< "$YESNO"; then
       if grep -q "$NEWVAR1" <<< "$YESNO"; then
@@ -138,6 +142,10 @@ function getString
         read -s -p "Retype: " NEWVAR2
       else
         read -p "Retype: " NEWVAR2
+      fi
+      if [ -z "$NEWVAR2" ]; then
+        NEWVAR2=b
+        continue
       fi
     fi
 
