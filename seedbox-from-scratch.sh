@@ -95,6 +95,9 @@ function getString
   local DEFAULT=$4
   local NEWVAR1=a
   local NEWVAR2=b
+  local YESYES=YESyes
+  local NONO=NOno
+  local YESNO=$YESYES$NONO
 
   while [ ! $NEWVAR1 = $NEWVAR2 ] || [ -z "$NEWVAR1" ];
   do
@@ -114,6 +117,18 @@ function getString
       read -e -i "$DEFAULT" -p "$LABEL" NEWVAR1
     fi
 
+    if grep -q "$DEFAULT" <<< "$YESNO"; then
+      if grep -q "$NEWVAR1" <<< "$YESNO"; then
+        if grep -q "$NEWVAR1" <<< "$YESYES"; then
+          NEWVAR1=YES
+        else
+          NEWVAR1=NO
+        fi
+      else
+        NEWVAR1=a
+      fi
+    fi
+
     if [ "$NEWVAR1" == "$DEFAULT" ]
     then
       NEWVAR2=$NEWVAR1
@@ -125,6 +140,19 @@ function getString
         read -p "Retype: " NEWVAR2
       fi
     fi
+
+    if grep -q "$DEFAULT" <<< "$YESNO"; then
+      if grep -q "$NEWVAR2" <<< "$YESNO"; then
+        if grep -q "$NEWVAR2" <<< "$YESYES"; then
+          NEWVAR2=YES
+        else
+          NEWVAR2=NO
+        fi
+      else
+        NEWVAR1=a
+      fi
+    fi
+
   done
   eval $RETURN=\$NEWVAR1
 }
