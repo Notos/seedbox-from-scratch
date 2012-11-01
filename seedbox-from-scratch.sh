@@ -121,15 +121,17 @@ function getString
       continue
     fi
 
-    if grep -q "$DEFAULT" <<< "$YESNO"; then
-      if grep -q "$NEWVAR1" <<< "$YESNO"; then
-        if grep -q "$NEWVAR1" <<< "$YESYES"; then
-          NEWVAR1=YES
+    if [ ! -z "$DEFAULT" ]; then
+      if grep -q "$DEFAULT" <<< "$YESNO"; then
+        if grep -q "$NEWVAR1" <<< "$YESNO"; then
+          if grep -q "$NEWVAR1" <<< "$YESYES"; then
+            NEWVAR1=YES
+          else
+            NEWVAR1=NO
+          fi
         else
-          NEWVAR1=NO
+          NEWVAR1=a
         fi
-      else
-        NEWVAR1=a
       fi
     fi
 
@@ -149,17 +151,21 @@ function getString
       fi
     fi
 
-    if grep -q "$DEFAULT" <<< "$YESNO"; then
-      if grep -q "$NEWVAR2" <<< "$YESNO"; then
-        if grep -q "$NEWVAR2" <<< "$YESYES"; then
-          NEWVAR2=YES
+
+    if [ ! -z "$DEFAULT" ]; then
+      if grep -q "$DEFAULT" <<< "$YESNO"; then
+        if grep -q "$NEWVAR2" <<< "$YESNO"; then
+          if grep -q "$NEWVAR2" <<< "$YESYES"; then
+            NEWVAR2=YES
+          else
+            NEWVAR2=NO
+          fi
         else
-          NEWVAR2=NO
+          NEWVAR2=a
         fi
-      else
-        NEWVAR1=a
       fi
     fi
+    echo "---> $NEWVAR2"
 
   done
   eval $RETURN=\$NEWVAR1
