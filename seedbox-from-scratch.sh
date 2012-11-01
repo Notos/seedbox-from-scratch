@@ -19,7 +19,7 @@
 #
 #  Oct 31 2012 23:59
 #     - chroot jail for users, using JailKit (http://olivier.sessink.nl/jailkit/)
-#     - Fail2ban for apache and ssh exploits: bans IPs that show the malicious signs -- too many password failures, seeking for exploits, etc.
+#     - Fail2ban for ssh and apache - it bans IPs that show the malicious signs -- too many password failures, seeking for exploits, etc.
 #     - OpenVPN (after install you can download your key from http://<IP address or host name of your box>/rutorrent/vpn.zip)
 #     - createSeedboxUser script now asks if you want your user jailed, to have SSH access and if it should be added to sudoers
 #     - Optionally install packages JailKit, Webmin, Fail2ban and OpenVPN
