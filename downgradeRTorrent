@@ -11,6 +11,9 @@
 #
 #
 
+echo "This is broken, sorry. :("
+exit 0
+
 sudo killall rtorrent
 svn co https://xmlrpc-c.svn.sourceforge.net/svnroot/xmlrpc-c/stable xmlrpc
 curl http://libtorrent.rakshasa.no/downloads/libtorrent-0.12.9.tar.gz | tar xz
