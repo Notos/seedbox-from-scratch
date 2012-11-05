@@ -8,7 +8,7 @@
 #
 #
 # OpenVPN in beta --- Tested on Ubuntu 12.04 64Bit
-  sudo /etc/seedbox-from-scratch/ovpni
+  sudo bash /etc/seedbox-from-scratch/ovpni
 #
 #
 #

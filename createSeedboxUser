@@ -315,7 +315,7 @@ sudo perl -pi -e "s/<username>/$NEWUSER1$ADDHOME1/g" $HOMEJAILED1/.rtorrent.rc
 sudo perl -pi -e "s/5995/$SCGIPORT/g" $HOMEJAILED1/.rtorrent.rc
 sudo perl -pi -e "s/99888/$NETWORKPORT/g" $HOMEJAILED1/.rtorrent.rc
 
-sudo chown $NEWUSER1:$NEWUSER1   $HOMEJAILED1/.rtorrent.rc:$NEWUSER1 $HOMEJAILED1/.rtorrent.rc
+sudo chown $NEWUSER1:$NEWUSER1 $HOMEJAILED1/.rtorrent.rc
 
 # 20.
 sudo mkdir -p $HOMEJAILED1/downloads/auto
