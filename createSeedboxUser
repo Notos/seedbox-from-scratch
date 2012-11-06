@@ -137,21 +137,22 @@ else
   getString NO  "User can login via SSH?: " USERHASSSHACCESS1 NO
 fi
 
-if [ -f /etc/jailkit/jk_init.ini ] && [ "$USERHASSSHACCESS1" == "YES" ]; then
-  if [ $4 ]
-  then
-    if [ "$4" == "YES" ] || [ "$4" == "NO" ]; then
-      CHROOTJAIL1=$4
-      CHROOTJAIL2=$4
-    else
-      getString NO  "User should be in a chroot jail?: " CHROOTJAIL1 YES
-    fi
-  else
-    getString NO  "User should be in a chroot jail?: " CHROOTJAIL1 YES
-  fi
-else
-  CHROOTJAIL1=NO
-fi
+CHROOTJAIL1=NO
+#if [ -f /etc/jailkit/jk_init.ini ] && [ "$USERHASSSHACCESS1" == "YES" ]; then
+#  if [ $4 ]
+#  then
+#    if [ "$4" == "YES" ] || [ "$4" == "NO" ]; then
+#      CHROOTJAIL1=$4
+#      CHROOTJAIL2=$4
+#    else
+#      getString NO  "User should be in a chroot jail?: " CHROOTJAIL1 YES
+#    fi
+#  else
+#    getString NO  "User should be in a chroot jail?: " CHROOTJAIL1 YES
+#  fi
+#else
+#  CHROOTJAIL1=NO
+#fi
 
 if [ $5 ]
 then
