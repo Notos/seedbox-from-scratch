@@ -341,6 +341,7 @@ if [ "$INSTALLWEBMIN1" = "YES" ]; then
   fi
 
   if [ "$WEBMINDOWN" = "NO" ]; then
+    apt-get --yes update
     apt-get --yes install webmin
   fi
 fi
