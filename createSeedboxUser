@@ -390,21 +390,36 @@ else
   echo "enabled = user-defined" | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
 fi
 
-# 29.
+# 29.1 ---- Main Trunk of AutodlIrssi ---- Not maintained by developers anymore
+
+#sudo rm -R $HOMEJAILED1/.irssi
+#sudo mkdir -p $HOMEJAILED1/.irssi/scripts/autorun
+#cd $HOMEJAILED1/.irssi/scripts
+#sudo wget --no-check-certificate -O autodl-irssi.zip https://sourceforge.net/projects/autodl-irssi/files/autodl-irssi-v1.31.zip/download
+#sudo unzip -o autodl-irssi.zip
+#sudo rm autodl-irssi.zip
+#sudo cp autodl-irssi.pl autorun/
+#sudo mkdir -p $HOMEJAILED1/.autodl
+#sudo touch $HOMEJAILED1/.autodl/autodl.cfg
+#sudo mv $HOMEJAILED1/.irssi/scripts/AutodlIrssi/trackers $HOMEJAILED1/.irssi/scripts/AutodlIrssi/trackers.original
+#sudo unzip /etc/seedbox-from-scratch/autodl-trackers.zip -d $HOMEJAILED1/.irssi/scripts/AutodlIrssi/trackers/
+#sudo chown -R $NEWUSER1: $HOMEJAILED1/.irssi/scripts/AutodlIrssi/trackers
+
+# 29.2   ---- New Trunk of AutodlIrssi ---- by thebigmunch
+#        ---- Based on https://github.com/autodl-irssi-community/autodl-irssi
+#        ---- what/forums.php?action=viewthread&threadid=151523
+#        ---- commit log: https://github.com/autodl-irssi-community/autodl-irssi/commits/master
 
 sudo rm -R $HOMEJAILED1/.irssi
+sudo git clone https://github.com/autodl-irssi-community/autodl-irssi.git $HOMEJAILED1/.irssi/scripts/
 sudo mkdir -p $HOMEJAILED1/.irssi/scripts/autorun
 cd $HOMEJAILED1/.irssi/scripts
-sudo wget --no-check-certificate -O autodl-irssi.zip https://sourceforge.net/projects/autodl-irssi/files/autodl-irssi-v1.31.zip/download
-sudo unzip -o autodl-irssi.zip
-sudo rm autodl-irssi.zip
 sudo cp autodl-irssi.pl autorun/
 sudo mkdir -p $HOMEJAILED1/.autodl
 sudo touch $HOMEJAILED1/.autodl/autodl.cfg
-sudo mv $HOMEJAILED1/.irssi/scripts/AutodlIrssi/trackers $HOMEJAILED1/.irssi/scripts/AutodlIrssi/trackers.original
-sudo unzip /etc/seedbox-from-scratch/autodl-trackers.zip -d $HOMEJAILED1/.irssi/scripts/AutodlIrssi/trackers/
-sudo chown -R $NEWUSER1: $HOMEJAILED1/.irssi/scripts/AutodlIrssi/trackers
+sudo chown -R $NEWUSER1: $HOMEJAILED1/.irssi
 
+# 29.3
 
 sudo cp /etc/seedbox-from-scratch/rutorrent.conf.users.plugins.autodl-irssi.conf.php.template  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi/conf.php
 sudo perl -pi -e "s/<PASSWORD>/$IRSSIPASSWORD/g"  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi/conf.php

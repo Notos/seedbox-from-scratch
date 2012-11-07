@@ -210,7 +210,7 @@ else
   LIBTORRENT1=0.12.9
 fi
 
-apt-get --yes install whois sudo makepasswd git python-software-properties
+apt-get --yes install whois sudo makepasswd git python-software-properties software-properties-common
 
 rm -f -r /etc/seedbox-from-scratch
 git clone -b v$SBFSCURRENTVERSION https://github.com/Notos/seedbox-from-scratch.git /etc/seedbox-from-scratch
