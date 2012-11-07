@@ -8,17 +8,27 @@
 #   By Notos ---> https://github.com/Notos/
 #
 #
-#  git clone -b master https://github.com/Notos/seedbox-from-scratch.git /etc/seedbox-from-scratch
-#  sudo git stash; sudo git pull
+#  Installing
+#   wget -N https://raw.github.com/Notos/seedbox-from-scratch/v2.0.1/seedbox-from-scratch.sh
+#   time bash ~/seedbox-from-scratch.sh
 #
-  SBFSCURRENTVERSION=2.0.0
+#  Updating
+#   cd /etc/seedbox-from-scratch
+#   sudo git stash; sudo git pull; bash /etc/seedbox-from-scratch/updateExecutables
+#
+  SBFSCURRENTVERSION=2.0.1
 #
 # Changelog
 #
-#  Version 2.0.0 (not stable yet)
+#  Version 2.0.1 (in development)
 #
-#  Oct 31 2012 23:59
 #     - chroot jail for users, using JailKit (http://olivier.sessink.nl/jailkit/)
+#
+#   Nov 7 2012 15:53 - branch created
+#
+#  Version 2.0.0 (stable)
+#
+#   Oct 31 2012 23:59
 #     - Fail2ban for ssh and apache - it bans IPs that show the malicious signs -- too many password failures, seeking for exploits, etc.
 #     - OpenVPN (after install you can download your key from http://<IP address or host name of your box>/rutorrent/vpn.zip)
 #     - createSeedboxUser script now asks if you want your user jailed, to have SSH access and if it should be added to sudoers
@@ -544,14 +554,7 @@ perl -pi -e "s/\$defaultTheme \= \"\"\;/\$defaultTheme \= \"Oblivion\"\;/g" /var
 
 # scripts are now in git form :)
 
-chmod +x /etc/seedbox-from-scratch/createSeedboxUser
-chmod +x /etc/seedbox-from-scratch/deleteSeedboxUser
-chmod +x /etc/seedbox-from-scratch/installOpenVPN
-chmod +x /etc/seedbox-from-scratch/removeWebmin
-chmod +x /etc/seedbox-from-scratch/installWebmin
-chmod +x /etc/seedbox-from-scratch/downgradeRTorrent
-chmod +x /etc/seedbox-from-scratch/upgradeRTorrent
-chmod +x /etc/seedbox-from-scratch/ovpni
+bash /etc/seedbox-from-scratch/updateExecutables
 
 # 96.
 
