@@ -18,6 +18,7 @@
 #  Version 2.0.0 (not stable yet)
 #
 #  Oct 31 2012 23:59
+#     - Install script for SABnzbd: http://wiki.sabnzbd.org/install-ubuntu-repo
 #     - chroot jail for users, using JailKit (http://olivier.sessink.nl/jailkit/)
 #     - Fail2ban for ssh and apache - it bans IPs that show the malicious signs -- too many password failures, seeking for exploits, etc.
 #     - OpenVPN (after install you can download your key from http://<IP address or host name of your box>/rutorrent/vpn.zip)
@@ -196,6 +197,7 @@ getString NO  "Install Webmin? " INSTALLWEBMIN1 NO
 getString NO  "Install Fail2ban? " INSTALLFAIL2BAN1 NO
 #openVPN is broken in some distros if installed during the whole process, user will have to use the script to install it
 getString NO  "Install OpenVPN? " INSTALLOPENVPN1 YES
+getString NO  "Install SABnzbd? " INSTALLSABNZBD1 NO
 
 if [ "$RTORRENT1" != "0.9.2" ] && [ "$RTORRENT1" != "0.8.9" ]; then
   echo "$RTORRENT1 is not 0.9.2 or 0.8.9!"
@@ -213,6 +215,7 @@ apt-get --yes install whois sudo makepasswd git python-software-properties softw
 rm -f -r /etc/seedbox-from-scratch
 git clone -b v$SBFSCURRENTVERSION https://github.com/Notos/seedbox-from-scratch.git /etc/seedbox-from-scratch
 mkdir -p cd /etc/seedbox-from-scratch/source
+mkdir -p cd /etc/seedbox-from-scratch/users
 
 sudo add-apt-repository --yes ppa:thefrontiergroup/vsftpd
 
@@ -378,8 +381,55 @@ rm -f /var/www/info.php
 
 # 11.
 
-openssl req -new -x509 -days 365 -nodes -newkey rsa:2048 -out /etc/apache2/apache.pem -keyout /etc/apache2/apache.pem -subj '/CN=www.mydom.com/O=My Company Name LTD./C=US'
+echo "$IPADDRESS1" > /etc/seedbox-from-scratch/hostname.txt
+
+NEWHOSTNAME1=tsfsSeedBox
+CERTPASS1=@@$NEWHOSTNAME1.$NEWUSER1ServerP7s$
+
+cd /root/
+rm -r /root/CA
+mkdir -p /root/CA/newcerts && mkdir /root/CA/private && cd /root/CA
+echo '01' > serial  && touch index.txt
+cp /etc/seedbox-from-scratch/root.ca.cacert.conf.template /root/CA/caconfig.cnf
+perl -pi -e "s/<username>/$NEWUSER1/g" /root/CA/caconfig.cnf
+perl -pi -e "s/<servername>/$IPADDRESS1/g" /root/CA/caconfig.cnf
+
+openssl req -new -x509 -extensions v3_ca -keyout private/cakey.pem -passout pass:$CERTPASS1 -out cacert.pem -days 3650 -config /root/CA/caconfig.cnf
+
+openssl req -new -nodes -out /root/CA/req.pem -passout pass:$CERTPASS1 -config /root/CA/caconfig.cnf
+
+openssl ca -batch -out /root/CA/cert.pem -config /root/CA/caconfig.cnf -passin pass:$CERTPASS1 -infiles /root/CA/req.pem
+
+mv /root/CA/cert.pem /root/CA/tmp.pem
+openssl x509 -in /root/CA/tmp.pem -out /root/CA/cert.pem
+
+cat /root/CA/key.pem /root/CA/cert.pem > /root/CA/key-cert.pem
+
+rm -r /etc/seedbox-from-scratch/ssl
+mkdir /etc/seedbox-from-scratch/ssl
+
+cp /root/CA/cacert.pem /etc/seedbox-from-scratch/ssl
+cp /root/CA/cert.pem /etc/seedbox-from-scratch/ssl
+cp /root/CA/key-cert.pem /etc/seedbox-from-scratch/ssl
+cp /root/CA/key.pem /etc/seedbox-from-scratch/ssl
+cp /root/CA/private/cakey.pem /etc/seedbox-from-scratch/ssl
+cp /root/CA/req.pem /etc/seedbox-from-scratch/ssl
+
+cp /root/CA/cert.pem /etc/apache2/apache.pem
+cp /root/CA/key.key /etc/apache2/apache.key
+cp /root/CA/server.crt /etc/apache2/apache.crt
 chmod 600 /etc/apache2/apache.pem
+chmod 600 /etc/apache2/apache.key
+chmod 600 /etc/apache2/apache.crt
+
+SERVICENAME1=sabnzbd
+SUBJ1="/C=US/ST=Denial/L=Springfield/O=Dis/CN=$IPADDRESS1/emailAddress=root@$NEWUSER1.com/OU=$NEWUSER1"
+openssl genrsa 1024 | tee /root/CA/$SERVICENAME1.key
+openssl req -new -x509 -nodes -sha1 -days 365 -key /root/CA/$SERVICENAME1.key -config /root/CA/caconfig.cnf -batch -subj $SUBJ1 | tee /root/CA/$SERVICENAME1.cert
+openssl ca -batch -keyfile /root/CA/private/cakey.pem -passin pass:$CERTPASS1 -subj $SUBJ1 -out /root/CA/$SERVICENAME1.pem -config /root/CA/caconfig.cnf -passin pass:$CERTPASS1 -ss_cert /root/CA/$SERVICENAME1.cert
+cp /root/CA/$SERVICENAME1.* /etc/seedbox-from-scratch/ssl/
+
+chmod 600 /etc/seedbox-from-scratch/ssl/*
 
 # 13.
 mv /etc/apache2/sites-available/default /etc/apache2/sites-available/default.ORI
@@ -387,6 +437,9 @@ rm -f /etc/apache2/sites-available/default
 
 cp /etc/seedbox-from-scratch/etc.apache2.default.template /etc/apache2/sites-available/default
 perl -pi -e "s/http\:\/\/.*\/rutorrent/http\:\/\/$IPADDRESS1\/rutorrent/g" /etc/apache2/sites-available/default
+perl -pi -e "s/<servername>/$IPADDRESS1/g" /etc/apache2/sites-available/default
+
+echo "ServerName $IPADDRESS1" | tee -a /etc/apache2/apache2.conf > /dev/null
 
 # 14.
 a2ensite default-ssl
@@ -470,7 +523,7 @@ cd autodl-irssi
 
 # 30.
 
-sudo cp /etc/jailkit/jk_init.ini /etc/jailkit/jk_init.ini.original
+cp /etc/jailkit/jk_init.ini /etc/jailkit/jk_init.ini.original
 echo "" | tee -a /etc/jailkit/jk_init.ini >> /dev/null
 bash /etc/seedbox-from-scratch/updatejkinit
 
@@ -552,17 +605,22 @@ chmod +x /etc/seedbox-from-scratch/installWebmin
 chmod +x /etc/seedbox-from-scratch/downgradeRTorrent
 chmod +x /etc/seedbox-from-scratch/upgradeRTorrent
 chmod +x /etc/seedbox-from-scratch/ovpni
+chmod +x /etc/seedbox-from-scratch/installSABnzbd
 
 # 96.
 
 #first user will not be jailed
-#  createSeedboxUser <username> <password> <user jailed?> <ssh access?> <sudo ?>
-/etc/seedbox-from-scratch/createSeedboxUser $NEWUSER1 $PASSWORD1 YES NO YES
+#  createSeedboxUser <username> <password> <user jailed?> <ssh access?> <?>
+bash /etc/seedbox-from-scratch/createSeedboxUser $NEWUSER1 $PASSWORD1 YES NO YES
 
 # 97.
 
 if [ "$INSTALLOPENVPN1" = "YES" ]; then
   bash /etc/seedbox-from-scratch/installOpenVPN
+fi
+
+if [ "$INSTALLSABNZBD1" = "YES" ]; then
+  bash /etc/seedbox-from-scratch/installSABnzbd
 fi
 
 # 98.

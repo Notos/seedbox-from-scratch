@@ -1,0 +1,22 @@
+##################### FIRST LINE
+# ---------------------------
+#!/bin/bash
+# ---------------------------
+#
+# The Seedbox From Scratch Script
+#   By Notos ---> https://github.com/Notos/
+#
+#
+
+sudo chmod +x /etc/seedbox-from-scratch/updateExecutables
+sudo chmod +x /etc/seedbox-from-scratch/createSeedboxUser
+sudo chmod +x /etc/seedbox-from-scratch/deleteSeedboxUser
+sudo chmod +x /etc/seedbox-from-scratch/installOpenVPN
+sudo chmod +x /etc/seedbox-from-scratch/removeWebmin
+sudo chmod +x /etc/seedbox-from-scratch/installWebmin
+sudo chmod +x /etc/seedbox-from-scratch/downgradeRTorrent
+sudo chmod +x /etc/seedbox-from-scratch/upgradeRTorrent
+sudo chmod +x /etc/seedbox-from-scratch/ovpni
+sudo chmod +x /etc/seedbox-from-scratch/installSABnzbd
+
+##################### LAST LINE ###########

@@ -1,0 +1,3 @@
+sudo add-apt-repository --yes ppa:jcfp/ppa
+sudo apt-get update &> /dev/null
+sudo apt-get --yes install sabnzbdplus sabnzbdplus-theme-mobile

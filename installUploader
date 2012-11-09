@@ -1,0 +1,32 @@
+NEWUSER1=lefteris
+HOMEJAILED1=/home/lefteris
+
+cd /etc/seedbox-from-scratch/
+sudo wget http://libtorrent.rakshasa.no/downloads/rtorrent_fast_resume.pl
+sudo chmod 755 rtorrent_fast_resume.pl
+
+sudo perl -MCPAN -e 'install Convert::Bencode'
+
+sudo svn export http://upload.googlecode.com/svn/trunk/bin/upload /usr/bin/upload
+sudo chmod 755 /usr/bin/upload
+sudo wget http://upload.googlecode.com/files/upload-v0.9.4.gz
+sudo bash -c "gunzip -c upload-v0.9.4.gz > /usr/bin/upload"
+sudo chmod 755 /usr/bin/upload
+sudo rm -f upload-v0.9.4.gz
+
+cd $HOMEJAILED1
+sudo svn checkout http://upload.googlecode.com/svn/trunk/home upload
+sudo wget http://upload.googlecode.com/files/home-v0.9.4.tar.gz
+sudo tar -vzxf home-v0.9.4.tar.gz
+sudo rm home-v0.9.4.tar.gz
+sudo chmod 600 upload/.*.rc
+sudo chmod 644 upload/.webui.rc
+sudo chmod 700 upload/wrapper
+sudo chown -R $NEWUSER1: upload
+sudo chown -R $NEWUSER1: .*.rc
+cd /var/www/
+sudo svn checkout http://upload.googlecode.com/svn/trunk/web uploader
+sudo wget http://upload.googlecode.com/files/web-v0.9.4.tar.gz
+sudo tar -vzxf web-v0.9.4.tar.gz
+sudo rm web-v0.9.4.tar.gz
+sudo 

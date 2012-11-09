@@ -14,6 +14,8 @@ script
   su <username> -c "screen -d -m -S rtorrent rtorrent"
   sleep 3
   su <username> -c "screen -d -m -S irssi irssi"
+  sleep 3
+  su <username> -c "screen -dmS sabnzbd sabnzbdplus"
 
   if [ ! "/tmp" = "<jaildir>/tmp" ]; then
     sleep 3

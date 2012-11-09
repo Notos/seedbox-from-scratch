@@ -1,0 +1,77 @@
+#
+# OpenSSL configuration file.
+#
+# --> http://www.eclectica.ca/howto/ssl-cert-howto.php
+#
+
+[ ca ]
+default_ca      = local_ca
+
+[ local_ca ]
+dir                   = /root/CA
+certificate           = $dir/cacert.pem
+certopt               = default_ca
+database              = $dir/index.txt
+default_crl_days      = 365
+default_days          = 1825
+default_md            = md5
+email_in_dn           = no
+nameopt               = default_ca
+new_certs_dir         = $dir/newcerts
+policy                = local_ca_policy
+preserve              = no
+private_key           = $dir/private/cakey.pem
+serial                = $dir/serial
+x509_extensions       = local_ca_extensions
+
+[ local_ca_policy ]
+commonName              = supplied
+stateOrProvinceName     = supplied
+countryName             = supplied
+emailAddress            = supplied
+organizationName        = supplied
+organizationalUnitName  = supplied
+
+[ local_ca_extensions ]
+subjectAltName          = DNS:alt.tradeshowhell.com
+basicConstraints        = CA:false
+nsCertType              = server
+
+[ req ]
+default_bits        = 2048
+default_keyfile     = key.pem
+default_md          = md5
+string_mask         = nombstr   # permitted characters
+distinguished_name  = req_distinguished_name
+prompt              = no
+x509_extensions     = root_ca_extensions
+req_extensions      = v3_req
+
+[ root_ca_distinguished_name ]
+commonName              = <servername>
+stateOrProvinceName     = NU
+countryName             = UN
+emailAddress            = root@<username>.com
+organizationName        = The <username> Company
+organizationalUnitName  = Server Department
+
+[ root_ca_extensions ]
+basicConstraints        = CA:true
+
+[ req_distinguished_name ]
+0.organizationName = The <username> Company
+organizationalUnitName = <username> OU
+emailAddress = server@<username>.com
+localityName = City of <username>
+stateOrProvinceName = State of <username>
+countryName = UN
+commonName = <servername>
+
+[ v3_ca ]
+basicConstraints = CA:TRUE
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid:always,issuer:always
+
+[ v3_req ]
+basicConstraints  = CA:FALSE
+subjectKeyIdentifier  = hash
