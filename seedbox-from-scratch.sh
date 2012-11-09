@@ -216,6 +216,7 @@ rm -f -r /etc/seedbox-from-scratch
 git clone -b v$SBFSCURRENTVERSION https://github.com/Notos/seedbox-from-scratch.git /etc/seedbox-from-scratch
 mkdir -p cd /etc/seedbox-from-scratch/source
 mkdir -p cd /etc/seedbox-from-scratch/users
+echo $SBFSCURRENTVERSION /etc/seedbox-from-scratch/version.info
 
 sudo add-apt-repository --yes ppa:thefrontiergroup/vsftpd
 
@@ -381,7 +382,7 @@ rm -f /var/www/info.php
 
 # 11.
 
-echo "$IPADDRESS1" > /etc/seedbox-from-scratch/hostname.txt
+echo "$IPADDRESS1" > /etc/seedbox-from-scratch/hostname.info
 
 NEWHOSTNAME1=tsfsSeedBox
 CERTPASS1=@@$NEWHOSTNAME1.$NEWUSER1ServerP7s$

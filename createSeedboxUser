@@ -181,7 +181,8 @@ fi
 JAILDIR1_ESCAPED=`echo $JAILDIR1 | sed s,/,\\\\\\\\\\/,g`
 HOMEDIR1_ESCAPED=`echo $HOMEDIR1 | sed s,/,\\\\\\\\\\/,g`
 HOMEJAILED1_ESCAPED=`echo $HOMEJAILED1 | sed s,/,\\\\\\\\\\/,g`
-IPADDRESS1=`cat /etc/seedbox-from-scratch/hostname.txt`
+IPADDRESS1=`cat /etc/seedbox-from-scratch/hostname.info`
+SBFSCURRENTVERSION=`cat /etc/seedbox-from-scratch/version.info`
 
 # 3.2
 
@@ -500,8 +501,21 @@ echo "SCGI Port: $SCGIPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWU
 echo "rTorrent network port: $NETWORKPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "SABNZBD HTTPS port: $SABNZBDHTTPSPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "SABNZBD HTTP port: $SABNZBDHTTPPORT2" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+echo "" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+echo "" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+echo "Links" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+echo "" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+echo "sabnzbd: https://$IPADDRESS1:$SABNZBDHTTPSPORT1/sabnzbd/" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+echo "ruTorrent: https://$IPADDRESS1/rutorrent/" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+echo "Webmin: http://$IPADDRESS1:10000" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+echo "" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 
+set +x verbose
 clear
+echo ""
+echo "The Seedbox From Scratch Script v$SBFSCURRENTVERSION"
+echo ""
+echo ""
 echo "Looks like your new user is created, here are some info about it:"
 echo ""
 echo ""
