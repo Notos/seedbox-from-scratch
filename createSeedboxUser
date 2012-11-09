@@ -399,6 +399,33 @@ else
   echo "enabled = user-defined" | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
 fi
 
+# 26.
+
+if ( which "sabnzbdplus" &>/dev/null ); then
+  sudo su --login --command "screen -dmS sabnzbd sabnzbdplus" $NEWUSER1
+  sleep 5
+  kill `ps aux | grep -i screen | grep $NEWUSER1 | grep sabnzbd | awk '{print $2}'` &> /dev/null
+
+  sudo cp /root/CA/sabnzbd.cert $HOMEJAILED1/.sabnzbd/admin/
+  sudo cp /root/CA/sabnzbd.key $HOMEJAILED1/.sabnzbd/admin/
+  sudo cp /root/CA/sabnzbd.pem $HOMEJAILED1/.sabnzbd/admin/
+
+  sudo cp /etc/seedbox-from-scratch/home.user.sabnzbd.sabnzbd.ini.template $HOMEJAILED1/.sabnzbd/sabnzbd.ini
+
+  perl -pi -e "s/<username>/$NEWUSER1/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
+  perl -pi -e "s/<password>/$PASSWORD1/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
+  perl -pi -e "s/<servername>/$IPADDRESS1/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
+  perl -pi -e "s/<homedir>/$HOMEJAILED1_ESCAPED/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
+  perl -pi -e "s/<https_port>/$SABNZBDHTTPSPORT1/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
+  perl -pi -e "s/<http_port>/$SABNZBDHTTPPORT2/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
+
+  sudo cp /etc/seedbox-from-scratch/ssl/sabnzbd.cert $HOMEJAILED1/.sabnzbd/admin/
+  sudo cp /etc/seedbox-from-scratch/ssl/sabnzbd.key $HOMEJAILED1/.sabnzbd/admin/
+  sudo cp /etc/seedbox-from-scratch/ssl/sabnzbd.pem $HOMEJAILED1/.sabnzbd/admin/
+
+  sudo chown $NEWUSER1: $HOMEJAILED1/.sabnzbd/admin/*
+fi
+
 # 29.1 ---- Main Trunk of AutodlIrssi ---- Not maintained by developers anymore
 
 #sudo rm -R $HOMEJAILED1/.irssi
@@ -456,30 +483,6 @@ fi
 
 sudo chown -R $NEWUSER1:$NEWUSER1  $HOMEJAILED1/.autodl
 sudo chown -R $NEWUSER1:$NEWUSER1  $HOMEJAILED1/.irssi
-
-if ( which "sabnzbdplus" &>/dev/null ); then
-  sudo su --login --command "screen -dmS sabnzbd sabnzbdplus" $NEWUSER1
-  kill `ps aux | grep -i screen | grep $NEWUSER1 | grep sabnzbd | awk '{print $2}'` &> /dev/null
-
-  sudo cp /root/CA/sabnzbd.cert $HOMEJAILED1/.sabnzbd/admin/
-  sudo cp /root/CA/sabnzbd.key $HOMEJAILED1/.sabnzbd/admin/
-  sudo cp /root/CA/sabnzbd.pem $HOMEJAILED1/.sabnzbd/admin/
-
-  sudo cp /etc/seedbox-from-scratch/home.user.sabnzbd.sabnzbd.ini.template $HOMEJAILED1/.sabnzbd/sabnzbd.ini
-
-  perl -pi -e "s/<username>/$NEWUSER1/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
-  perl -pi -e "s/<password>/$PASSWORD1/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
-  perl -pi -e "s/<servername>/$IPADDRESS1/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
-  perl -pi -e "s/<homedir>/$HOMEJAILED1_ESCAPED/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
-  perl -pi -e "s/<https_port>/$SABNZBDHTTPSPORT1/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
-  perl -pi -e "s/<http_port>/$SABNZBDHTTPPORT2/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
-
-  sudo cp /etc/seedbox-from-scratch/ssl/sabnzbd.cert $HOMEJAILED1/.sabnzbd/admin/
-  sudo cp /etc/seedbox-from-scratch/ssl/sabnzbd.key $HOMEJAILED1/.sabnzbd/admin/
-  sudo cp /etc/seedbox-from-scratch/ssl/sabnzbd.pem $HOMEJAILED1/.sabnzbd/admin/
-
-  sudo chown $NEWUSER1: $HOMEJAILED1/.sabnzbd/admin/*
-fi
 
 echo "Username: $NEWUSER1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "Password: $PASSWORD1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
