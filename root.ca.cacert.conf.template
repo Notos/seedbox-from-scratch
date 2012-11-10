@@ -33,9 +33,9 @@ organizationName        = supplied
 organizationalUnitName  = supplied
 
 [ local_ca_extensions ]
-subjectAltName          = DNS:alt.tradeshowhell.com
-basicConstraints        = CA:false
-nsCertType              = server
+subjectAltName      = DNS:alt.<username>.com
+basicConstraints    = CA:false
+nsCertType          = server
 
 [ req ]
 default_bits        = 2048
@@ -53,7 +53,7 @@ stateOrProvinceName     = NU
 countryName             = UN
 emailAddress            = root@<username>.com
 organizationName        = The <username> Company
-organizationalUnitName  = Server Department
+organizationalUnitName  = <username>
 
 [ root_ca_extensions ]
 basicConstraints        = CA:true

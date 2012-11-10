@@ -383,57 +383,17 @@ service apache2 restart
 echo "<?php phpinfo(); ?>" | tee -a /var/www/info.php > /dev/null
 rm -f /var/www/info.php
 
-# 11.
-
 echo "$IPADDRESS1" > /etc/seedbox-from-scratch/hostname.info
 
-NEWHOSTNAME1=tsfsSeedBox
-CERTPASS1=@@$NEWHOSTNAME1.$NEWUSER1ServerP7s$
+# 11.
 
-cd /root/
-rm -r /root/CA
-mkdir -p /root/CA/newcerts && mkdir /root/CA/private && cd /root/CA
-echo '01' > serial  && touch index.txt
-cp /etc/seedbox-from-scratch/root.ca.cacert.conf.template /root/CA/caconfig.cnf
-perl -pi -e "s/<username>/$NEWUSER1/g" /root/CA/caconfig.cnf
-perl -pi -e "s/<servername>/$IPADDRESS1/g" /root/CA/caconfig.cnf
+export NEWHOSTNAME1=tsfsSeedBox
+export CERTPASS1=@@$NEWHOSTNAME1.$NEWUSER1ServerP7s$
+export $NEWUSER1
+export $IPADDRESS1
+export $CERTPASS1
 
-openssl req -new -x509 -extensions v3_ca -keyout private/cakey.pem -passout pass:$CERTPASS1 -out cacert.pem -days 3650 -config /root/CA/caconfig.cnf
-
-openssl req -new -nodes -out /root/CA/req.pem -passout pass:$CERTPASS1 -config /root/CA/caconfig.cnf
-
-openssl ca -batch -out /root/CA/cert.pem -config /root/CA/caconfig.cnf -passin pass:$CERTPASS1 -infiles /root/CA/req.pem
-
-mv /root/CA/cert.pem /root/CA/tmp.pem
-openssl x509 -in /root/CA/tmp.pem -out /root/CA/cert.pem
-
-cat /root/CA/key.pem /root/CA/cert.pem > /root/CA/key-cert.pem
-
-rm -r /etc/seedbox-from-scratch/ssl
-mkdir /etc/seedbox-from-scratch/ssl
-
-cp /root/CA/cacert.pem /etc/seedbox-from-scratch/ssl
-cp /root/CA/cert.pem /etc/seedbox-from-scratch/ssl
-cp /root/CA/key-cert.pem /etc/seedbox-from-scratch/ssl
-cp /root/CA/key.pem /etc/seedbox-from-scratch/ssl
-cp /root/CA/private/cakey.pem /etc/seedbox-from-scratch/ssl
-cp /root/CA/req.pem /etc/seedbox-from-scratch/ssl
-
-cp /root/CA/cert.pem /etc/apache2/apache.pem
-cp /root/CA/key.key /etc/apache2/apache.key
-cp /root/CA/server.crt /etc/apache2/apache.crt
-chmod 600 /etc/apache2/apache.pem
-chmod 600 /etc/apache2/apache.key
-chmod 600 /etc/apache2/apache.crt
-
-SERVICENAME1=sabnzbd
-SUBJ1="/C=US/ST=Denial/L=Springfield/O=Dis/CN=$IPADDRESS1/emailAddress=root@$NEWUSER1.com/OU=$NEWUSER1"
-openssl genrsa 1024 | tee /root/CA/$SERVICENAME1.key
-openssl req -new -x509 -nodes -sha1 -days 365 -key /root/CA/$SERVICENAME1.key -config /root/CA/caconfig.cnf -batch -subj $SUBJ1 | tee /root/CA/$SERVICENAME1.cert
-openssl ca -batch -keyfile /root/CA/private/cakey.pem -passin pass:$CERTPASS1 -subj $SUBJ1 -out /root/CA/$SERVICENAME1.pem -config /root/CA/caconfig.cnf -passin pass:$CERTPASS1 -ss_cert /root/CA/$SERVICENAME1.cert
-cp /root/CA/$SERVICENAME1.* /etc/seedbox-from-scratch/ssl/
-
-chmod 600 /etc/seedbox-from-scratch/ssl/*
+bash /etc/seedbox-from-scratch/createOpenSSLCACertificate
 
 # 13.
 mv /etc/apache2/sites-available/default /etc/apache2/sites-available/default.ORI
