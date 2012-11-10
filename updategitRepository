@@ -7,7 +7,7 @@
 #   By Notos ---> https://github.com/Notos/
 #
 #
-
+                        
 cd /etc/seedbox-from-scratch/
 sudo git stash
 sudo git pull

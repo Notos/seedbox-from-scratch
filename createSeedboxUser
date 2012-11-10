@@ -406,7 +406,7 @@ fi
 if ( which "sabnzbdplus" &>/dev/null ); then
   sudo su --login --command "screen -dmS sabnzbd sabnzbdplus" $NEWUSER1
   sleep 5
-  sudo kill `ps aux | grep -i screen | grep $NEWUSER1 | grep sabnzbd | awk '{print $2}'` &> /dev/null
+  sudo kill `sudo ps aux | grep -i screen | grep $NEWUSER1 | grep sabnzbd | awk '{print $2}'` &> /dev/null
 
   sudo cp /root/CA/sabnzbd.cert $HOMEJAILED1/.sabnzbd/admin/
   sudo cp /root/CA/sabnzbd.key $HOMEJAILED1/.sabnzbd/admin/
