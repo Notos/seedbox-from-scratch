@@ -194,14 +194,14 @@ getString YES "ruTorrent password for user $NEWUSER1: " PASSWORD1
 getString NO  "IP address or hostname of your box: " NEWHOSTNAME1 $IPADDRESS1
 getString NO  "SSH port: " NEWSSHPORT1 21976
 getString NO  "vsftp port (usually 21): " NEWFTPPORT1 21201
+getString NO  "Do you want to have some of your users in a chroot jail? " CHROOTJAIL1 YES
+getString NO  "Install Webmin? " INSTALLWEBMIN1 YES
+getString NO  "Install Fail2ban? " INSTALLFAIL2BAN1 YES
+getString NO  "Install OpenVPN? " INSTALLOPENVPN1 YES
+getString NO  "Install SABnzbd? " INSTALLSABNZBD1 YES
+
 #getString NO  "Wich rTorrent would you like to use, '0.8.9' (older stable) or '0.9.2' (newer but banned in some trackers)? " RTORRENT1 0.9.2
 RTORRENT1=0.9.2
-getString NO  "Do you want to have some of your users in a chroot jail? " CHROOTJAIL1 YES
-getString NO  "Install Webmin? " INSTALLWEBMIN1 NO
-getString NO  "Install Fail2ban? " INSTALLFAIL2BAN1 NO
-#openVPN is broken in some distros if installed during the whole process, user will have to use the script to install it
-getString NO  "Install OpenVPN? " INSTALLOPENVPN1 YES
-getString NO  "Install SABnzbd? " INSTALLSABNZBD1 NO
 
 if [ "$RTORRENT1" != "0.9.2" ] && [ "$RTORRENT1" != "0.8.9" ]; then
   echo "$RTORRENT1 is not 0.9.2 or 0.8.9!"
