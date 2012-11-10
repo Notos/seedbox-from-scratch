@@ -11,6 +11,7 @@
 #
 
 mkdir -p /etc/seedbox-from-scratch/ssl/CA
+cd /etc/seedbox-from-scratch/ssl/CA
 
 SERVICENAME1=$1
 SUBJ1="/C=US/ST=Denial/L=Springfield/O=Dis/CN=$IPADDRESS1/emailAddress=root@$NEWUSER1.com/OU=$NEWUSER1"

@@ -27,8 +27,6 @@ openssl ca -batch -out /etc/seedbox-from-scratch/ssl/CA/cert.pem -config /etc/se
 mv /etc/seedbox-from-scratch/ssl/CA/cert.pem /etc/seedbox-from-scratch/ssl/CA/tmp.pem
 openssl x509 -in /etc/seedbox-from-scratch/ssl/CA/tmp.pem -out /etc/seedbox-from-scratch/ssl/CA/cert.pem
 cat /etc/seedbox-from-scratch/ssl/CA/key.pem /etc/seedbox-from-scratch/ssl/CA/cert.pem > /etc/seedbox-from-scratch/ssl/CA/key-cert.pem
-rm -r /etc/seedbox-from-scratch/ssl
-mkdir /etc/seedbox-from-scratch/ssl
 
 cp /etc/seedbox-from-scratch/ssl/CA/cacert.pem /etc/seedbox-from-scratch/ssl
 cp /etc/seedbox-from-scratch/ssl/CA/cert.pem /etc/seedbox-from-scratch/ssl

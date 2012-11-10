@@ -33,7 +33,7 @@ organizationName        = supplied
 organizationalUnitName  = supplied
 
 [ local_ca_extensions ]
-subjectAltName      = DNS:alt.<username>.com
+subjectAltName      = IP:<servername>
 basicConstraints    = CA:false
 nsCertType          = server
 
