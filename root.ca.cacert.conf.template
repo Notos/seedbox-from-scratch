@@ -8,7 +8,7 @@
 default_ca      = local_ca
 
 [ local_ca ]
-dir                   = /root/CA
+dir                   = .
 certificate           = $dir/cacert.pem
 certopt               = default_ca
 database              = $dir/index.txt
