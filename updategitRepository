@@ -8,7 +8,7 @@
 #
 #
 
-cd /etc/seedbox-from-scratch/updateExecutables
+cd /etc/seedbox-from-scratch/
 sudo git stash
 sudo git pull
 sudo bash /etc/seedbox-from-scratch/updateExecutables
