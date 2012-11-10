@@ -1,0 +1,16 @@
+##################### FIRST LINE
+# ---------------------------
+#!/bin/bash
+# ---------------------------
+#
+# The Seedbox From Scratch Script
+#   By Notos ---> https://github.com/Notos/
+#
+#
+
+cd /etc/seedbox-from-scratch/updateExecutables
+sudo git stash
+sudo git pull
+sudo bash /etc/seedbox-from-scratch/updateExecutables
+
+##################### LAST LINE ###########
