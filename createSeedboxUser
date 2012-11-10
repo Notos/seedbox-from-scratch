@@ -307,8 +307,8 @@ IRSSIPASSWORD1=`makepasswd`
 SABNZBDHTTPSPORT1=`head -n 1 /etc/seedbox-from-scratch/ports.txt | tail -n 1`
 sudo perl -pi -e "s/^$SABNZBDHTTPSPORT1.*\n$//g" /etc/seedbox-from-scratch/ports.txt
 
-SABNZBDHTTPPORT2=`head -n 1 /etc/seedbox-from-scratch/ports.txt | tail -n 1`
-sudo perl -pi -e "s/^$SABNZBDHTTPPORT2.*\n$//g" /etc/seedbox-from-scratch/ports.txt
+SABNZBDHTTPPORT1=`head -n 1 /etc/seedbox-from-scratch/ports.txt | tail -n 1`
+sudo perl -pi -e "s/^$SABNZBDHTTPPORT1.*\n$//g" /etc/seedbox-from-scratch/ports.txt
 
 # 12.
 
@@ -419,7 +419,7 @@ if ( which "sabnzbdplus" &>/dev/null ); then
   sudo perl -pi -e "s/<servername>/$IPADDRESS1/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
   sudo perl -pi -e "s/<homedir>/$HOMEJAILED1_ESCAPED/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
   sudo perl -pi -e "s/<https_port>/$SABNZBDHTTPSPORT1/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
-  sudo perl -pi -e "s/<http_port>/$SABNZBDHTTPPORT2/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
+  sudo perl -pi -e "s/<http_port>/$SABNZBDHTTPPORT1/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
 
   sudo cp /etc/seedbox-from-scratch/ssl/sabnzbd.cert $HOMEJAILED1/.sabnzbd/admin/
   sudo cp /etc/seedbox-from-scratch/ssl/sabnzbd.key $HOMEJAILED1/.sabnzbd/admin/
@@ -503,7 +503,7 @@ echo "IRSSI Password: $IRSSIPASSWORD1" | sudo tee -a /etc/seedbox-from-scratch/u
 echo "SCGI Port: $SCGIPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "rTorrent network port: $NETWORKPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "SABNZBD HTTPS port: $SABNZBDHTTPSPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
-echo "SABNZBD HTTP port: $SABNZBDHTTPPORT2" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+echo "SABNZBD HTTP port: $SABNZBDHTTPPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "Links" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
