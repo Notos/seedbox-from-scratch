@@ -19,6 +19,7 @@ sudo chmod +x /etc/seedbox-from-scratch/upgradeRTorrent
 sudo chmod +x /etc/seedbox-from-scratch/ovpni
 sudo chmod +x /etc/seedbox-from-scratch/installSABnzbd
 sudo chmod +x /etc/seedbox-from-scratch/updategitRepository
-
+sudo chmod +x /etc/seedbox-from-scratch/createOpenSSLServiceCertificate
+sudo chmod +x /etc/seedbox-from-scratch/createOpenSSLCACertificate
 
 ##################### LAST LINE ###########
