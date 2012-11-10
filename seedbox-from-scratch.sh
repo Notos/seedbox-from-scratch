@@ -11,14 +11,17 @@
 #  git clone -b master https://github.com/Notos/seedbox-from-scratch.git /etc/seedbox-from-scratch
 #  sudo git stash; sudo git pull
 #
-  SBFSCURRENTVERSION=2.0.0
+  SBFSCURRENTVERSION=2.1.0
 #
 # Changelog
 #
-#  Version 2.0.0 (not stable yet)
+#  Version 2.1.0 (not stable yet)
+#   Nov 10 2012 11:23
+#     - SABnzbd: http://wiki.sabnzbd.org/install-ubuntu-repo
 #
-#  Oct 31 2012 23:59
-#     - Install script for SABnzbd: http://wiki.sabnzbd.org/install-ubuntu-repo
+#
+#  Version 2.0.0 (not stable yet)
+#   Oct 31 2012 23:59
 #     - chroot jail for users, using JailKit (http://olivier.sessink.nl/jailkit/)
 #     - Fail2ban for ssh and apache - it bans IPs that show the malicious signs -- too many password failures, seeking for exploits, etc.
 #     - OpenVPN (after install you can download your key from http://<IP address or host name of your box>/rutorrent/vpn.zip)
@@ -35,16 +38,16 @@
 #     - New ruTorrent default theme: Oblivion
 #
 #  Version 1.30
-#  Oct 23 2012 04:54:29
+#   Oct 23 2012 04:54:29
 #     - Scripts now accept a full install without having to create variables and do anything else
 #
 #  Version 1.20
-#  Oct 19 2012 03:24 (by Notos)
+#   Oct 19 2012 03:24 (by Notos)
 #    - Install OpenVPN - (BETA) Still not in the script, just an outside script
 #      Tested client: http://openvpn.net/index.php?option=com_content&id=357
 #
 #  Version 1.11
-#  Oct 18 2012 05:13 (by Notos)
+#   Oct 18 2012 05:13 (by Notos)
 #    - Added scripts to downgrade and upgrade rTorrent
 #
 #    - Added all supported plowshare sites into fileupload plugin: 115, 1fichier, 2shared, 4shared, bayfiles, bitshare, config, cramit, data_hu, dataport_cz,
@@ -52,7 +55,7 @@
 #      oron, putlocker, rapidgator, rapidshare, ryushare, sendspace, shareonline_biz, turbobit, uploaded_net, uploadhero, uploading, uptobox, zalaa, zippyshare
 #
 #  Version 1.10
-#  06/10/2012 14:18 (by Notos)
+#   06/10/2012 14:18 (by Notos)
 #    - Added Fileupload plugin
 #
 #    - Added all supported plowshare sites into fileupload plugin: 115, 1fichier, 2shared, 4shared, bayfiles, bitshare, config, cramit, data_hu, dataport_cz,
@@ -60,33 +63,33 @@
 #      oron, putlocker, rapidgator, rapidshare, ryushare, sendspace, shareonline_biz, turbobit, uploaded_net, uploadhero, uploading, uptobox, zalaa, zippyshare
 #
 #  Version 1.00
-#  30/09/2012 14:18 (by Notos)
+#   30/09/2012 14:18 (by Notos)
 #    - Changing some file names and depoying version 1.00
 #
 #  Version 0.99b
-#  27/09/2012 19:39 (by Notos)
+#   27/09/2012 19:39 (by Notos)
 #    - Quota for users
 #    - Download dir inside user home
 #
 #  Version 0.99a
-#  27/09/2012 19:39 (by Notos)
+#   27/09/2012 19:39 (by Notos)
 #    - Quota for users
 #    - Download dir inside user home
 #
 #  Version 0.92a
-#  28/08/2012 19:39 (by Notos)
+#   28/08/2012 19:39 (by Notos)
 #    - Also working on Debian now
 #
 #  Version 0.91a
-#  24/08/2012 19:39 (by Notos)
+#   24/08/2012 19:39 (by Notos)
 #    - First multi-user version sent to public
 #
 #  Version 0.90a
-#  22/08/2012 19:39 (by Notos)
+#   22/08/2012 19:39 (by Notos)
 #    - Working version for OVH Kimsufi 2G Server - Ubuntu Based
 #
 #  Version 0.89a
-#  17/08/2012 19:39 (by Notos)
+#   17/08/2012 19:39 (by Notos)
 #
 function getString
 {
@@ -189,7 +192,8 @@ PASSWORD2=b
 getString NO  "You need to create an user for your seedbox: " NEWUSER1
 getString YES "ruTorrent password for user $NEWUSER1: " PASSWORD1
 getString NO  "IP address or hostname of your box: " NEWHOSTNAME1 $IPADDRESS1
-getString NO  "New SSH port: " NEWSSHPORT1 21976
+getString NO  "SSH port: " NEWSSHPORT1 21976
+getString NO  "vsftp port (usually 21): " NEWFTPPORT1 21201
 #getString NO  "Wich rTorrent would you like to use, '0.8.9' (older stable) or '0.9.2' (newer but banned in some trackers)? " RTORRENT1 0.9.2
 RTORRENT1=0.9.2
 getString NO  "Do you want to have some of your users in a chroot jail? " CHROOTJAIL1 YES
@@ -216,7 +220,6 @@ rm -f -r /etc/seedbox-from-scratch
 git clone -b v$SBFSCURRENTVERSION https://github.com/Notos/seedbox-from-scratch.git /etc/seedbox-from-scratch
 mkdir -p cd /etc/seedbox-from-scratch/source
 mkdir -p cd /etc/seedbox-from-scratch/users
-echo $SBFSCURRENTVERSION /etc/seedbox-from-scratch/version.info
 
 sudo add-apt-repository --yes ppa:thefrontiergroup/vsftpd
 
@@ -486,7 +489,7 @@ perl -pi -e "s/anonymous_enable\=YES/\#anonymous_enable\=YES/g" /etc/vsftpd.conf
 perl -pi -e "s/connect_from_port_20\=YES/#connect_from_port_20\=YES/g" /etc/vsftpd.conf
 echo "" | tee -a /etc/vsftpd.conf >> /dev/null
 echo "anonymous_enable=NO" | tee -a /etc/vsftpd.conf >> /dev/null
-echo "listen_port=21201" | tee -a /etc/vsftpd.conf >> /dev/null
+echo "listen_port=$NEWFTPPORT1" | tee -a /etc/vsftpd.conf >> /dev/null
 echo "local_enable=YES" | tee -a /etc/vsftpd.conf >> /dev/null
 echo "allow_writeable_chroot=YES" | tee -a /etc/vsftpd.conf >> /dev/null
 echo "chroot_local_user=YES" | tee -a /etc/vsftpd.conf >> /dev/null
@@ -607,6 +610,11 @@ chmod +x /etc/seedbox-from-scratch/downgradeRTorrent
 chmod +x /etc/seedbox-from-scratch/upgradeRTorrent
 chmod +x /etc/seedbox-from-scratch/ovpni
 chmod +x /etc/seedbox-from-scratch/installSABnzbd
+
+#34.
+
+echo $SBFSCURRENTVERSION /etc/seedbox-from-scratch/version.info
+echo $NEWFTPPORT1 /etc/seedbox-from-scratch/ftp.info
 
 # 96.
 
