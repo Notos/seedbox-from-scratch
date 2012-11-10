@@ -613,8 +613,8 @@ chmod +x /etc/seedbox-from-scratch/installSABnzbd
 
 #34.
 
-echo $SBFSCURRENTVERSION /etc/seedbox-from-scratch/version.info
-echo $NEWFTPPORT1 /etc/seedbox-from-scratch/ftp.info
+echo $SBFSCURRENTVERSION > /etc/seedbox-from-scratch/version.info
+echo $NEWFTPPORT1 > /etc/seedbox-from-scratch/ftp.info
 
 # 96.
 
