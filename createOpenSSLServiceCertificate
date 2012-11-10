@@ -10,12 +10,14 @@
 #
 #
 
+mkdir -p /etc/seedbox-from-scratch/ssl/CA
+
 SERVICENAME1=$1
 SUBJ1="/C=US/ST=Denial/L=Springfield/O=Dis/CN=$IPADDRESS1/emailAddress=root@$NEWUSER1.com/OU=$NEWUSER1"
-sudo openssl genrsa 1024 | sudo tee /root/CA/$SERVICENAME1.key
-sudo openssl req -new -x509 -nodes -sha1 -days 365 -key /root/CA/$SERVICENAME1.key -config /root/CA/caconfig.cnf -batch -subj $SUBJ1 | sudo tee /root/CA/$SERVICENAME1.cert
-sudo openssl ca -batch -keyfile /root/CA/private/cakey.pem -passin pass:$CERTPASS1 -subj $SUBJ1 -out /root/CA/$SERVICENAME1.pem -config /root/CA/caconfig.cnf -passin pass:$CERTPASS1 -ss_cert /root/CA/$SERVICENAME1.cert
-sudo cp /root/CA/$SERVICENAME1.* /etc/seedbox-from-scratch/ssl/
+sudo openssl genrsa 1024 | sudo tee /etc/seedbox-from-scratch/ssl/CA/$SERVICENAME1.key
+sudo openssl req -new -x509 -nodes -sha1 -days 365 -key /etc/seedbox-from-scratch/ssl/CA/$SERVICENAME1.key -config /etc/seedbox-from-scratch/ssl/CA/caconfig.cnf -batch -subj $SUBJ1 | sudo tee /etc/seedbox-from-scratch/ssl/CA/$SERVICENAME1.cert
+sudo openssl ca -batch -keyfile /etc/seedbox-from-scratch/ssl/CA/private/cakey.pem -passin pass:$CERTPASS1 -subj $SUBJ1 -out /etc/seedbox-from-scratch/ssl/CA/$SERVICENAME1.pem -config /etc/seedbox-from-scratch/ssl/CA/caconfig.cnf -passin pass:$CERTPASS1 -ss_cert /etc/seedbox-from-scratch/ssl/CA/$SERVICENAME1.cert
+sudo cp /etc/seedbox-from-scratch/ssl/CA/$SERVICENAME1.* /etc/seedbox-from-scratch/ssl/
 sudo chmod 600 /etc/seedbox-from-scratch/ssl/*
 sudo chmod 644 /etc/seedbox-from-scratch/ssl/cert.pem
 sudo chmod 644 /etc/seedbox-from-scratch/ssl/key.pem
