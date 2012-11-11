@@ -21,7 +21,7 @@
     $data = file($dir."$user.info");
     foreach($data as $index=>$line) {
       $line = makelink($line);
-      echo $line."<br>";
+      echo $line;
     }
     echo "<br>";
   }
@@ -30,15 +30,17 @@
     $parse = explode(' ', $input);
     $input = "";
     foreach ($parse as $token) {
+      $br = "<br>";
       if (strpos($token, "://") > 0) {
         $input .= '<a href="' . $token . '">' . $token . '</a> ';
       } else if(substr($token, 1, 3) == '---') {
         $input .= "<hr>";
+        $br = "";
       } else {
         $input .= $token." ";
       }
     }
-    return trim($input);
+    return trim($input.$br);
   }
 
   function getScriptVersion() {
