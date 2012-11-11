@@ -33,7 +33,7 @@
       if (strpos($token, "://") > 0) {
         $input .= '<a href="' . $token . '">' . $token . '</a> ';
       } else if(substr($token, 1, 3) == '---') {
-        $input .= $token."<hr>";
+        $input .= "<hr>";
       } else {
         $input .= $token." ";
       }
