@@ -173,6 +173,7 @@ fi
 HOMEBASE1=/home/$NEWUSER1
 HOMEDIR1=$HOMEBASE1
 HOMEJAILED1=$HOMEBASE1
+JAILDIR1=$HOMEBASE1
 if [ "$CHROOTJAIL1" == "YES" ]; then
   JAILDIR1=$HOMEDIR1/jail
   HOMEDIR1=$HOMEDIR1/home
@@ -294,7 +295,7 @@ NEWRPC1=`head -n 1 /etc/seedbox-from-scratch/rpc.txt | tail -n 1`
 sudo perl -pi -e "s/^$NEWRPC1.*\n$//g" /etc/seedbox-from-scratch/rpc.txt
 
 IRSSIPORT=`head -n 1 /etc/seedbox-from-scratch/ports.txt | tail -n 1`
-sudo perl -pi -e "s/^$IRSSIPORT.*\n$//g" /etc/seedbox-from-scratch/ports.txt
+sudo perl -pi -e "s/^$IRSSIPORT1.*\n$//g" /etc/seedbox-from-scratch/ports.txt
 
 SCGIPORT1=`head -n 1 /etc/seedbox-from-scratch/ports.txt | tail -n 1`
 sudo perl -pi -e "s/^$SCGIPORT1.*\n$//g" /etc/seedbox-from-scratch/ports.txt
@@ -404,7 +405,7 @@ else
   echo "enabled = user-defined" | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
 fi
 
-# 26.       
+# 26.
 
 if ( which "sabnzbdplus" &>/dev/null ); then
   sudo su --login --command "screen -dmS sabnzbd sabnzbdplus" $NEWUSER1
@@ -464,7 +465,7 @@ sudo chown -R $NEWUSER1: $HOMEJAILED1/.irssi
 
 sudo cp /etc/seedbox-from-scratch/rutorrent.conf.users.plugins.autodl-irssi.conf.php.template  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi/conf.php
 sudo perl -pi -e "s/<PASSWORD>/$IRSSIPASSWORD1/g"  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi/conf.php
-sudo perl -pi -e "s/<PORT>/$IRSSIPORT/g" /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi/conf.php
+sudo perl -pi -e "s/<PORT>/$IRSSIPORT1/g" /var/www/rutorrent/conf/users/$NEWUSER1/plugins/autodl-irssi/conf.php
 
 sudo cp /etc/seedbox-from-scratch/rutorrent.conf.users.plugins.fileupload.conf.php.template  /var/www/rutorrent/conf/users/$NEWUSER1/plugins/fileupload/config.php > /dev/null
 sudo chown -R www-data:www-data /var/www/rutorrent/conf/users/$NEWUSER1/plugins/fileupload/
@@ -472,7 +473,7 @@ sudo chown -R www-data:www-data /var/www/rutorrent/conf/users/$NEWUSER1/plugins/
 sudo cp /etc/seedbox-from-scratch/home.user.autodl.autodl.cfg.template  $HOMEJAILED1/.autodl/autodl.cfg
 
 sudo perl -pi -e "s/<PASSWORD>/$IRSSIPASSWORD1/g"  $HOMEJAILED1/.autodl/autodl.cfg
-sudo perl -pi -e "s/<PORT>/$IRSSIPORT/g"  $HOMEJAILED1/.autodl/autodl.cfg
+sudo perl -pi -e "s/<PORT>/$IRSSIPORT1/g"  $HOMEJAILED1/.autodl/autodl.cfg
 sudo perl -pi -e "s/use Digest\:\:SHA1 qw/use Digest\:\:SHA qw/g" $HOMEJAILED1/.irssi/scripts/AutodlIrssi/MatchedRelease.pm
 
 if [ "$CHROOTJAIL1" == "YES" ]; then
@@ -513,7 +514,8 @@ echo "Webmin: https://$IPADDRESS1:10000" | sudo tee -a /etc/seedbox-from-scratch
 echo "FTP: ftp://$IPADDRESS1:$NEWFTPPORT1/" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 
 echo "" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
-echo "Restarting $NEWUSER1 seedbox: $HOMEJAILED1/restartSeedbox" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+echo "Restarting seedbox logged as $NEWUSER1: $HOMEJAILED1/restartSeedbox" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+echo "Restarting seedbox as any other user: sudo su --login --command \"$HOMEJAILED1/restartSeedbox\" $NEWUSER1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 
 echo "" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "Individual starting commands" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
