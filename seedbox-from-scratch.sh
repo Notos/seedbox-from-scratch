@@ -388,12 +388,11 @@ echo "$IPADDRESS1" > /etc/seedbox-from-scratch/hostname.info
 # 11.
 
 export NEWHOSTNAME1=tsfsSeedBox
-export CERTPASS1=@@$NEWHOSTNAME1.$NEWUSER1ServerP7s$
-export $NEWUSER1
-export $IPADDRESS1
-export $CERTPASS1
+export CERTPASS1=@@$NEWHOSTNAME1.$NEWUSER1.ServerP7s$
+export NEWUSER1
+export IPADDRESS1
 
-bash /etc/seedbox-from-scratch/createOpenSSLCACertificate
+bash /etc/seedbox-from-scratch/createOpenSSLCACertificate 
 
 # 13.
 mv /etc/apache2/sites-available/default /etc/apache2/sites-available/default.ORI
@@ -578,12 +577,6 @@ echo $NEWFTPPORT1 > /etc/seedbox-from-scratch/ftp.info
 
 # 96.
 
-#first user will not be jailed
-#  createSeedboxUser <username> <password> <user jailed?> <ssh access?> <?>
-bash /etc/seedbox-from-scratch/createSeedboxUser $NEWUSER1 $PASSWORD1 YES NO YES
-
-# 97.
-
 if [ "$INSTALLOPENVPN1" = "YES" ]; then
   bash /etc/seedbox-from-scratch/installOpenVPN
 fi
@@ -591,6 +584,12 @@ fi
 if [ "$INSTALLSABNZBD1" = "YES" ]; then
   bash /etc/seedbox-from-scratch/installSABnzbd
 fi
+
+# 97.
+
+#first user will not be jailed
+#  createSeedboxUser <username> <password> <user jailed?> <ssh access?> <?>
+bash /etc/seedbox-from-scratch/createSeedboxUser $NEWUSER1 $PASSWORD1 YES NO YES
 
 # 98.
 
