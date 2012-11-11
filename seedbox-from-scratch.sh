@@ -552,19 +552,11 @@ echo ".meter-value-end-color { background-color: #8FBC00 }" | tee -a /var/www/ru
 echo "::-webkit-scrollbar {width:12px;height:12px;padding:0px;margin:0px;}" | tee -a /var/www/rutorrent/css/style.css > /dev/null
 perl -pi -e "s/\$defaultTheme \= \"\"\;/\$defaultTheme \= \"Oblivion\"\;/g" /var/www/rutorrent/plugins/theme/conf.php
 
-ls -s /etc/seedbox-from-scratch/seedboxInfo.php.template /var/www/seedboxInfo.php
+ln -s /etc/seedbox-from-scratch/seedboxInfo.php.template /var/www/seedboxInfo.php
 
 # 33.
 
-chmod +x /etc/seedbox-from-scratch/createSeedboxUser
-chmod +x /etc/seedbox-from-scratch/deleteSeedboxUser
-chmod +x /etc/seedbox-from-scratch/installOpenVPN
-chmod +x /etc/seedbox-from-scratch/removeWebmin
-chmod +x /etc/seedbox-from-scratch/installWebmin
-chmod +x /etc/seedbox-from-scratch/downgradeRTorrent
-chmod +x /etc/seedbox-from-scratch/upgradeRTorrent
-chmod +x /etc/seedbox-from-scratch/ovpni
-chmod +x /etc/seedbox-from-scratch/installSABnzbd
+bash /etc/seedbox-from-scratch/updateExecutables
 
 #34.
 
