@@ -351,11 +351,11 @@ fi
 sudo perl -pi -e "s/<username>/$NEWUSER1/g" /etc/init/rtorrent.$NEWUSER1.conf
 sudo perl -pi -e "s/<jaildir>/$JAILDIR1_ESCAPED/g" /etc/init/rtorrent.$NEWUSER1.conf
 
-sudo cp /etc/seedbox-from-scratch/restartSeedbox.template $HOMEJAILED1_ESCAPED/restartSeedbox
-sudo perl -pi -e "s/<homedir>/$HOMEJAILED1_ESCAPED/g" $HOMEJAILED1_ESCAPED/restartSeedbox
-sudo perl -pi -e "s/<username>/$NEWUSER1/g" $HOMEJAILED1_ESCAPED/restartSeedbox
-sudo chown $NEWUSER1: $HOMEJAILED1_ESCAPED/restartSeedbox
-sudo chmod 550 $HOMEJAILED1_ESCAPED/restartSeedbox
+sudo cp /etc/seedbox-from-scratch/restartSeedbox.template $HOMEJAILED1/restartSeedbox
+sudo perl -pi -e "s/<homedir>/$HOMEJAILED1_ESCAPED/g" $HOMEJAILED1/restartSeedbox
+sudo perl -pi -e "s/<username>/$NEWUSER1/g" $HOMEJAILED1/restartSeedbox
+sudo chown $NEWUSER1: $HOMEJAILED1/restartSeedbox
+sudo chmod 550 $HOMEJAILED1/restartSeedbox
 
 # 22.
 # prepare the tree
