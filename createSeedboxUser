@@ -294,7 +294,7 @@ sudo service ssh restart
 NEWRPC1=`head -n 1 /etc/seedbox-from-scratch/rpc.txt | tail -n 1`
 sudo perl -pi -e "s/^$NEWRPC1.*\n$//g" /etc/seedbox-from-scratch/rpc.txt
 
-IRSSIPORT=`head -n 1 /etc/seedbox-from-scratch/ports.txt | tail -n 1`
+IRSSIPORT1=`head -n 1 /etc/seedbox-from-scratch/ports.txt | tail -n 1`
 sudo perl -pi -e "s/^$IRSSIPORT1.*\n$//g" /etc/seedbox-from-scratch/ports.txt
 
 SCGIPORT1=`head -n 1 /etc/seedbox-from-scratch/ports.txt | tail -n 1`
