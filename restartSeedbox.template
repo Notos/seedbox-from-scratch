@@ -1,9 +1,34 @@
-export HOME=/home/<username>/home
+##################### FIRST LINE
+# ---------------------------
+#!/bin/bash
+# ---------------------------
+#
+# The Seedbox From Scratch Script
+#   By Notos ---> https://github.com/Notos/
+#
+#
+#
+
+export HOME=<homedir>
+
+echo "Killing all related processes..."
 kill `screen -ls | grep Detached | awk '{print $1}' | cut -d. -f 1` &> /dev/null
-sleep 3
+sleep 2
 kill -9 `screen -ls | grep Detached | awk '{print $1}' | cut -d. -f 1` &> /dev/null
+sleep 2
+
+echo "Wiping screen..."
 screen -wipe
 sleep 3
+
+echo "Start rTorrent..."
 screen -d -m -S rtorrent rtorrent
 sleep 3
+
+echo "Start IRSSI..."
 screen -d -m -S irssi irssi
+sleep 3
+
+echo "Start sabnzbdplus..."
+screen -dmS sabnzbd sabnzbdplus
+sleep 3

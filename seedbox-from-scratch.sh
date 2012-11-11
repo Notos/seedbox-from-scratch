@@ -18,6 +18,7 @@
 #  Version 2.1.0 (not stable yet)
 #   Nov 10 2012 11:23
 #     - SABnzbd: http://wiki.sabnzbd.org/install-ubuntu-repo
+#     - restartSeedbox script for each user
 #
 #
 #  Version 2.0.0 (not stable yet)

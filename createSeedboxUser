@@ -344,15 +344,18 @@ sudo chmod 770 $HOMEJAILED1/log
 
 if [ "$CHROOTJAIL1" == "YES" ]; then
   sudo cp /etc/seedbox-from-scratch/rtorrent.jailed.conf.template /etc/init/rtorrent.$NEWUSER1.conf
-  sudo cp /etc/seedbox-from-scratch/restartSeedbox.template $JAILDIR1/restartSeedbox
-  sudo perl -pi -e "s/<username>/$NEWUSER1/g" $JAILDIR1/restartSeedbox
-  sudo chmod +x $JAILDIR1/restartSeedbox
 else
   sudo cp /etc/seedbox-from-scratch/rtorrent.conf.template /etc/init/rtorrent.$NEWUSER1.conf
   sudo perl -pi -e "s/<username>/$NEWUSER1/g" /etc/init/rtorrent.$NEWUSER1.conf
 fi
 sudo perl -pi -e "s/<username>/$NEWUSER1/g" /etc/init/rtorrent.$NEWUSER1.conf
 sudo perl -pi -e "s/<jaildir>/$JAILDIR1_ESCAPED/g" /etc/init/rtorrent.$NEWUSER1.conf
+
+sudo cp /etc/seedbox-from-scratch/restartSeedbox.template $HOMEJAILED1_ESCAPED/restartSeedbox
+sudo perl -pi -e "s/<homedir>/$HOMEJAILED1_ESCAPED/g" $HOMEJAILED1_ESCAPED/restartSeedbox
+sudo perl -pi -e "s/<username>/$NEWUSER1/g" $HOMEJAILED1_ESCAPED/restartSeedbox
+sudo chown $NEWUSER1: $HOMEJAILED1_ESCAPED/restartSeedbox
+sudo chmod 550 $HOMEJAILED1_ESCAPED/restartSeedbox
 
 # 22.
 # prepare the tree
@@ -475,12 +478,7 @@ sudo perl -pi -e "s/use Digest\:\:SHA1 qw/use Digest\:\:SHA qw/g" $HOMEJAILED1/.
 if [ "$CHROOTJAIL1" == "YES" ]; then
   sudo jk_chrootlaunch -u $NEWUSER1 -j $JAILDIR1 -x /bin/bash -- /restartSeedbox
 else
-  sleep 3
-  sudo su --login --command "screen -d -m -S rtorrent rtorrent" $NEWUSER1
-  sleep 3
-  sudo su --login --command "screen -d -m -S irssi irssi" $NEWUSER1
-  sleep 3
-  sudo su --login --command "screen -dmS sabnzbd sabnzbdplus" $NEWUSER1
+  sudo su --login --command "$HOMEJAILED1/restartSeedbox" $NEWUSER1
 fi
 
 sudo chown -R $NEWUSER1:$NEWUSER1  $HOMEJAILED1/.autodl
@@ -515,6 +513,14 @@ echo "Webmin: https://$IPADDRESS1:10000" | sudo tee -a /etc/seedbox-from-scratch
 echo "FTP: ftp://$IPADDRESS1:$NEWFTPPORT1/" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 
 echo "" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+echo "Restarting $NEWUSER1 seedbox: $HOMEJAILED1/restartSeedbox" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+
+echo "" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+echo "Individual starting commands" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+echo "----------------------------" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+echo "screen -d -m -S rtorrent rtorrent" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+echo "screen -d -m -S irssi irssi" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+echo "screen -dmS sabnzbd sabnzbdplus" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 
 set +x verbose
 clear
