@@ -404,7 +404,7 @@ else
   echo "enabled = user-defined" | sudo tee -a /var/www/rutorrent/conf/users/$NEWUSER1/plugins.ini
 fi
 
-# 26.
+# 26.       
 
 if ( which "sabnzbdplus" &>/dev/null ); then
   sudo su --login --command "screen -dmS sabnzbd sabnzbdplus" $NEWUSER1
