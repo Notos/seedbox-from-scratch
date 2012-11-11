@@ -480,7 +480,6 @@ sh CLI_Compile.sh
 cd MediaInfo/Project/GNU/CLI
 make install
 
-
 cd /var/www/rutorrent/plugins
 svn co https://autodl-irssi.svn.sourceforge.net/svnroot/autodl-irssi/trunk/rutorrent/autodl-irssi
 cd autodl-irssi
@@ -556,6 +555,9 @@ echo ".meter-value-end-color { background-color: #8FBC00 }" | tee -a /var/www/ru
 echo "::-webkit-scrollbar {width:12px;height:12px;padding:0px;margin:0px;}" | tee -a /var/www/rutorrent/css/style.css > /dev/null
 perl -pi -e "s/\$defaultTheme \= \"\"\;/\$defaultTheme \= \"Oblivion\"\;/g" /var/www/rutorrent/plugins/theme/conf.php
 
+cp /etc/seedbox-from-scratch/seedboxInfo.php.template /var/www/seedboxInfo.php
+
+
 # 33.
 # createSeedboxUser script creation
 
@@ -575,6 +577,12 @@ chmod +x /etc/seedbox-from-scratch/installSABnzbd
 
 echo $SBFSCURRENTVERSION > /etc/seedbox-from-scratch/version.info
 echo $NEWFTPPORT1 > /etc/seedbox-from-scratch/ftp.info
+
+#35.
+
+REALM1=documentroot
+echo -n $NEWUSER1:$REALM1:$PASSWORD1 > /tmp/file
+echo $NEWUSER1:$REALM1:`md5sum /tmp/file | cut -d" " -f1` | sudo tee -a /etc/apache2/htpasswd
 
 # 96.
 

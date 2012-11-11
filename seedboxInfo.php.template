@@ -1,0 +1,43 @@
+<htm>
+<body>
+<font face="arial">
+<h1>The Seedbox From Scratch Script v.2.1.0</h1>
+<h2>User list</h2>
+<?php
+  error_reporting(E_ALL);
+
+  $dir = '/etc/seedbox-from-scratch/users/';
+  $files = scandir($dir);
+
+  foreach($files as $index=>$file) {
+    $data = explode(".", $file);
+    if ($data[1] == 'info') {
+        printUser($dir,$data[0]);
+    }
+  }
+
+  function printUser($dir,$user) {
+    echo "<h3>$user</h3>";
+    $data = file($dir."$user.info");
+    foreach($data as $index=>$line) {
+      $line = makelink($line);
+      echo $line."<br>";
+    }
+    echo "<br>";
+ }
+
+    function makelink($input) {
+        $parse = explode(' ', $input);
+        $input = "";
+        foreach ($parse as $token) {
+            if (parse_url($token, PHP_URL_SCHEME) and strpos($token, "://") > 0) {
+              $input .= '<a href="' . $token . '">' . $token . '</a> ';
+            } else {
+              $input .= $token." ";
+            }
+        }
+        return trim($input);
+    }
+?>
+</body>
+</htm>

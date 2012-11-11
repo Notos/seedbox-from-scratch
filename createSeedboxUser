@@ -314,13 +314,13 @@ sudo perl -pi -e "s/^$SABNZBDHTTPPORT1.*\n$//g" /etc/seedbox-from-scratch/ports.
 # 12.
 
 #create digest data file
-echo -n $NEWUSER1:rutorrent:$PASSWORD1 > /tmp/pass
+echo -n $NEWUSER1:rutorrent:$PASSWORD1 > /tmp/file
 
 #remove current password from htpassword
 sudo perl -pi -e "s/^$NEWUSER1\:.*\n$//g" /etc/apache2/htpasswd
 
 #create user and password for this new rutorrent user
-echo $NEWUSER1:rutorrent:`md5sum /tmp/pass | cut -d" " -f1` | sudo tee -a /etc/apache2/htpasswd
+echo $NEWUSER1:rutorrent:`md5sum /tmp/file | cut -d" " -f1` | sudo tee -a /etc/apache2/htpasswd
 
 # 19.
 sudo cp /etc/seedbox-from-scratch/rtorrent.rc.template  $HOMEJAILED1/.rtorrent.rc > /dev/null
@@ -485,6 +485,8 @@ fi
 sudo chown -R $NEWUSER1:$NEWUSER1  $HOMEJAILED1/.autodl
 sudo chown -R $NEWUSER1:$NEWUSER1  $HOMEJAILED1/.irssi
 
+echo "https://$IPADDRESS1/seedboxInfo.php" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+echo "" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "Username: $NEWUSER1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "Password: $PASSWORD1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "SSH port: $USERHASSSHACCESS1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
@@ -524,14 +526,16 @@ echo "screen -d -m -S rtorrent rtorrent" | sudo tee -a /etc/seedbox-from-scratch
 echo "screen -d -m -S irssi irssi" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "screen -dmS sabnzbd sabnzbdplus" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 
+cp /etc/seedbox-from-scratch/users/$NEWUSER1.info $HOMEJAILED1/$NEWUSER1.info
+sudo chown $NEWUSER1: $HOMEJAILED1/$NEWUSER1.info
+sudo chmod 400 $HOMEJAILED1/$NEWUSER1.info
+
 set +x verbose
 clear
 echo ""
-echo "The Seedbox From Scratch Script v$SBFSCURRENTVERSION"
-echo ""
+echo "<< The Seedbox From Scratch Script v$SBFSCURRENTVERSION >>"
 echo ""
 echo "Looks like your new user is created, here are some info about it:"
-echo ""
 echo ""
 cat /etc/seedbox-from-scratch/users/$NEWUSER1.info
 

@@ -13,6 +13,11 @@
   <Directory />
     Options FollowSymLinks
     AllowOverride All
+    AuthType Digest
+    AuthName "documentroot"
+    AuthDigestProvider file
+    AuthUserFile /etc/apache2/htpasswd
+    Require user lefteris
   </Directory>
 
   <Directory /var/www/>
@@ -55,6 +60,11 @@
   <Directory />
     Options FollowSymLinks
     AllowOverride All
+    AuthType Digest
+    AuthName "documentroot"
+    AuthDigestProvider file
+    AuthUserFile /etc/apache2/htpasswd
+    Require user lefteris
   </Directory>
 
   <Directory /var/www/>
