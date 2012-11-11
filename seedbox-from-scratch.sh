@@ -23,7 +23,7 @@
 #     - User info files in /etc/seedbox-from-scratch/users
 #     - Info about all users in https://hostname.tld/seedboxInfo.php
 #
-#  Version 2.0.0 (not stable yet)
+#  Version 2.0.0 (stable)
 #   Oct 31 2012 23:59
 #     - chroot jail for users, using JailKit (http://olivier.sessink.nl/jailkit/)
 #     - Fail2ban for ssh and apache - it bans IPs that show the malicious signs -- too many password failures, seeking for exploits, etc.
