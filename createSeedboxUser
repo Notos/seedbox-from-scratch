@@ -185,6 +185,7 @@ HOMEJAILED1_ESCAPED=`echo $HOMEJAILED1 | sed s,/,\\\\\\\\\\/,g`
 IPADDRESS1=`cat /etc/seedbox-from-scratch/hostname.info`
 SBFSCURRENTVERSION=`cat /etc/seedbox-from-scratch/version.info`
 NEWFTPPORT1=`cat /etc/seedbox-from-scratch/ftp.info`
+NEWSSHPORT1=`cat /etc/seedbox-from-scratch/ssh.info`
 
 # 3.2
 
@@ -496,12 +497,13 @@ echo "Username: $NEWUSER1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSE
 echo "Password: $PASSWORD1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "RPC: $NEWRPC1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "IRSSI Password: $IRSSIPASSWORD1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+echo "SSH: $USERHASSSHACCESS1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+echo "Sudo powers: $USERINSUDOERS1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+echo "Jailed: $CHROOTJAIL1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 
 echo "" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "Directories" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "-----" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
-echo "Jailed: $CHROOTJAIL1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
-echo "Sudo powers: $USERINSUDOERS1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "Home base: $HOMEBASE1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "Home dir: $HOMEDIR1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "Home jail: $HOMEJAILED1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
@@ -510,8 +512,8 @@ echo "Jail dir: $JAILDIR1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSE
 echo "" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "Ports" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "-----" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
-echo "SSH port: $USERHASSSHACCESS1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
-echo "SFTP port: $USERHASSSHACCESS1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+echo "SSH port: $NEWSSHPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+echo "SFTP port: $NEWSSHPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "vsftp port: $NEWFTPPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "IRSSI Port: $IRSSIPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "SCGI Port: $SCGIPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
@@ -531,7 +533,6 @@ echo "FTP: ftp://$IPADDRESS1:$NEWFTPPORT1/" | sudo tee -a /etc/seedbox-from-scra
 echo "" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "Starting and restartring commands" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "---------------------------------" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
-echo "" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "Restarting seedbox logged as $NEWUSER1: $HOMEJAILED1/restartSeedbox" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "Restarting seedbox as any other user: sudo su --login --command \"$HOMEJAILED1/restartSeedbox\" $NEWUSER1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "Starting rTorrent: screen -d -m -S rtorrent rtorrent" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info

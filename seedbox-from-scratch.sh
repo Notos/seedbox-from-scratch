@@ -562,6 +562,7 @@ bash /etc/seedbox-from-scratch/updateExecutables
 
 echo $SBFSCURRENTVERSION > /etc/seedbox-from-scratch/version.info
 echo $NEWFTPPORT1 > /etc/seedbox-from-scratch/ftp.info
+echo $NEWSSHPORT1 > /etc/seedbox-from-scratch/ssh.info
 
 #35.
 
