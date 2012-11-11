@@ -23,7 +23,6 @@
       $line = makelink($line);
       echo $line;
     }
-    echo "<br>";
   }
 
   function makelink($input) {
