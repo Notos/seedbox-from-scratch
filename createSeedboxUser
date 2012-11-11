@@ -413,6 +413,7 @@ if ( which "sabnzbdplus" &>/dev/null ); then
   sleep 5
   sudo kill `sudo ps aux | grep -i screen | grep $NEWUSER1 | grep sabnzbd | awk '{print $2}'` &> /dev/null
 
+  sudo rm -r $HOMEJAILED1/Downloads
   sudo cp /root/CA/sabnzbd.cert $HOMEJAILED1/.sabnzbd/admin/
   sudo cp /root/CA/sabnzbd.key $HOMEJAILED1/.sabnzbd/admin/
   sudo cp /root/CA/sabnzbd.pem $HOMEJAILED1/.sabnzbd/admin/

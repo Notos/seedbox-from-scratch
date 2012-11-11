@@ -381,9 +381,6 @@ echo "Timeout 30" | tee -a /etc/apache2/apache2.conf > /dev/null
 
 service apache2 restart
 
-echo "<?php phpinfo(); ?>" | tee -a /var/www/info.php > /dev/null
-rm -f /var/www/info.php
-
 echo "$IPADDRESS1" > /etc/seedbox-from-scratch/hostname.info
 
 # 11.
@@ -555,8 +552,7 @@ echo ".meter-value-end-color { background-color: #8FBC00 }" | tee -a /var/www/ru
 echo "::-webkit-scrollbar {width:12px;height:12px;padding:0px;margin:0px;}" | tee -a /var/www/rutorrent/css/style.css > /dev/null
 perl -pi -e "s/\$defaultTheme \= \"\"\;/\$defaultTheme \= \"Oblivion\"\;/g" /var/www/rutorrent/plugins/theme/conf.php
 
-cp /etc/seedbox-from-scratch/seedboxInfo.php.template /var/www/seedboxInfo.php
-
+ls -s /etc/seedbox-from-scratch/seedboxInfo.php.template /var/www/seedboxInfo.php
 
 # 33.
 

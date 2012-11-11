@@ -1,7 +1,7 @@
 <htm>
 <body>
 <font face="arial">
-<h1>The Seedbox From Scratch Script v.2.1.0</h1>
+<h1>The Seedbox From Scratch Script v<?php echo getScriptVersion(); ?></h1>
 <h2>User list</h2>
 <?php
   error_reporting(E_ALL);
@@ -24,20 +24,25 @@
       echo $line."<br>";
     }
     echo "<br>";
- }
+  }
 
-    function makelink($input) {
-        $parse = explode(' ', $input);
-        $input = "";
-        foreach ($parse as $token) {
-            if (parse_url($token, PHP_URL_SCHEME) and strpos($token, "://") > 0) {
-              $input .= '<a href="' . $token . '">' . $token . '</a> ';
-            } else {
-              $input .= $token." ";
-            }
-        }
-        return trim($input);
+  function makelink($input) {
+    $parse = explode(' ', $input);
+    $input = "";
+    foreach ($parse as $token) {
+      if (strpos($token, "://") > 0) {
+        $input .= '<a href="' . $token . '">' . $token . '</a> ';
+      } else {
+        $input .= $token." ";
+      }
     }
+    return trim($input);
+  }
+
+  function getScriptVersion() {
+    $data = file("/etc/seedbox-from-scratch/version.info");
+    return $data[0];
+  }
 ?>
 </body>
 </htm>
