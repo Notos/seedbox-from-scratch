@@ -317,7 +317,7 @@ sudo perl -pi -e "s/^$SABNZBDHTTPPORT1.*\n$//g" /etc/seedbox-from-scratch/ports.
 echo -n $NEWUSER1:rutorrent:$PASSWORD1 > /tmp/file
 
 #remove current password from htpassword
-sudo perl -pi -e "s/^$NEWUSER1\:.*\n$//g" /etc/apache2/htpasswd
+sudo perl -pi -e "s/^$NEWUSER1\:rutorrent.*\n$//g" /etc/apache2/htpasswd
 
 #create user and password for this new rutorrent user
 echo $NEWUSER1:rutorrent:`md5sum /tmp/file | cut -d" " -f1` | sudo tee -a /etc/apache2/htpasswd

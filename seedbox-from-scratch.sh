@@ -559,9 +559,6 @@ cp /etc/seedbox-from-scratch/seedboxInfo.php.template /var/www/seedboxInfo.php
 
 
 # 33.
-# createSeedboxUser script creation
-
-# scripts are now in git form :)
 
 chmod +x /etc/seedbox-from-scratch/createSeedboxUser
 chmod +x /etc/seedbox-from-scratch/deleteSeedboxUser
