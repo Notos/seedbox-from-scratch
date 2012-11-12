@@ -17,11 +17,11 @@
 #
 #  Version 2.1.0 (not stable yet)
 #   Nov 11 2012 20:15
-#     - SABnzbdPlus: http://wiki.sabnzbd.org/install-ubuntu-repo
+#     - sabnzbd: http://wiki.sabnzbd.org/install-ubuntu-repo
 #     - restartSeedbox script for each user
 #     - User info files in /etc/seedbox-from-scratch/users
-#     - User info files in /etc/seedbox-from-scratch/users
 #     - Info about all users in https://hostname.tld/seedboxInfo.php
+#     - Password protected webserver Document Root (/var/www/)
 #
 #  Version 2.0.0 (stable)
 #   Oct 31 2012 23:59
