@@ -8,6 +8,9 @@
 #
 # OpenVPN in beta --- Tested on Ubuntu 12.04 64Bit
 #
+
+NEWOPENVPNPORT1=`cat /etc/seedbox-from-scratch/openvpn.info`
+
 sudo killall openvpn
 ip=`ifconfig | sed -n 's/.*inet addr:\([0-9.]\+\)\s.*/\1/p' | grep -v 127 | head -n 1`
 rm -r /etc/openvpn/
@@ -39,7 +42,7 @@ clear
 cd keys/
 client="
 client
-remote $ip 1194
+remote $ip $NEWOPENVPNPORT1
 dev tun
 comp-lzo
 ca ca.crt

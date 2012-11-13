@@ -11,9 +11,12 @@
 #  git clone -b master https://github.com/Notos/seedbox-from-scratch.git /etc/seedbox-from-scratch
 #  sudo git stash; sudo git pull
 #
-  SBFSCURRENTVERSION=2.1.0
+  SBFSCURRENTVERSION=2.2.0
 #
 # Changelog
+#
+#  Version 2.2.0 (not stable yet)
+#   Nov 12 2012 22:47
 #
 #  Version 2.1.0 (not stable yet)
 #   Nov 11 2012 20:15
@@ -196,6 +199,7 @@ getString NO  "You need to create an user for your seedbox: " NEWUSER1
 getString YES "ruTorrent password for user $NEWUSER1: " PASSWORD1
 getString NO  "IP address or hostname of your box: " NEWHOSTNAME1 $IPADDRESS1
 getString NO  "SSH port: " NEWSSHPORT1 21976
+getString NO  "OpenVPN port: " NEWOPENVPNPORT1 1194
 getString NO  "vsftp port (usually 21): " NEWFTPPORT1 21201
 getString NO  "Do you want to have some of your users in a chroot jail? " CHROOTJAIL1 YES
 getString NO  "Install Webmin? " INSTALLWEBMIN1 YES
@@ -565,6 +569,7 @@ bash /etc/seedbox-from-scratch/updateExecutables
 echo $SBFSCURRENTVERSION > /etc/seedbox-from-scratch/version.info
 echo $NEWFTPPORT1 > /etc/seedbox-from-scratch/ftp.info
 echo $NEWSSHPORT1 > /etc/seedbox-from-scratch/ssh.info
+echo $NEWOPENVPNPORT1 > /etc/seedbox-from-scratch/openvpn.info
 
 #35.
 

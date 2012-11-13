@@ -8,7 +8,6 @@
 #
 #
 
-sudo chmod +x /etc/seedbox-from-scratch/updateExecutables
 sudo chmod +x /etc/seedbox-from-scratch/createSeedboxUser
 sudo chmod +x /etc/seedbox-from-scratch/deleteSeedboxUser
 sudo chmod +x /etc/seedbox-from-scratch/installOpenVPN
@@ -16,10 +15,11 @@ sudo chmod +x /etc/seedbox-from-scratch/removeWebmin
 sudo chmod +x /etc/seedbox-from-scratch/installWebmin
 sudo chmod +x /etc/seedbox-from-scratch/downgradeRTorrent
 sudo chmod +x /etc/seedbox-from-scratch/upgradeRTorrent
-sudo chmod +x /etc/seedbox-from-scratch/ovpni
 sudo chmod +x /etc/seedbox-from-scratch/installSABnzbd
 sudo chmod +x /etc/seedbox-from-scratch/updategitRepository
 sudo chmod +x /etc/seedbox-from-scratch/createOpenSSLServiceCertificate
 sudo chmod +x /etc/seedbox-from-scratch/createOpenSSLCACertificate
+sudo chmod +x /etc/seedbox-from-scratch/updateExecutables
+sudo chmod +x /etc/seedbox-from-scratch/ovpni
 
 ##################### LAST LINE ###########
