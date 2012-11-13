@@ -11,10 +11,15 @@
 #  git clone -b master https://github.com/Notos/seedbox-from-scratch.git /etc/seedbox-from-scratch
 #  sudo git stash; sudo git pull
 #
-  SBFSCURRENTVERSION=2.1.0
+  SBFSCURRENTVERSION=2.1.1
 #
 # Changelog
 #
+#  Version 2.1.1 (not stable yet)
+#   Nov 12 2012 20:15
+#     - OpenVPN was not working as expected
+#
+
 #  Version 2.1.0 (not stable yet)
 #   Nov 11 2012 20:15
 #     - sabnzbd: http://wiki.sabnzbd.org/install-ubuntu-repo
