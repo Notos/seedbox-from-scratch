@@ -1,19 +1,17 @@
 dev tun
-proto tcp
-port <port>
-server 10.159.12.0 255.255.255.0
-ifconfig-pool-persist ipp.txt
-ca ca.crt
-cert server.crt
-key server.key
+server 10.159.12.0 255.255.255.0                      
+ifconfig-pool-persist ipp.txt                         
+ca ca.crt                                             
+cert server.crt                                       
+key server.key                                        
 dh dh1024.pem
-push "route 10.159.12.0 255.255.255.0"
-push "redirect-gateway"
+push "route 10.159.12.0 255.255.255.0"                
+push "redirect-gateway"                               
 comp-lzo
-keepalive 10 60
-ping-timer-rem
-persist-tun
-persist-key
-status /var/log/openvpn.<port>.log
-group daemon
+keepalive 10 60                                       
+ping-timer-rem                                        
+persist-tun                                           
+persist-key                                           
+group daemon                                          
 daemon
+                              

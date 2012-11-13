@@ -1,5 +1,5 @@
 client
-remote <ipaddress> <port>
+remote <ipaddress> 1194
 dev tun
 comp-lzo
 ca ca.crt
@@ -10,3 +10,4 @@ route-method exe
 redirect-gateway def1
 dhcp-option DNS 10.159.12.1
 verb 3
+                                                                     
