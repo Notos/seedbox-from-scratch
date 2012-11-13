@@ -9,7 +9,7 @@
 # OpenVPN in beta --- Tested on Ubuntu 12.04 64Bit
 #
 sudo killall openvpn
-ip=`ifconfig | sed -n 's/.*inet addr:\([0-9.]\+\)\s.*/\1/p' | grep -v 127 | head -n 1`
+IPADDRESS1=`ifconfig | sed -n 's/.*inet addr:\([0-9.]\+\)\s.*/\1/p' | grep -v 127 | head -n 1`
 rm -r /etc/openvpn/
 cp -R /usr/share/doc/openvpn/examples/easy-rsa/ /etc/openvpn/
 cd /etc/openvpn/
@@ -39,7 +39,7 @@ clear
 cd keys/
 client="
 client
-remote $ip 1194
+remote $IPADDRESS1 1194
 dev tun
 comp-lzo
 ca ca.crt
@@ -72,7 +72,9 @@ group daemon
 daemon'
 echo "$opvpn" > /etc/openvpn/openvpn.conf
 echo 1 > /proc/sys/net/ipv4/ip_forward
-iptables -t nat -A POSTROUTING -s 10.159.12.0/24 -o venet0 -j MASQUERADE
+sudo iptables -t nat -A POSTROUTING -o venet0 -j SNAT --to-source $IPADDRESS1
+sudo iptables -A FORWARD -i venet0 -o tun0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+sudo iptables -A FORWARD -i tun0 -o venet0 -j ACCEPT
 iptables-save > /etc/iptables.conf
 echo "#\!/bin/sh" > /etc/network/if-up.d/iptables
 echo "iptables-restore" > /etc/network/if-up.d/iptables
@@ -86,7 +88,7 @@ echo ""
 echo "Installation process id done."
 echo ""
 echo ""
-echo "Now you just download http://$ip/rutorrent/vpn.zip to use in any OpenVPN client."
+echo "Now you just download http://$IPADDRESS1/rutorrent/vpn.zip to use in any OpenVPN client."
 echo ""
 echo "Enjoy it!"
 echo ""
