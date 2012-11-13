@@ -10,7 +10,7 @@
 #
 sudo killall openvpn
 IPADDRESS1=`ifconfig | sed -n 's/.*inet addr:\([0-9.]\+\)\s.*/\1/p' | grep -v 127 | head -n 1`
-OPENVPNPORT1=31194
+OPENVPNPORT1=1194
 rm -r /etc/openvpn/
 cp -R /usr/share/doc/openvpn/examples/easy-rsa/ /etc/openvpn/
 cd /etc/openvpn/
@@ -54,7 +54,7 @@ verb 3"
 echo "$client" > $HOSTNAME.ovpn
 zip vpn.zip ca.crt ca.key client1.crt client1.csr client1.key $HOSTNAME.ovpn
 mv vpn.zip /var/www/rutorrent
-opvpn='
+opvpn="
 dev tun
 port $OPENVPNPORT1
 server 10.159.12.0 255.255.255.0
@@ -63,15 +63,15 @@ ca ca.crt
 cert server.crt
 key server.key
 dh dh1024.pem
-push "route 10.159.12.0 255.255.255.0"
-push "redirect-gateway"
+push \"route 10.159.12.0 255.255.255.0\"
+push \"redirect-gateway\"
 comp-lzo
 keepalive 10 60
 ping-timer-rem
 persist-tun
 persist-key
 group daemon
-daemon'
+daemon"
 echo "$opvpn" > /etc/openvpn/openvpn.conf
 echo 1 > /proc/sys/net/ipv4/ip_forward
 sudo iptables -t nat -A POSTROUTING -o venet0 -j SNAT --to-source $IPADDRESS1
