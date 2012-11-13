@@ -56,7 +56,7 @@ verb 3"
 echo "$client" > $HOSTNAME.ovpn
 zip vpn.zip ca.crt ca.key client1.crt client1.csr client1.key $HOSTNAME.ovpn
 mv vpn.zip /var/www/rutorrent
-opvpn='
+opvpn="
 dev tun
 port $NEWOPENVPNPORT1
 server 10.159.12.0 255.255.255.0
@@ -75,7 +75,7 @@ persist-tun
 persist-key
 status /var/log/openvpn.$NEWOPENVPNPORT1.log
 group daemon
-daemon'
+daemon"
 echo "$opvpn" > /etc/openvpn/openvpn.conf
 echo 1 > /proc/sys/net/ipv4/ip_forward
 iptables -t nat -A POSTROUTING -s 10.159.12.0/24 -o venet0 -j MASQUERADE
