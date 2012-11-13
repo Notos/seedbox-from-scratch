@@ -43,10 +43,12 @@ clear
 cd keys/
 cp /etc/seedbox-from-scratch/etc.openvpn.client.conf.template $HOSTNAME.ovpn
 perl -pi -e "s/<port>/$NEWOPENVPNPORT1/g" $HOSTNAME.ovpn
+perl -pi -e "s/<ipaddress>/$IPADDRESS1/g" $HOSTNAME.ovpn
 zip vpn.zip ca.crt ca.key client1.crt client1.csr client1.key $HOSTNAME.ovpn
 mv vpn.zip /var/www/rutorrent
 cp /etc/seedbox-from-scratch/etc.openvpn.openvpn.conf.template /etc/openvpn/openvpn.conf
 perl -pi -e "s/<port>/$NEWOPENVPNPORT1/g" /etc/openvpn/openvpn.conf
+perl -pi -e "s/<ipaddress>/$IPADDRESS1/g" /etc/openvpn/openvpn.conf
 echo 1 > /proc/sys/net/ipv4/ip_forward
 iptables -t nat -A POSTROUTING -o venet0 -j SNAT --to-source $IPADDRESS1
 iptables -A FORWARD -i venet0 -o tun0 -m state --state RELATED,ESTABLISHED -j ACCEPT

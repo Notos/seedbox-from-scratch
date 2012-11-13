@@ -1,5 +1,5 @@
 client
-remote $ip <port>
+remote <ipaddress> <port>
 dev tun
 comp-lzo
 ca ca.crt
