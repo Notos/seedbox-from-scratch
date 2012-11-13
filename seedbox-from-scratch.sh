@@ -207,6 +207,7 @@ getString NO  "Install Webmin? " INSTALLWEBMIN1 YES
 getString NO  "Install Fail2ban? " INSTALLFAIL2BAN1 YES
 getString NO  "Install OpenVPN? " INSTALLOPENVPN1 YES
 getString NO  "Install SABnzbd? " INSTALLSABNZBD1 YES
+getString NO  "OpenVPN port: " OPENVPNPORT1 31195
 
 #getString NO  "Wich rTorrent would you like to use, '0.8.9' (older stable) or '0.9.2' (newer but banned in some trackers)? " RTORRENT1 0.9.2
 RTORRENT1=0.9.2
@@ -570,6 +571,7 @@ bash /etc/seedbox-from-scratch/updateExecutables
 echo $SBFSCURRENTVERSION > /etc/seedbox-from-scratch/version.info
 echo $NEWFTPPORT1 > /etc/seedbox-from-scratch/ftp.info
 echo $NEWSSHPORT1 > /etc/seedbox-from-scratch/ssh.info
+echo $OPENVPNPORT1 > /etc/seedbox-from-scratch/openvpn.info
 
 #35.
 

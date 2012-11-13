@@ -10,7 +10,8 @@
 #
 sudo killall openvpn
 IPADDRESS1=`ifconfig | sed -n 's/.*inet addr:\([0-9.]\+\)\s.*/\1/p' | grep -v 127 | head -n 1`
-OPENVPNPORT1=31195
+OPENVPNPORT1=`cat /etc/seedbox-from-scratch/openvpn.info`
+
 rm -r /etc/openvpn/
 cp -R /usr/share/doc/openvpn/examples/easy-rsa/ /etc/openvpn/
 cd /etc/openvpn/
