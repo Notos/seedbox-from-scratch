@@ -1,0 +1,12 @@
+client
+remote $ip <port>
+dev tun
+comp-lzo
+ca ca.crt
+cert client1.crt
+key client1.key
+route-delay 2
+route-method exe
+redirect-gateway def1
+dhcp-option DNS 10.159.12.1
+verb 3

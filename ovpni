@@ -40,43 +40,12 @@ clear
 #echo "-----------------------------------------------------------------------------------------"
 ./build-key client1
 cd keys/
-client="
-client
-remote $ip $NEWOPENVPNPORT1
-dev tun
-comp-lzo
-ca ca.crt
-cert client1.crt
-key client1.key
-route-delay 2
-route-method exe
-redirect-gateway def1
-dhcp-option DNS 10.159.12.1
-verb 3"
-echo "$client" > $HOSTNAME.ovpn
+cp /etc/seedbox-from-scratch/etc.openvpn.client.conf.template $HOSTNAME.ovpn
+perl -pi -e "s/<port>/$NEWOPENVPNPORT1/g" $HOSTNAME.ovpn
 zip vpn.zip ca.crt ca.key client1.crt client1.csr client1.key $HOSTNAME.ovpn
 mv vpn.zip /var/www/rutorrent
-opvpn="
-dev tun
-port $NEWOPENVPNPORT1
-server 10.159.12.0 255.255.255.0
-ifconfig-pool-persist ipp.txt
-ca ca.crt
-cert server.crt
-key server.key
-dh dh1024.pem
-push "route 10.159.12.0 255.255.255.0"
-push "redirect-gateway"
-push "dhcp-option DNS 8.8.8.8"
-comp-lzo
-keepalive 10 60
-ping-timer-rem
-persist-tun
-persist-key
-status /var/log/openvpn.$NEWOPENVPNPORT1.log
-group daemon
-daemon"
-echo "$opvpn" > /etc/openvpn/openvpn.conf
+cp /etc/seedbox-from-scratch/etc.openvpn.openvpn.conf.template /etc/openvpn/openvpn.conf
+perl -pi -e "s/<port>/$NEWOPENVPNPORT1/g" /etc/openvpn/openvpn.conf
 echo 1 > /proc/sys/net/ipv4/ip_forward
 iptables -t nat -A POSTROUTING -s 10.159.12.0/24 -o venet0 -j MASQUERADE
 iptables-save > /etc/iptables.conf
