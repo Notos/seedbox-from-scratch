@@ -9,7 +9,6 @@ key server.key
 dh dh1024.pem
 push "route 10.159.12.0 255.255.255.0"
 push "redirect-gateway"
-push "dhcp-option DNS 8.8.8.8"
 comp-lzo
 keepalive 10 60
 ping-timer-rem
