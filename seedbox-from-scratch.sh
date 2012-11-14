@@ -18,6 +18,7 @@
 #  Version 2.1.1 (not stable yet)
 #   Nov 12 2012 20:15
 #     - OpenVPN was not working as expected
+#     - OpenVPN port now is configurable and you can change it before reinstalling: /etc/seedbox-from-scratch/openvpn.info
 #
 
 #  Version 2.1.0 (not stable yet)
