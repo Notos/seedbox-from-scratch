@@ -17,7 +17,7 @@
     AuthName "documentroot"
     AuthDigestProvider file
     AuthUserFile /etc/apache2/htpasswd
-    Require user lefteris
+    Require user <username>
   </Directory>
 
   <Directory /var/www/>
@@ -64,7 +64,7 @@
     AuthName "documentroot"
     AuthDigestProvider file
     AuthUserFile /etc/apache2/htpasswd
-    Require user lefteris
+    Require user <username>
   </Directory>
 
   <Directory /var/www/>

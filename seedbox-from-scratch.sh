@@ -407,6 +407,7 @@ rm -f /etc/apache2/sites-available/default
 cp /etc/seedbox-from-scratch/etc.apache2.default.template /etc/apache2/sites-available/default
 perl -pi -e "s/http\:\/\/.*\/rutorrent/http\:\/\/$IPADDRESS1\/rutorrent/g" /etc/apache2/sites-available/default
 perl -pi -e "s/<servername>/$IPADDRESS1/g" /etc/apache2/sites-available/default
+perl -pi -e "s/<username>/$NEWUSER1/g" /etc/apache2/sites-available/default
 
 echo "ServerName $IPADDRESS1" | tee -a /etc/apache2/apache2.conf > /dev/null
 
