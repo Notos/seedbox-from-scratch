@@ -282,8 +282,8 @@ fi
 # 3.4
 
 if [ "$USERINSUDOERS1" == "YES" ]; then
-  echo "" | sudo tee -a /etc/sudoers
-  echo "$NEWUSER1  ALL=(ALL) ALL" | sudo tee -a /etc/sudoers
+  sudo addgroup $NEWUSER1 admin
+  sudo addgroup $NEWUSER1 root
 fi
 
 if [ "$USERHASSSHACCESS1" == "YES" ]; then

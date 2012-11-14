@@ -477,7 +477,9 @@ mv plugins rutorrent/
 
 cp /etc/seedbox-from-scratch/action.php.template /var/www/rutorrent/plugins/diskspace/action.php
 
-echo "www-data ALL=(root) NOPASSWD: /usr/sbin/repquota" | sudo tee -a /etc/sudoers > /dev/null
+groupadd admin
+
+echo "www-data ALL=(root) NOPASSWD: /usr/sbin/repquota" | tee -a /etc/sudoers > /dev/null
 
 # 26.
 cd /tmp
