@@ -47,7 +47,3 @@ for (0..$#files) {
 };
 
 print bencode $t;
-<<<<<<< HEAD
-=======
-
->>>>>>> 725e68289f6fb23730fa4d65e73e453c80ee14af

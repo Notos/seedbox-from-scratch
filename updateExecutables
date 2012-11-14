@@ -21,5 +21,6 @@ sudo chmod +x /etc/seedbox-from-scratch/installSABnzbd
 sudo chmod +x /etc/seedbox-from-scratch/updategitRepository
 sudo chmod +x /etc/seedbox-from-scratch/createOpenSSLServiceCertificate
 sudo chmod +x /etc/seedbox-from-scratch/createOpenSSLCACertificate
+sudo chmod +x /etc/seedbox-from-scratch/rtorrent_fast_resume.pl
 
 ##################### LAST LINE ###########
