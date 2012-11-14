@@ -17,10 +17,9 @@
 #
 #  Version 2.1.1 (not stable yet)
 #   Nov 12 2012 20:15
-#     - OpenVPN was not working as expected
-#     - OpenVPN port now is configurable and you can change it before reinstalling: /etc/seedbox-from-scratch/openvpn.info
+#     - OpenVPN was not working as expected (fixed)
+#     - OpenVPN port now is configurable (at main install) and you can change it anytime before reinstalling: /etc/seedbox-from-scratch/openvpn.info
 #
-
 #  Version 2.1.0 (not stable yet)
 #   Nov 11 2012 20:15
 #     - sabnzbd: http://wiki.sabnzbd.org/install-ubuntu-repo
