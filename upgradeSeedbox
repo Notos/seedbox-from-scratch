@@ -1,0 +1,22 @@
+#!/bin/bash
+#
+#
+# The Seedbox From Scratch Script
+#   By Notos ---> https://github.com/Notos/
+#
+#
+
+if [ "$1" = "" ]; then
+  echo "usage: upgradeSeedbox <version>"
+  exit
+fi
+
+TSFSV=$1
+
+cd /etc/seedbox-from-scratch/
+sudo git fetch --all
+sudo git stash
+sudo git checkout -b $TSFSV origin/$TSFSV
+sudo git pull
+
+sudo bash /etc/seedbox-from-scratch/updateExecutables
