@@ -15,6 +15,11 @@
 #
 # Changelog
 #
+#  Version 2.1.2 (not stable yet)
+#   Nov 12 2012 20:15
+#     - ruTorrent fileshare Plugin (http://forums.rutorrent.org/index.php?topic=705.0)
+#     -
+#
 #  Version 2.1.1 (not stable yet)
 #   Nov 12 2012 20:15
 #     - OpenVPN was not working as expected (fixed)
