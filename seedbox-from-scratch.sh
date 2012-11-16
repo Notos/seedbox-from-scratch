@@ -11,14 +11,15 @@
 #  git clone -b master https://github.com/Notos/seedbox-from-scratch.git /etc/seedbox-from-scratch
 #  sudo git stash; sudo git pull
 #
-  SBFSCURRENTVERSION=2.1.1
+  SBFSCURRENTVERSION=2.1.2
 #
 # Changelog
 #
 #  Version 2.1.2 (not stable yet)
-#   Nov 12 2012 20:15
+#   Nov 16 2012 20:15
 #     - ruTorrent fileshare Plugin (http://forums.rutorrent.org/index.php?topic=705.0)
-#     -
+#     - upgradeSeedbox script (to get git files of a new version, it will not upgrade it for real)
+#     - rapidleech http://www.rapidleech.com/ - http://www.rapidleech.com/index.php?showtopic=2226|Go ** tutorial: http://www.seedm8.com/members/knowledgebase/24/Installing-Rapidleech-on-your-Seedbox.html
 #
 #  Version 2.1.1 (not stable yet)
 #   Nov 12 2012 20:15
@@ -573,6 +574,19 @@ echo "::-webkit-scrollbar {width:12px;height:12px;padding:0px;margin:0px;}" | te
 perl -pi -e "s/\$defaultTheme \= \"\"\;/\$defaultTheme \= \"Oblivion\"\;/g" /var/www/rutorrent/plugins/theme/conf.php
 
 ln -s /etc/seedbox-from-scratch/seedboxInfo.php.template /var/www/seedboxInfo.php
+
+# 32.5
+
+cd /var/www/rutorrent/plugins/
+rm -r /var/www/rutorrent/plugins/fileshare
+rm -r /var/www/share
+svn co http://svn.rutorrent.org/svn/filemanager/trunk/fileshare
+mkdir /var/www/share
+ln -s /var/www/rutorrent/plugins/fileshare/share.php /var/www/share/share.php
+ln -s /var/www/rutorrent/plugins/fileshare/share.php /var/www/share/index.php
+chown -R www-data:www-data /var/www/share
+cp /etc/seedbox-from-scratch/rutorrent.plugins.fileshare.conf.php.template /var/www/rutorrent/plugins/fileshare/conf.php
+perl -pi -e "s/<servername>/$IPADDRESS1/g" /var/www/rutorrent/plugins/fileshare/conf.php
 
 # 33.
 
