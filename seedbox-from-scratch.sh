@@ -486,6 +486,8 @@ groupadd admin
 
 echo "www-data ALL=(root) NOPASSWD: /usr/sbin/repquota" | tee -a /etc/sudoers > /dev/null
 
+cp /etc/seedbox-from-scratch/favicon.ico /var/www/
+
 # 26.
 cd /tmp
 wget http://downloads.sourceforge.net/mediainfo/MediaInfo_CLI_0.7.56_GNU_FromSource.tar.bz2

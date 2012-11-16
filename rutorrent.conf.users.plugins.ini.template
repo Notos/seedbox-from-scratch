@@ -113,7 +113,7 @@ enabled = no
 enabled = no
 
 [fileshare]
-enabled = no
+enabled = yes
 
 [history]
 enabled = no
