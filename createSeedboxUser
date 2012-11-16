@@ -533,8 +533,6 @@ if [ -f /etc/seedbox-from-scratch/rapidleech.info ]; then
   echo "Rapidleech: https://$IPADDRESS1TPPORT1/rapidleech" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 fi
 
-echo "FTP: ftp://$IPADDRESS1:$NEWFTPPORT1/" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
-
 echo "" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "Starting and restartring commands" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "---------------------------------" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
