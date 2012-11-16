@@ -529,6 +529,11 @@ echo "sabnzbd: http://$IPADDRESS1:$SABNZBDHTTPPORT1/sabnzbd/" | sudo tee -a /etc
 echo "ruTorrent: https://$IPADDRESS1/rutorrent/" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "Webmin: https://$IPADDRESS1:10000" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "FTP: ftp://$IPADDRESS1:$NEWFTPPORT1/" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+if [ -f /etc/seedbox-from-scratch/rapidleech.info ]; then
+  echo "Rapidleech: https://$IPADDRESS1TPPORT1/rapidleech" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+fi
+
+echo "FTP: ftp://$IPADDRESS1:$NEWFTPPORT1/" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 
 echo "" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "Starting and restartring commands" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info

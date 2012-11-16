@@ -27,6 +27,12 @@
     allow from all
   </Directory>
 
+  <Directory /var/www/share/>
+    Order Deny,Allow
+    Allow from all
+    Satisfy any
+  </Directory>
+
   ErrorLog /var/log/apache2/error.log
 
   # Possible values include: debug, info, notice, warn, error, crit,
@@ -72,6 +78,24 @@
     AllowOverride None
     Order allow,deny
     allow from all
+  </Directory>
+
+  <Directory /var/www/rapidleech/>
+    Order Deny,Allow
+    Allow from all
+    Satisfy any
+  </Directory>
+
+  <Directory /var/www/share/>
+    Order Deny,Allow
+    Allow from all
+    Satisfy any
+  </Directory>
+
+  <Directory /var/www/rapidleech/>
+    Order Deny,Allow
+    Allow from all
+    Satisfy any
   </Directory>
 
   ErrorLog /var/log/apache2/error.log

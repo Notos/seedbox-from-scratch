@@ -18,7 +18,7 @@
 #  Version 2.1.2 (not stable yet)
 #   Nov 16 2012 20:15
 #     - ruTorrent fileshare Plugin (http://forums.rutorrent.org/index.php?topic=705.0)
-#     - upgradeSeedbox script (to get git files of a new version, it will not upgrade it for real)
+#     - upgradeSeedbox script (to download git files for a new version, it will not upgrade it for real, at least for now :)
 #     - rapidleech http://www.rapidleech.com/ - http://www.rapidleech.com/index.php?showtopic=2226|Go ** tutorial: http://www.seedm8.com/members/knowledgebase/24/Installing-Rapidleech-on-your-Seedbox.html
 #
 #  Version 2.1.1 (not stable yet)
@@ -208,12 +208,13 @@ getString YES "ruTorrent password for user $NEWUSER1: " PASSWORD1
 getString NO  "IP address or hostname of your box: " NEWHOSTNAME1 $IPADDRESS1
 getString NO  "SSH port: " NEWSSHPORT1 21976
 getString NO  "vsftp port (usually 21): " NEWFTPPORT1 21201
+getString NO  "OpenVPN port: " OPENVPNPORT1 31195
 getString NO  "Do you want to have some of your users in a chroot jail? " CHROOTJAIL1 YES
 getString NO  "Install Webmin? " INSTALLWEBMIN1 YES
 getString NO  "Install Fail2ban? " INSTALLFAIL2BAN1 YES
 getString NO  "Install OpenVPN? " INSTALLOPENVPN1 YES
 getString NO  "Install SABnzbd? " INSTALLSABNZBD1 YES
-getString NO  "OpenVPN port: " OPENVPNPORT1 31195
+getString NO  "Install Rapidleech? " INSTALLRAPIDLEECH1 YES
 
 #getString NO  "Wich rTorrent would you like to use, '0.8.9' (older stable) or '0.9.2' (newer but banned in some trackers)? " RTORRENT1 0.9.2
 RTORRENT1=0.9.2
@@ -563,6 +564,7 @@ chmod -R 755 /var/www/rutorrent
 
 perl -pi -e "s/\\\$topDirectory\, \\\$fm/\\\$homeDirectory\, \\\$topDirectory\, \\\$fm/g" /var/www/rutorrent/plugins/filemanager/flm.class.php
 perl -pi -e "s/\\\$this\-\>userdir \= addslash\(\\\$topDirectory\)\;/\\\$this\-\>userdir \= \\\$homeDirectory \? addslash\(\\\$homeDirectory\) \: addslash\(\\\$topDirectory\)\;/g" /var/www/rutorrent/plugins/filemanager/flm.class.php
+perl -pi -e "s/\$topDirectory\/\$homeDirectory\/g" /var/www/rutorrent/plugins/filemanager/settings.js.php
 
 #32.4
 unzip /etc/seedbox-from-scratch/rutorrent-oblivion.zip -d /var/www/rutorrent/plugins/
@@ -613,6 +615,10 @@ fi
 
 if [ "$INSTALLSABNZBD1" = "YES" ]; then
   bash /etc/seedbox-from-scratch/installSABnzbd
+fi
+
+if [ "$INSTALLRAPIDLEECH1" = "YES" ]; then
+  bash /etc/seedbox-from-scratch/installRapidleech
 fi
 
 # 97.
