@@ -16,12 +16,12 @@
 # Changelog
 #
 #  Version 2.1.2 (not stable yet)
-#   Nov 16 2012 20:15
+#   Nov 16 2012 20:48 GMT-3
+#     - new upgradeSeedbox script (to download git files for a new version, it will not really upgrade it, at least for now :)
 #     - ruTorrent fileshare Plugin (http://forums.rutorrent.org/index.php?topic=705.0)
-#     - upgradeSeedbox script (to download git files for a new version, it will not upgrade it for real, at least for now :)
 #     - rapidleech http://www.rapidleech.com/ - http://www.rapidleech.com/index.php?showtopic=2226|Go ** tutorial: http://www.seedm8.com/members/knowledgebase/24/Installing-Rapidleech-on-your-Seedbox.html
 #
-#  Version 2.1.1 (not stable yet)
+#  Version 2.1.1 (stable)
 #   Nov 12 2012 20:15
 #     - OpenVPN was not working as expected (fixed)
 #     - OpenVPN port now is configurable (at main install) and you can change it anytime before reinstalling: /etc/seedbox-from-scratch/openvpn.info

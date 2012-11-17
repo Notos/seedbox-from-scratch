@@ -1,0 +1,19 @@
+##################### FIRST LINE
+# ---------------------------
+#!/bin/bash
+# ---------------------------
+#
+# The Seedbox From Scratch Script
+#   By Notos ---> https://github.com/Notos/
+#
+#
+#
+
+cd ~
+sudo rm -r /var/www/rapidleech
+sudo svn checkout http://rapidleech.googlecode.com/svn/trunk/ /var/www/rapidleech
+sudo chown -R www-data: /var/www/rapidleech/files
+sudo chown -R www-data: /var/www/rapidleech/configs
+
+echo "Rapidleech is installed" | sudo tee /etc/seedbox-from-scratch/rapidleech.info &> /dev/null
+cat /etc/seedbox-from-scratch/rapidleech.info
