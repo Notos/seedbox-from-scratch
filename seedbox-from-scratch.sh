@@ -205,7 +205,7 @@ PASSWORD2=b
 
 getString NO  "You need to create an user for your seedbox: " NEWUSER1
 getString YES "ruTorrent password for user $NEWUSER1: " PASSWORD1
-getString NO  "IP address or hostname of your box: " NEWHOSTNAME1 $IPADDRESS1
+getString NO  "IP address or hostname of your box: " IPADDRESS1 $IPADDRESS1
 getString NO  "SSH port: " NEWSSHPORT1 21976
 getString NO  "vsftp port (usually 21): " NEWFTPPORT1 21201
 getString NO  "OpenVPN port: " OPENVPNPORT1 31195
@@ -400,12 +400,12 @@ echo "$IPADDRESS1" > /etc/seedbox-from-scratch/hostname.info
 
 # 11.
 
-export NEWHOSTNAME1=tsfsSeedBox
-export CERTPASS1=@@$NEWHOSTNAME1.$NEWUSER1.ServerP7s$
+export TEMPHOSTNAME1=tsfsSeedBox
+export CERTPASS1=@@$TEMPHOSTNAME1.$NEWUSER1.ServerP7s$
 export NEWUSER1
 export IPADDRESS1
 
-bash /etc/seedbox-from-scratch/createOpenSSLCACertificate 
+bash /etc/seedbox-from-scratch/createOpenSSLCACertificate
 
 # 13.
 mv /etc/apache2/sites-available/default /etc/apache2/sites-available/default.ORI
@@ -546,7 +546,7 @@ ln -s /var/www/rutorrent/plugins/mediastream/view.php /var/www/stream/view.php
 chown www-data: /var/www/stream
 chown www-data: /var/www/stream/view.php
 
-echo "<?php \$streampath = 'http://$NEWHOSTNAME1/stream/view.php'; ?>" | tee /var/www/rutorrent/plugins/mediastream/conf.php > /dev/null
+echo "<?php \$streampath = 'http://$IPADDRESS1/stream/view.php'; ?>" | tee /var/www/rutorrent/plugins/mediastream/conf.php > /dev/null
 
 # 32.2 # FILEUPLOAD
 cd /var/www/rutorrent/plugins/
