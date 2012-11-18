@@ -18,10 +18,10 @@ script
   sudo su --login --command "<homedir>/restartSeedbox" <username>
 
   if [ ! "/tmp" = "<jaildir>/tmp" ]; then
-    sleep 3
-    sudo mount --bind /tmp <jaildir>/tmp
-    sleep 3
-    sudo mount --bind /var/www/rutorrent <jaildir>/var/www/rutorrent
+    #sleep 3
+    #sudo mount --bind /tmp <jaildir>/tmp
+    #sleep 3
+    #sudo mount --bind /var/www/rutorrent <jaildir>/var/www/rutorrent
   fi
 end script
 
