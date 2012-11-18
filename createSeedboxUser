@@ -530,7 +530,7 @@ echo "ruTorrent: https://$IPADDRESS1/rutorrent/" | sudo tee -a /etc/seedbox-from
 echo "Webmin: https://$IPADDRESS1:10000" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "FTP: ftp://$IPADDRESS1:$NEWFTPPORT1/" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 if [ -f /etc/seedbox-from-scratch/rapidleech.info ]; then
-  echo "Rapidleech: https://$IPADDRESS1TPPORT1/rapidleech" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+  echo "Rapidleech: https://$IPADDRESS1/rapidleech" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 fi
 
 echo "" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
