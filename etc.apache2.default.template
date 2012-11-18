@@ -119,7 +119,7 @@
   <Location /rutorrent>
     AuthType Digest
     AuthName "rutorrent"
-    AuthDigestDomain /var/www/rutorrent/ http://<servername>/rutorrent
+    AuthDigestDomain /var/www/rutorrent/ https://<servername>/rutorrent
     AuthDigestProvider file
     AuthUserFile /etc/apache2/htpasswd
     Require valid-user
