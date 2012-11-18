@@ -608,6 +608,12 @@ REALM1=documentroot
 echo -n $NEWUSER1:$REALM1:$PASSWORD1 > /tmp/file
 echo $NEWUSER1:$REALM1:`md5sum /tmp/file | cut -d" " -f1` | sudo tee -a /etc/apache2/htpasswd
 
+# 36.
+
+wget -P /usr/share/ca-certificates/ --no-check-certificate https://certs.godaddy.com/repository/gd_intermediate.crt https://certs.godaddy.com/repository/gd_cross_intermediate.crt
+update-ca-certificates
+c_rehash
+
 # 96.
 
 if [ "$INSTALLOPENVPN1" = "YES" ]; then

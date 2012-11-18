@@ -54,7 +54,7 @@
 
   CustomLog /var/log/apache2/access.log combined
 
-  <Location /rutorrent>
+  <Directory /var/www/rutorrent>
     AuthType Digest
     AuthName "rutorrent"
     AuthDigestDomain /var/www/rutorrent/ http://<servername>/rutorrent
@@ -62,7 +62,7 @@
     AuthUserFile /etc/apache2/htpasswd
     Require valid-user
     SetEnv R_ENV "/var/www/rutorrent"
-  </Location>
+  </Directory>
 </VirtualHost>
 
 <VirtualHost *:443>
@@ -116,7 +116,7 @@
   LogLevel warn
 
   CustomLog /var/log/apache2/access.log combined
-  <Location /rutorrent>
+  <Directory /var/www/rutorrent>
     AuthType Digest
     AuthName "rutorrent"
     AuthDigestDomain /var/www/rutorrent/ https://<servername>/rutorrent
@@ -124,5 +124,5 @@
     AuthUserFile /etc/apache2/htpasswd
     Require valid-user
     SetEnv R_ENV "/var/www/rutorrent"
-  </Location>
+  </Directory>
 </VirtualHost>
