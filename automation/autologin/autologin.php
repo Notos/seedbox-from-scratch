@@ -53,10 +53,10 @@
 				$this->addToOutput("Error: passwordFile variable is empty.");
 				$result = false;
 			} else if (!file_exists($this->configuration['passwordFile'])) {
-				$this->addToOutput("Error: passwordFile '$this->passwordFile' does not exists.");
+				$this->addToOutput("Error: passwordFile '$this->configuration['passwordFile']' does not exists.");
 				$result = false;
 			}
-			
+
 			return $result;
 		}
 		
@@ -184,10 +184,8 @@
 			
 			return $post;
 		}
-			
-		public function login($trackers) {
-			$this->trackers = $trackers;
 
+		public function login() {
 			if ( !$this->checkEnvironment() ) {
 				return $this->getOutput();
 			}
