@@ -69,6 +69,9 @@
 			} else if (!is_readable($this->configuration['passwordFile'])) {
 				$this->addToOutput("Error: passwordFile '".$this->configuration['passwordFile']."' is not readable.");
 				$result = false;
+			} else if (!readPasswords()) {
+				$this->addToOutput("Error: passwordFile '".$this->configuration['passwordFile']."' is empty or not readable.");
+				$result = false;
 			}
 
 			return $result;
@@ -77,6 +80,10 @@
 		private function readPasswords() {
 			$this->passwords = array();
 			$a = file($this->configuration['passwordFile']);
+			if (count($a) == 0) {
+				$this->addToOutput("Error: passwordFile is not readable or is empty.");
+				return false;
+      }
 			foreach($a as $line) {
 				if(empty($line)) {
 					continue;
@@ -91,10 +98,10 @@
 				$this->addToOutput("Error: passwordFile is not readable or is empty.");
 				return false;
 			}
-			
+
 			return true;
 		}
-		
+
 		private function writeToFile($string, $file = '/tmp/server.log') {
   		if( $fh = fopen($file, 'a') ) {
   			fwrite($fh, $string."\n");
@@ -195,7 +202,7 @@
 					$post[$a[1]] = $field;
 				}
 			}
-			
+
 			return $post;
 		}
 
@@ -207,7 +214,7 @@
 			if (! $this->readPasswords() ) {
 				return $this->getOutput();
 			}
-			
+
 			foreach($this->trackers as $tracker => $data) {
 				if ($this->loginTracker($tracker, $data)) {
 					$this->addToOutput("$tracker: login successful.");
