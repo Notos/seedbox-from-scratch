@@ -212,7 +212,7 @@
 			return $this->output;
 		}
 
-    function loadTrackers($folder) {
+    public function loadTrackers($folder) {
       $trackers = array();
     	$files = scandir($folder);
     	foreach($files as $file) {
@@ -225,10 +225,11 @@
     	die;
     	return $conf;
     }
+
+    public function loadConfiguration($file) {
+      $this->configuration = parse_ini_file($file); // no sections
+      __pa($this->configuration);
+    }
   }
 
-  function loadConfiguration($file) {
-    $this->configuration = parse_ini_file($file); // no sections
-    __pa($this->configuration);
-  }
 ?>
