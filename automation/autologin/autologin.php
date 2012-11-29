@@ -4,12 +4,12 @@
   ///    By Notos ---> https://github.com/Notos/
   ///
 
-  include "../common/curl.php";
+  include dirname(__FILE__)."../common/curl.php";
 
   $login = new LOGIN;
 
-  $login->loadConfiguration("../automation.ini");
-  $login->loadTrackers("../trackers/");
+  $login->loadConfiguration(dirname(__FILE__)."../automation.ini");
+  $login->loadTrackers(dirname(__FILE__)."../trackers/");
 
   ///
   /// You have to edit ../automation.ini to configure this program
@@ -60,25 +60,19 @@
 				}
 			}
 
-      __p("1");
 			if (empty($this->configuration['passwordFile'])) {
-      __p("2");
 				$this->addToOutput("Error: passwordFile variable is empty.");
 				$result = false;
 			} else if (!file_exists($this->configuration['passwordFile'])) {
-      __p("3");
 				$this->addToOutput("Error: passwordFile '".$this->configuration['passwordFile']."' does not exists.");
 				$result = false;
 			} else if (!is_readable($this->configuration['passwordFile'])) {
-      __p("4");
 				$this->addToOutput("Error: passwordFile '".$this->configuration['passwordFile']."' is not readable.");
 				$result = false;
 			} else if (!$this->readPasswords()) {
-      __p("5");
 				$this->addToOutput("Error: passwordFile '".$this->configuration['passwordFile']."' is empty or not readable.");
 				$result = false;
 			}
-      __p("6");
 
 			return $result;
 		}
