@@ -43,18 +43,18 @@
 
 		private function checkEnvironment() {
       __pa($this->configuration);
-      
+
 			$result = true;
 			if (empty($this->configuration['logDir'])) {
 				$this->addToOutput("Error: logDir variable is empty.");
 				$result = false;
 			} else {
 				if (!is_dir($this->configuration['logDir'])) {
-					$this->addToOutput("Error: logDir '$this->configuration['logDir']' does not exists.");
+					$this->addToOutput("Error: logDir '".$this->configuration['logDir']."' does not exists.");
 					$result = false;
 				} else {
 					if (!is_writable($this->configuration['logDir'])) {
-						$this->addToOutput("Error: logDir '$this->configuration['logDir']' is not writable.");
+						$this->addToOutput("Error: logDir '".$this->configuration['logDir']."' is not writable.");
 						$result = false;
 					}
 				}
@@ -64,13 +64,13 @@
 				$this->addToOutput("Error: passwordFile variable is empty.");
 				$result = false;
 			} else if (!file_exists($this->configuration['passwordFile'])) {
-				$this->addToOutput("Error: passwordFile '$this->configuration['passwordFile']' does not exists.");
+				$this->addToOutput("Error: passwordFile '".$this->configuration['passwordFile']."' does not exists.");
 				$result = false;
 			}
 
 			return $result;
 		}
-		
+
 		private function readPasswords() {
 			$this->passwords = array();
 			$a = file($this->configuration['passwordFile']);
