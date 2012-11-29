@@ -232,4 +232,12 @@
     }
   }
 
+  function __p($s) {
+    print $s."<br>";
+  }
+  function __pa($s) {
+    print "<pre>";
+    print_r($s)
+    print "</pre>";
+  }
 ?>
