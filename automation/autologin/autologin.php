@@ -42,8 +42,6 @@
 		}
 
 		private function checkEnvironment() {
-      __pa($this->configuration);
-
 			$result = true;
 			if (empty($this->configuration['logDir'])) {
 				$this->addToOutput("Error: logDir variable is empty.");
