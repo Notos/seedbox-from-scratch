@@ -23,12 +23,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 
   class LOGIN {
-		public $logDir;
-		public $outputFormat;
-		public $output;
-		public $passwordFile;
+		private $output;
 		private $trackers;
-		public $cookieFile;
 		private $passwords;
     private $configuration;
 
@@ -38,35 +34,35 @@
 
 		private function checkEnvironment() {
 			$result = true;
-			if (empty($this->logDir)) {
+			if (empty($this->configuration['logDir'])) {
 				$this->addToOutput("Error: logDir variable is empty.");
 				$result = false;
 			} else {
-				if (!is_dir($this->logDir)) {
-					$this->addToOutput("Error: logDir '$this->logDir' does not exists.");
+				if (!is_dir($this->configuration['logDir'])) {
+					$this->addToOutput("Error: logDir '$this->configuration['logDir']' does not exists.");
 					$result = false;
 				} else {
-					if (!is_writable($this->logDir)) {
-						$this->addToOutput("Error: logDir '$this->logDir' is not writable.");
+					if (!is_writable($this->configuration['logDir'])) {
+						$this->addToOutput("Error: logDir '$this->configuration['logDir']' is not writable.");
 						$result = false;
 					}
 				}
 			}
-			
-			if (empty($this->passwordFile)) {
+
+			if (empty($this->configuration['passwordFile'])) {
 				$this->addToOutput("Error: passwordFile variable is empty.");
 				$result = false;
-			} else if (!file_exists($this->passwordFile)) {
+			} else if (!file_exists($this->configuration['passwordFile'])) {
 				$this->addToOutput("Error: passwordFile '$this->passwordFile' does not exists.");
 				$result = false;
-			}	
+			}
 			
 			return $result;
 		}
 		
 		private function readPasswords() {
 			$this->passwords = array();
-			$a = file($this->passwordFile);
+			$a = file($this->configuration['passwordFile']);
 			foreach($a as $line) {
 				if(empty($line)) {
 					continue;
@@ -76,8 +72,8 @@
 				$this->passwords[$fields[1]]['username'] = $fields[2];
 				$this->passwords[$fields[1]]['password'] = $fields[3];
 			}
-			
-			if (count($this->passwordFile) == 0) {
+
+			if (count($this->configuration['passwordFile']) == 0) {
 				$this->addToOutput("Error: passwordFile is not readable or is empty.");
 				return false;
 			}
@@ -98,7 +94,7 @@
 		private function addToOutput($string) {
 			$string = date("Y-m-d H:i:s") . " - " . $string;  
 			$this->output .= $string;
-			if ($this->outputFormat == "html") {
+			if ($this->configuration['outputFormat'] == "html") {
 				$this->output .= "<br />";
 			} else {
 				$this->output .= "\n";
@@ -106,7 +102,7 @@
 		}
 		
 		private function getOutput() {
-			if ( $this->outputFormat != 'none' ) {
+			if ( $this->configuration['outputFormat'] != 'none' ) {
 				return $this->output;
 			}
 		}
@@ -121,11 +117,11 @@
 			$postData[$data['logiPasswordField']] = $this->passwords[$tracker]['password'];
 			
 			$postData = $this->getExtrafields($tracker,$postData);
-			
-			$cookie = str_replace("<tracker>", $tracker, $this->cookieFile);
+
+			$cookie = str_replace("<tracker>", $tracker, $this->configuration['cookieFile']);
 			
 			$response = $this->surf($data['loginURL'], $postData, $cookie);
-			
+
 			if(!(stripos($response,$data['loggedInString'])===false)) {
 				return true;
 			}
@@ -155,8 +151,8 @@
 			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1); 
 			
 			if (!empty($cookiesFile)) {
-				curl_setopt($ch, CURLOPT_COOKIEFILE, $cookiesFile); 
-				curl_setopt($ch, CURLOPT_COOKIEJAR, $cookiesFile); 
+				curl_setopt($ch, CURLOPT_COOKIEFILE, $cookiesFile);
+				curl_setopt($ch, CURLOPT_COOKIEJAR, $cookiesFile);
 			}
 
 			if (count($postData) > 0) {
@@ -191,7 +187,7 @@
 			
 		public function login($trackers) {
 			$this->trackers = $trackers;
-			
+
 			if ( !$this->checkEnvironment() ) {
 				return $this->getOutput();
 			}
@@ -221,13 +217,10 @@
           $this->trackers = array_merge($this->trackers, $ini);
     		}
     	}
-    	__pa($this->trackers);
-    	die;
     }
 
     public function loadConfiguration($file) {
       $this->configuration = parse_ini_file($file); // no sections
-      __pa($this->configuration);
     }
   }
 
