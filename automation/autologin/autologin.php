@@ -218,7 +218,10 @@
     	foreach($files as $file) {
     		if(preg_match('/.*\.tracker.ini$/', $file)) {
     			$ini = parse_ini_file($folder.'/'.$file, true); // with sections
-    			$this->trackers = array_merge($this->trackers, $ini);
+    			if (is_array($ini) and count($ini) > 0) {
+            $ini[0] = substr($ini[0],1,strlen($ini[0])-2);
+            $this->trackers = array_merge($this->trackers, $ini);
+          }
     		}
     	}
     	__pa($this->trackers);
