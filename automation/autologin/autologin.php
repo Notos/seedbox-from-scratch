@@ -221,11 +221,6 @@
           $this->trackers = array_merge($this->trackers, $ini);
     		}
     	}
-    	foreach($this->trackers as $index => $tracker) {
-        unset($this->trackers[$index]);
-        $index[0] = substr($index[0],1,strlen($index[0])-2);
-        $this->trackers[$index] = $tracker;
-      }
     	__pa($this->trackers);
     	die;
     }
