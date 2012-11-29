@@ -4,12 +4,12 @@
   ///    By Notos ---> https://github.com/Notos/
   ///
 
-  include dirname(__FILE__)."../common/curl.php";
+  include dirname(__FILE__)."/../common/curl.php";
 
   $login = new LOGIN;
 
-  $login->loadConfiguration(dirname(__FILE__)."../automation.ini");
-  $login->loadTrackers(dirname(__FILE__)."../trackers/");
+  $login->loadConfiguration(dirname(__FILE__)."/../automation.ini");
+  $login->loadTrackers(dirname(__FILE__)."/../trackers/");
 
   ///
   /// You have to edit ../automation.ini to configure this program
