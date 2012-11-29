@@ -1,5 +1,5 @@
 [configuration]
-passwordFile = "/home/antoniocarlos/autologinPasswords.txt"
+passwordFile = "/home/<username>/automationPasswords.txt"
 cookieFile = "/tmp/autologin.cookie.<tracker>.txt"
 logDir = "/var/log/autologin"
 outputFormat = "html"
