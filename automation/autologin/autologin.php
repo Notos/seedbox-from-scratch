@@ -2,8 +2,7 @@
 
   $login = new LOGIN;
 
-  $login->configuration = parse_ini_file("../automation.ini"); // no sections
-  __pa($login->configuration);
+  $login->loadConfiguration("../automation.ini");
   $login->loadTrackers("../trackers/");
 
   /// Password file format:
@@ -36,7 +35,7 @@
 		function __construct() {
     	/// "In BaseClass constructor<br>";
 		}
-	 
+
 		private function checkEnvironment() {
 			$result = true;
 			if (empty($this->logDir)) {
@@ -213,20 +212,23 @@
 			return $this->output;
 		}
 
-    function loadConfiguration($folder) {
-      $conf = array();
+    function loadTrackers($folder) {
+      $trackers = array();
     	$files = scandir($folder);
     	foreach($files as $file) {
     		if(preg_match('/.*\.tracker.ini$/', $file)) {
     			$ini = parse_ini_file($folder.'/'.$file, true); // with sections
-    			$conf = array_merge($conf, $ini);
+    			$trackers = array_merge($trackers, $ini);
     		}
     	}
     	__pa($conf);
     	die;
     	return $conf;
     }
-
   }
 
+  function loadConfiguration($file) {
+    $this->configuration = parse_ini_file($file); // no sections
+    __pa($this->configuration);
+  }
 ?>
