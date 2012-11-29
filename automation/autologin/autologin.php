@@ -1,10 +1,19 @@
 <?php
+  ///
+  ///  The Seedbox From Scratch  Script
+  ///    By Notos ---> https://github.com/Notos/
+  ///
 
   $login = new LOGIN;
 
   $login->loadConfiguration("../automation.ini");
   $login->loadTrackers("../trackers/");
 
+  ///
+  /// You have to edit ../automation.ini to configure this program
+  ///
+  ///
+  ///
   /// Password file format:
   ///
   ///  <delimiter><tracker><delimiter><usermame><delimiter><password><delimiter>
@@ -18,7 +27,7 @@
   /// You choose what delimiter to use, it can be different from line to line
   ///
 
-  print $login->login($trackers);
+  print $login->login();
 
 // --------------------------------------------------------------------------------------------------------------------
 
