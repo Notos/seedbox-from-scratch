@@ -47,7 +47,8 @@ sudo rm /etc/init/rtorrent.$NEWUSER1.conf
 # 29.
 sudo rm -r /var/www/rutorrent/conf/users/$NEWUSER1
 
-##################### LAST LINE ###########
+sudo rm /etc/seedbox-from-scratch/users/$NEWUSER1.info
 
+##################### LAST LINE ###########
 
 # scripts are now in git form :)
