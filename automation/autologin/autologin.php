@@ -237,7 +237,7 @@
   }
   function __pa($s) {
     print "<pre>";
-    print_r($s)
+    print_r($s);
     print "</pre>";
   }
 ?>
