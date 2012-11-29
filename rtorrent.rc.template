@@ -32,34 +32,33 @@ max_peers = 100
  
 # same as above but for seeding completed torrents (-1 = same as downloading) 
 # throttle.min_peers.seed.set = 25
-# throttle.max_peers.seed.set = 60 
-min_peers_seed = 25 
-max_peers_seed = 60 
- 
+# throttle.max_peers.seed.set = 60
+min_peers_seed = 25
+max_peers_seed = 60
+
 # tracker_numwant = -1
 trackers.numwant.set = -1
- 
-# check hash for finished torrents. might be useful until the bug is 
-# fixed that causes lack of diskspace not to be properly reported 
-# pieces.hash.on_completion.set = yes 
-check_hash = yes 
+
+# check hash for finished torrents. might be useful until the bug is
+# fixed that causes lack of diskspace not to be properly reported
+# pieces.hash.on_completion.set = yes
+check_hash = yes
 
 # default directory to save the downloaded torrents
 # directory.default.set = /home/<username>/downloads
-directory = /home/<username>/downloads/manual
- 
-# default session directory. make sure you don"t run multiple instances 
-# of rtorrent using the same session directory 
-# perhaps using a relative path? 
+directory = /home/<username>/<manual-dir>
+
+# default session directory. make sure you don"t run multiple instances
+# of rtorrent using the same session directory
+# perhaps using a relative path?
 # session.path.set = /home/<username>/downloads/.session
-session = /home/<username>/downloads/.session
- 
- 
-# Connection Settings 
-# 
-# port range to use for listening 
-# network.port_range.set = 99888-99888 
-port_range = 99888-99888 
+session = /home/<username>/<session-dir>
+
+# Connection Settings
+#
+# port range to use for listening
+# network.port_range.set = 99888-99888
+port_range = 99888-99888
  
 # start opening ports at a random position within the port range 
 # network.port_random.set = yes 
@@ -67,7 +66,7 @@ port_random = yes
 
 # global upload and download rate in KiB. "0" for unlimited
 # throttle.global_up.max_rate.set_kb = 0 
-# throttle.global_down.max_rate.set_kb = 0 
+# throttle.global_down.max_rate.set_kb = 0
 upload_rate = 0 
 download_rate = 0 
  
@@ -102,7 +101,7 @@ dht = disable
 # enable peer exchange (for torrents not marked private) 
 # protocol.pex.set = no 
 peer_exchange = no 
- 
+
 # the IP address reported to the tracker 
 # network.local_address.set = rakshasa.no 
 # network.local_address.set = 127.0.0.1 
@@ -115,14 +114,17 @@ peer_exchange = no
 # dd:hh:mm:ss e.g. to start a task every day at 18:00, use 18:00:00,24:00:00. 
 # commands: stop_untied =, close_untied =, remove_untied = 
 # stop, close or remove the torrents that are tied to filenames that have been deleted 
- 
+
 # watch a directory for new torrents, and stop those that have been deleted
-schedule = watch_directory,5,5,load_start=/home/<username>/downloads/watch/*.torrent
-schedule = untied_directory,5,5,stop_untied= 
- 
-# close torrents when diskspace is low. */ 
-schedule = low_diskspace,5,60,close_low_diskspace=100M 
- 
+schedule = watch_directory,5,5,load_start=/home/<username>/<watch-dir>/*.torrent
+schedule = untied_directory,5,5,stop_untied=
+
+# added via watch folder are initially closed
+#system.method.set_key = event.download.inserted_new,close_inserted,d.close=
+
+# close torrents when diskspace is low. */
+schedule = low_diskspace,5,60,close_low_diskspace=100M
+
 # stop torrents when reaching upload ratio in percent,
 # when also reaching total upload in bytes, or when
 # reaching final upload ratio in percent
@@ -134,11 +136,11 @@ schedule = low_diskspace,5,60,close_low_diskspace=100M
 # this is meant for use with schedule, though ensure that the start is non-zero 
 # the loaded file will be tied to the filename provided. 
  
-# when the torrent finishes, it executes "mv -n <base_path> /home/$NEWUSER1/Download/" 
+# when the torrent finishes, it executes "mv -n <base_path> /home/$NEWUSER1/Download/"
 # and then sets the destination directory to "/home/$NEWUSER1/Download/". (0.7.7+)
 # on_finished = move_complete,"execute=mv,-u,$d.get_base_path=,/home/<username>/downloads/complete/ ;d.set_directory=/home/<username>/downloads/complete/"
- 
-# network.scgi.open_port = 127.0.0.1:5995 
+
+# network.scgi.open_port = 127.0.0.1:5995
 scgi_port = 127.0.0.1:5995 
  
 # alternative calls to bind and IP that should handle dynamic IP"s

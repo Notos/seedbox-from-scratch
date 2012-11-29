@@ -11,11 +11,18 @@
 #  git clone -b master https://github.com/Notos/seedbox-from-scratch.git /etc/seedbox-from-scratch
 #  sudo git stash; sudo git pull
 #
-  SBFSCURRENTVERSION=2.1.2
+  SBFSCURRENTVERSION=2.1.3
 #
 # Changelog
 #
-#  Version 2.1.2 (not stable yet)
+#  Version 2.1.3 (not stable yet)
+#   Nov 22 2012 20:48 GMT-3
+#     - Sabnzbd: final install now is made manually by the user in SSH. Install automation was not working as it should.
+#     - Added "MaxStartups 1:100:1" to sshd_config to help preventing brute force attacks to SSH
+#     - Reboot conditional
+#     - SSH PermitRootLogin and Port are changed at the end of script, if something bad happens you don't loose access to your box
+#
+#  Version 2.1.2 (stable)
 #   Nov 16 2012 20:48 GMT-3
 #     - new upgradeSeedbox script (to download git files for a new version, it will not really upgrade it, at least for now :)
 #     - ruTorrent fileshare Plugin (http://forums.rutorrent.org/index.php?topic=705.0)
@@ -216,6 +223,12 @@ getString NO  "Install Fail2ban? " INSTALLFAIL2BAN1 YES
 getString NO  "Install OpenVPN? " INSTALLOPENVPN1 YES
 getString NO  "Install SABnzbd? " INSTALLSABNZBD1 YES
 getString NO  "Install Rapidleech? " INSTALLRAPIDLEECH1 YES
+getString NO  "Reboot after installing? " REBOOT1 YES
+getString NO  "Default rtorrent manual download folder: " RTFOLDERMANUAL1 downloads/manual
+getString NO  "Default rtorrent automatic download folder: " RTFOLDERAUTO1 downloads/auto
+getString NO  "Default rtorrent watch folder: " RTFOLDERWATCH1 downloads/watch
+getString NO  "Default rtorrent session folder: " RTFOLDERSESSION1 downloads/.session
+getString NO  "Default sabnzbd download folder: " SBFOLDERDOWNLOAD1 downloads/sabnzbd
 
 #getString NO  "Wich rTorrent would you like to use, '0.8.9' (older stable) or '0.9.2' (newer but banned in some trackers)? " RTORRENT1 0.9.2
 RTORRENT1=0.9.2
@@ -254,17 +267,13 @@ fi
 set -x verbose
 
 # 4.
-perl -pi -e "s/Port 22/Port $NEWSSHPORT1/g" /etc/ssh/sshd_config
-perl -pi -e "s/PermitRootLogin yes/PermitRootLogin no/g" /etc/ssh/sshd_config
-perl -pi -e "s/#Protocol 2/Protocol 2/g" /etc/ssh/sshd_config
-perl -pi -e "s/X11Forwarding yes/X11Forwarding no/g" /etc/ssh/sshd_config
-
 groupadd sshdusers
 echo "" | tee -a /etc/ssh/sshd_config > /dev/null
 echo "UseDNS no" | tee -a /etc/ssh/sshd_config > /dev/null
 echo "AllowGroups sshdusers" >> /etc/ssh/sshd_config
 sudo cp /lib/terminfo/l/linux /usr/share/terminfo/l/
 awk -F: '$3 == 1000 {print $1}' /etc/passwd | xargs usermod --groups sshdusers
+echo "MaxStartups 1:100:1" >> /etc/ssh/sshd_config
 
 service ssh restart
 
@@ -297,6 +306,7 @@ if [ $? -gt 0 ]; then
   echo
   echo
   echo
+  REBOOT1=NO
   set -e
   exit 1
 fi
@@ -401,10 +411,10 @@ echo "$IPADDRESS1" > /etc/seedbox-from-scratch/hostname.info
 
 # 11.
 
-export TEMPHOSTNAME1=tsfsSeedBox
-export CERTPASS1=@@$TEMPHOSTNAME1.$NEWUSER1.ServerP7s$
 export NEWUSER1
 export IPADDRESS1
+export TEMPHOSTNAME1=tsfsSeedBox
+export CERTPASS1=@@$TEMPHOSTNAME1.$NEWUSER1.ServerP7s$
 
 bash /etc/seedbox-from-scratch/createOpenSSLCACertificate
 
@@ -472,7 +482,6 @@ echo "local_umask=022" | tee -a /etc/vsftpd.conf >> /dev/null
 echo "ftpd_banner=Welcome to your seedbox FTP service." | tee -a /etc/vsftpd.conf >> /dev/null
 echo "connect_from_port_20=NO" | tee -a /etc/vsftpd.conf >> /dev/null
 echo "chroot_list_enable=YES" | tee -a /etc/vsftpd.conf >> /dev/null
-echo "chroot_list_file=/etc/vsftpd.chroot_list" | tee -a /etc/vsftpd.conf >> /dev/null
 echo "chroot_list_file=/etc/vsftpd.chroot_list" | tee -a /etc/vsftpd.conf >> /dev/null
 
 # 22.
@@ -601,6 +610,11 @@ echo $SBFSCURRENTVERSION > /etc/seedbox-from-scratch/version.info
 echo $NEWFTPPORT1 > /etc/seedbox-from-scratch/ftp.info
 echo $NEWSSHPORT1 > /etc/seedbox-from-scratch/ssh.info
 echo $OPENVPNPORT1 > /etc/seedbox-from-scratch/openvpn.info
+echo $RTFOLDERMANUAL1 > /etc/seedbox-from-scratch/rtorrent.folder.manual.info
+echo $RTFOLDERAUTO1 > /etc/seedbox-from-scratch/rtorrent.folder.auto.info
+echo $RTFOLDERWATCH1 > /etc/seedbox-from-scratch/rtorrent.folder.watch.info
+echo $RTFOLDERSESSION1 > /etc/seedbox-from-scratch/rtorrent.folder.session.info
+echo $SBFOLDERDOWNLOAD1 > /etc/seedbox-from-scratch/sabnzbd.folder.download.info
 
 #35.
 
@@ -614,7 +628,7 @@ wget -P /usr/share/ca-certificates/ --no-check-certificate https://certs.godaddy
 update-ca-certificates
 c_rehash
 
-# 96.
+# 95.
 
 if [ "$INSTALLOPENVPN1" = "YES" ]; then
   bash /etc/seedbox-from-scratch/installOpenVPN
@@ -628,11 +642,23 @@ if [ "$INSTALLRAPIDLEECH1" = "YES" ]; then
   bash /etc/seedbox-from-scratch/installRapidleech
 fi
 
-# 97.
+# 96.
 
 #first user will not be jailed
 #  createSeedboxUser <username> <password> <user jailed?> <ssh access?> <?>
 bash /etc/seedbox-from-scratch/createSeedboxUser $NEWUSER1 $PASSWORD1 YES NO YES
+
+# 97.
+
+if [ $? == 0 ]; then
+  perl -pi -e "s/Port 22/Port $NEWSSHPORT1/g" /etc/ssh/sshd_config
+  perl -pi -e "s/PermitRootLogin yes/PermitRootLogin no/g" /etc/ssh/sshd_config
+  perl -pi -e "s/#Protocol 2/Protocol 2/g" /etc/ssh/sshd_config
+  perl -pi -e "s/X11Forwarding yes/X11Forwarding no/g" /etc/ssh/sshd_config
+  service ssh restart
+else
+  REBOOT1=NO
+fi
 
 # 98.
 
@@ -658,6 +684,8 @@ echo ""
 
 # 99.
 
-reboot
+if [ "$REBOOT1" == "YES" ]; then
+  reboot
+fi
 
 ##################### LAST LINE ###########

@@ -179,13 +179,25 @@ if [ "$CHROOTJAIL1" == "YES" ]; then
   HOMEDIR1=$HOMEDIR1/home
   HOMEJAILED1=$JAILDIR1/home
 fi
-JAILDIR1_ESCAPED=`echo $JAILDIR1 | sed s,/,\\\\\\\\\\/,g`
-HOMEDIR1_ESCAPED=`echo $HOMEDIR1 | sed s,/,\\\\\\\\\\/,g`
-HOMEJAILED1_ESCAPED=`echo $HOMEJAILED1 | sed s,/,\\\\\\\\\\/,g`
 IPADDRESS1=`cat /etc/seedbox-from-scratch/hostname.info`
 SBFSCURRENTVERSION=`cat /etc/seedbox-from-scratch/version.info`
 NEWFTPPORT1=`cat /etc/seedbox-from-scratch/ftp.info`
 NEWSSHPORT1=`cat /etc/seedbox-from-scratch/ssh.info`
+RTFOLDERMANUAL1=`cat /etc/seedbox-from-scratch/rtorrent.folder.manual.info`
+RTFOLDERAUTO1=`cat /etc/seedbox-from-scratch/rtorrent.folder.auto.info`
+RTFOLDERWATCH1=`cat /etc/seedbox-from-scratch/rtorrent.folder.watch.info`
+RTFOLDERSESSION1=`cat /etc/seedbox-from-scratch/rtorrent.folder.session.info`
+SBFOLDERDOWNLOAD1=`cat /etc/seedbox-from-scratch/sabnzbd.folder.download.info`
+
+#escaping
+JAILDIR1_ESCAPED=`echo $JAILDIR1 | sed s,/,\\\\\\\\\\/,g`
+HOMEDIR1_ESCAPED=`echo $HOMEDIR1 | sed s,/,\\\\\\\\\\/,g`
+HOMEJAILED1_ESCAPED=`echo $HOMEJAILED1 | sed s,/,\\\\\\\\\\/,g`
+RTFOLDERMANUAL1_ESCAPED=`echo $RTFOLDERMANUAL1 | sed s,/,\\\\\\\\\\/,g`
+RTFOLDERAUTO1_ESCAPED=`echo $RTFOLDERAUTO1 | sed s,/,\\\\\\\\\\/,g`
+RTFOLDERWATCH1_ESCAPED=`echo $RTFOLDERWATCH1 | sed s,/,\\\\\\\\\\/,g`
+RTFOLDERSESSION1_ESCAPED=`echo $RTFOLDERSESSION1 | sed s,/,\\\\\\\\\\/,g`
+SBFOLDERDOWNLOAD1_ESCAPED=`echo $SBFOLDERDOWNLOAD1 | sed s,/,\\\\\\\\\\/,g`
 
 # 3.2
 
@@ -329,6 +341,9 @@ sudo cp /etc/seedbox-from-scratch/rtorrent.rc.template  $HOMEJAILED1/.rtorrent.r
 sudo perl -pi -e "s/<username>/$NEWUSER1$ADDHOME1/g" $HOMEJAILED1/.rtorrent.rc
 sudo perl -pi -e "s/5995/$SCGIPORT1/g" $HOMEJAILED1/.rtorrent.rc
 sudo perl -pi -e "s/99888/$NETWORKPORT1/g" $HOMEJAILED1/.rtorrent.rc
+sudo perl -pi -e "s/<manual-dir>/$RTFOLDERMANUAL1_ESCAPED/g" $HOMEJAILED1/.rtorrent.rc
+sudo perl -pi -e "s/<session-dir>/$RTFOLDERSESSION1_ESCAPED/g" $HOMEJAILED1/.rtorrent.rc
+sudo perl -pi -e "s/<watch-dir>/$RTFOLDERWATCH1_ESCAPED/g" $HOMEJAILED1/.rtorrent.rc
 
 sudo chown $NEWUSER1:$NEWUSER1 $HOMEJAILED1/.rtorrent.rc
 
@@ -427,6 +442,7 @@ if ( which "sabnzbdplus" &>/dev/null ); then
   sudo perl -pi -e "s/<homedir>/$HOMEJAILED1_ESCAPED/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
   sudo perl -pi -e "s/<https_port>/$SABNZBDHTTPSPORT1/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
   sudo perl -pi -e "s/<http_port>/$SABNZBDHTTPPORT1/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
+  sudo perl -pi -e "s/<downloads-dir>/$SBFOLDERDOWNLOAD1_ESCAPED/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
 
   sudo cp /etc/seedbox-from-scratch/ssl/sabnzbd.cert $HOMEJAILED1/.sabnzbd/admin/
   sudo cp /etc/seedbox-from-scratch/ssl/sabnzbd.key $HOMEJAILED1/.sabnzbd/admin/
@@ -484,6 +500,7 @@ sudo cp /etc/seedbox-from-scratch/home.user.autodl.autodl.cfg.template  $HOMEJAI
 sudo perl -pi -e "s/<PASSWORD>/$IRSSIPASSWORD1/g"  $HOMEJAILED1/.autodl/autodl.cfg
 sudo perl -pi -e "s/<PORT>/$IRSSIPORT1/g"  $HOMEJAILED1/.autodl/autodl.cfg
 sudo perl -pi -e "s/use Digest\:\:SHA1 qw/use Digest\:\:SHA qw/g" $HOMEJAILED1/.irssi/scripts/AutodlIrssi/MatchedRelease.pm
+sudo perl -pi -e "s/<auto-dir>/$RTFOLDERAUTO1_ESCAPED/g"  $HOMEJAILED1/.autodl/autodl.cfg
 
 if [ "$CHROOTJAIL1" == "YES" ]; then
   sudo jk_chrootlaunch -u $NEWUSER1 -j $JAILDIR1 -x /bin/bash -- /restartSeedbox

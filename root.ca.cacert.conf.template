@@ -74,4 +74,4 @@ authorityKeyIdentifier = keyid:always,issuer:always
 
 [ v3_req ]
 basicConstraints  = CA:FALSE
-subjectKeyIdentifier  = hash
+

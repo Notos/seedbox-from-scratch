@@ -29,4 +29,3 @@ sudo svn checkout http://upload.googlecode.com/svn/trunk/web uploader
 sudo wget http://upload.googlecode.com/files/web-v0.9.4.tar.gz
 sudo tar -vzxf web-v0.9.4.tar.gz
 sudo rm web-v0.9.4.tar.gz
-sudo 

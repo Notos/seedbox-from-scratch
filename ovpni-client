@@ -1,0 +1,26 @@
+NEWUSER1=<username or name of your machine>
+IPADDRESS1=`ifconfig | sed -n 's/.*inet addr:\([0-9.]\+\)\s.*/\1/p' | grep -v 127 | head -n 1`
+OPENVPNPORT1=`cat /etc/seedbox-from-scratch/openvpn.info`
+HOSTNAME1=`hostname`
+CLIENTNAME1=$NEWUSER1
+
+cd /etc/openvpn/2.0/
+. ./vars
+./build-key $CLIENTNAME1
+cd keys/
+client="
+client
+remote $IPADDRESS1 $OPENVPNPORT1
+dev tun
+comp-lzo
+ca ca.crt
+cert $CLIENTNAME1.crt
+key $CLIENTNAME1.key
+route-delay 2
+route-method exe
+redirect-gateway def1
+dhcp-option DNS 10.159.12.1
+verb 3"
+echo "$client" > $HOSTNAME-$CLIENTNAME1.ovpn
+zip vpn-$CLIENTNAME1.zip ca.crt ca.key $CLIENTNAME1.crt $CLIENTNAME1.csr $CLIENTNAME1.key $HOSTNAME-$CLIENTNAME1.ovpn
+mv vpn-$CLIENTNAME1.zip /var/www/rutorrent
