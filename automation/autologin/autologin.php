@@ -171,7 +171,7 @@
 				__p("CURL Error: ".curl_errno($ch)." = ".curlError(curl_errno($ch)));
 			}
 		  curl_close($ch);
-		  
+
 		  //$this->addToOutput($response);
 		  
 		  //__p($response);
@@ -213,17 +213,16 @@
 		}
 
     public function loadTrackers($folder) {
-      $trackers = array();
+      $this->trackers = array();
     	$files = scandir($folder);
     	foreach($files as $file) {
     		if(preg_match('/.*\.tracker.ini$/', $file)) {
     			$ini = parse_ini_file($folder.'/'.$file, true); // with sections
-    			$trackers = array_merge($trackers, $ini);
+    			$this->trackers = array_merge($this->trackers, $ini);
     		}
     	}
-    	__pa($conf);
+    	__pa($this->trackers);
     	die;
-    	return $conf;
     }
 
     public function loadConfiguration($file) {
