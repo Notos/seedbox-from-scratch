@@ -4,6 +4,8 @@
   ///    By Notos ---> https://github.com/Notos/
   ///
 
+  include "../common/curl.php";
+
   $login = new LOGIN;
 
   $login->loadConfiguration("../automation.ini");
@@ -150,7 +152,7 @@
 			
 			$headers[] = "Accept: */*";
 			$headers[] = "Connection: Keep-Alive";
-			
+
 			curl_setopt($ch, CURLOPT_HTTPHEADER,  $headers);
 			curl_setopt($ch, CURLOPT_HEADER,  0);
 			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
@@ -165,12 +167,12 @@
 			}
 
 			if (count($postData) > 0) {
-				curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData)); 
+				curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
 			}
 
 			curl_setopt($ch, CURLOPT_URL, $url);
-			curl_setopt($ch, CURLOPT_POST, 1); 
-			
+			curl_setopt($ch, CURLOPT_POST, 1);
+
 			$response = curl_exec($ch);
 			if (curl_errno($ch)) {
 				__p("CURL Error: ".curl_errno($ch)." = ".curlError(curl_errno($ch)));
@@ -178,7 +180,7 @@
 		  curl_close($ch);
 
 		  //$this->addToOutput($response);
-		  
+
 		  //__p($response);
 		  return $response;
 		}
