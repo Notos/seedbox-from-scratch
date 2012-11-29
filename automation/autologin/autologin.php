@@ -66,6 +66,9 @@
 			} else if (!file_exists($this->configuration['passwordFile'])) {
 				$this->addToOutput("Error: passwordFile '".$this->configuration['passwordFile']."' does not exists.");
 				$result = false;
+			} else if (!is_readable($this->configuration['passwordFile'])) {
+				$this->addToOutput("Error: passwordFile '".$this->configuration['passwordFile']."' is not readable.");
+				$result = false;
 			}
 
 			return $result;
