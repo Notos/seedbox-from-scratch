@@ -60,19 +60,25 @@
 				}
 			}
 
+      __p("1");
 			if (empty($this->configuration['passwordFile'])) {
+      __p("2");
 				$this->addToOutput("Error: passwordFile variable is empty.");
 				$result = false;
 			} else if (!file_exists($this->configuration['passwordFile'])) {
+      __p("3");
 				$this->addToOutput("Error: passwordFile '".$this->configuration['passwordFile']."' does not exists.");
 				$result = false;
 			} else if (!is_readable($this->configuration['passwordFile'])) {
+      __p("4");
 				$this->addToOutput("Error: passwordFile '".$this->configuration['passwordFile']."' is not readable.");
 				$result = false;
-			} else if (!readPasswords()) {
+			} else if (!$this->readPasswords()) {
+      __p("5");
 				$this->addToOutput("Error: passwordFile '".$this->configuration['passwordFile']."' is empty or not readable.");
 				$result = false;
 			}
+      __p("6");
 
 			return $result;
 		}
