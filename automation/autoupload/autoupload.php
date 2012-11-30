@@ -54,8 +54,8 @@ $trackers = array();
 $trackers['what.cd'] = array(	
 														 	'userAgent' => 'Notos AutoUploader',
 															'announce' => 'http://tracker.what.cd:34000/fphw82lolewtsvqq4l8a8jpz9t1uanw8/announce',
-															'username' => 'Theophylaktos',
-														 	'password' => 'c8EbrEquducHerUCHeStajUsteJutRES',
+															'username' => 'Notos',
+														 	'password' => 'Notos',
 														 	'searchURL' => 'https://what.cd/torrents.php?searchstr=',
 														 	'searchPositiveString' => 'title="Download"',
 														 	'loginURL' => 'https://what.cd/login.php?',
