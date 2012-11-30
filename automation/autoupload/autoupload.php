@@ -1,4 +1,7 @@
 <?php
+
+// The Seedbox From Scratch Script
+
 include_once 'simple_html_dom.php';
 
 $debug = false;
@@ -288,7 +291,7 @@ function searchTrackers($data) {
     } else {
 			$found = '(NOT FOUND) TORRENT "'.$data['searchString'].'"';
     }
-    
+
     $data['searchResults'] = $data['searchResults'] . "$tracker:$found\n";
 	}
 	
@@ -297,7 +300,7 @@ function searchTrackers($data) {
 
 function trackerLogin($tracker, $force = false) {
 	global $trackers;                                                                                                                                                                      
-	
+
 	if (!$force) {
 		$time = time()-filemtime($trackers[$tracker]['cookiesFile']);
 
@@ -1042,7 +1045,7 @@ function xml2array($contents, $get_attributes=1, $priority = 'tag') {
     xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, 0); 
     xml_parser_set_option($parser, XML_OPTION_SKIP_WHITE, 1); 
     xml_parse_into_struct($parser, trim($contents), $xml_values); 
-    xml_parser_free($parser); 
+    xml_parser_free($parser);
 
     if(!$xml_values) return;//Hmm... 
 
@@ -1100,7 +1103,7 @@ function xml2array($contents, $get_attributes=1, $priority = 'tag') {
                      
                     if(isset($current[$tag.'_attr'])) { //The attribute of the last(0th) tag must be moved as well 
                         $current[$tag]['0_attr'] = $current[$tag.'_attr']; 
-                        unset($current[$tag.'_attr']); 
+                        unset($current[$tag.'_attr']);
                     } 
 
                 } 
@@ -1109,7 +1112,7 @@ function xml2array($contents, $get_attributes=1, $priority = 'tag') {
             } 
 
         } elseif($type == "complete") { //Tags that ends in 1 line '<tag />' 
-            //See if the key is already taken. 
+            //See if the key is already taken.
             if(!isset($current[$tag])) { //New Key 
                 $current[$tag] = $result; 
                 $repeated_tag_index[$tag.'_'.$level] = 1; 
