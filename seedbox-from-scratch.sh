@@ -153,8 +153,7 @@ function getString
       fi
     fi
 
-    if [ "$NEWVAR1" == "$DEFAULT" ]
-    then
+    if [ "$NEWVAR1" == "$DEFAULT" ]; then
       NEWVAR2=$NEWVAR1
     else
       if [ "$ISPASSWORD" == "YES" ]; then
@@ -238,14 +237,13 @@ git clone -b v$SBFSCURRENTVERSION https://github.com/Notos/seedbox-from-scratch.
 mkdir -p cd /etc/seedbox-from-scratch/source
 mkdir -p cd /etc/seedbox-from-scratch/users
 
-if [ ! -f /etc/debian_version ]
+if [ ! -f /etc/debian_version ]; then
   apt-get --yes install python-software-properties
   apt-get --yes install software-properties-common
   sudo add-apt-repository --yes ppa:thefrontiergroup/vsftpd
 fi
 
-if [ ! -f /etc/seedbox-from-scratch/seedbox-from-scratch.sh ]
-then
+if [ ! -f /etc/seedbox-from-scratch/seedbox-from-scratch.sh ]; then
   clear
   echo Looks like somethig is wrong, this script was not able to download its whole git repository.
   set -e
@@ -334,9 +332,8 @@ apt-get --yes install php5-xcache
 
 #Check if its Debian an do a sysvinit by upstart replacement:
 
-if [ -f /etc/debian_version ]
-  then
-    echo 'Yes, do as I say!' | apt-get -y --force-yes install upstart
+if [ -f /etc/debian_version ]; then
+  echo 'Yes, do as I say!' | apt-get -y --force-yes install upstart
 fi
 
 # 8.3 Generate our lists of ports and RPC and create variables
