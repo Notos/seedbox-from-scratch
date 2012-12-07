@@ -158,7 +158,7 @@ enabled = yes
 enabled = yes
 
 [source]
-enabled = no
+enabled = yes
 
 ;;[filemanager]
 ;;enabled = user-defined ;;; disabled in chroot jail
