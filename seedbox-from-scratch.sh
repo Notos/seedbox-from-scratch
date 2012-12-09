@@ -580,6 +580,7 @@ chmod -R 755 /var/www/rutorrent
 perl -pi -e "s/\\\$topDirectory\, \\\$fm/\\\$homeDirectory\, \\\$topDirectory\, \\\$fm/g" /var/www/rutorrent/plugins/filemanager/flm.class.php
 perl -pi -e "s/\\\$this\-\>userdir \= addslash\(\\\$topDirectory\)\;/\\\$this\-\>userdir \= \\\$homeDirectory \? addslash\(\\\$homeDirectory\) \: addslash\(\\\$topDirectory\)\;/g" /var/www/rutorrent/plugins/filemanager/flm.class.php
 perl -pi -e "s/\$topDirectory\/\$homeDirectory\/g" /var/www/rutorrent/plugins/filemanager/settings.js.php
+perl -pi -e "s/\$topDirectory/\$homeDirectory/g" /var/www/rutorrent/plugins/filemanager/settings.js.php
 
 #32.4
 unzip /etc/seedbox-from-scratch/rutorrent-oblivion.zip -d /var/www/rutorrent/plugins/
