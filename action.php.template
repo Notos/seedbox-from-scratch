@@ -39,7 +39,7 @@
 /// --------------------------------------------------------------------------  Your playground is up ^^^^^^
 /// --------------------------------------------------------------------------
 
-  function myGetDirs($username, &$homeUser, &$homeBase) {
+  function myGetDirs($username, $homeUser, $homeBase) {                                
     $passwd = file('/etc/passwd');
     $path = false;
     foreach ($passwd as $line) {
