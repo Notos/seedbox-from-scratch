@@ -15,7 +15,12 @@
 #
 # Changelog
 #
-#  Version 2.1.2 (not stable yet)
+#  Version 2.1.4 (not stable yet)
+#   Dec 11 2012 2:34 GMT-3
+#     - Debian 6 (Squeeze) compatibilization
+#     - Check if user running the script is root
+#
+#  Version 2.1.2 (stable)
 #   Nov 16 2012 20:48 GMT-3
 #     - new upgradeSeedbox script (to download git files for a new version, it will not really upgrade it, at least for now :)
 #     - ruTorrent fileshare Plugin (http://forums.rutorrent.org/index.php?topic=705.0)
@@ -188,6 +193,11 @@ function getString
   eval $RETURN=\$NEWVAR1
 }
 # 0.
+
+if [[ $EUID -ne 0 ]]; then
+  echo "This script must be run as root" 1>&2
+  exit 1
+fi
 
 export DEBIAN_FRONTEND=noninteractive
 
