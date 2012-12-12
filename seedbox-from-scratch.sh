@@ -11,7 +11,7 @@
 #  git clone -b master https://github.com/Notos/seedbox-from-scratch.git /etc/seedbox-from-scratch
 #  sudo git stash; sudo git pull
 #
-  SBFSCURRENTVERSION=2.1.2
+  SBFSCURRENTVERSION=2.1.4
 #
 # Changelog
 #
@@ -19,6 +19,7 @@
 #   Dec 11 2012 2:34 GMT-3
 #     - Debian 6 (Squeeze) compatibilization
 #     - Check if user running the script is root
+#     - FTP with SSL (AUTH SSL - Explicit)
 #
 #  Version 2.1.2 (stable)
 #   Nov 16 2012 20:48 GMT-3
@@ -431,7 +432,31 @@ export CERTPASS1=@@$TEMPHOSTNAME1.$NEWUSER1.ServerP7s$
 export NEWUSER1
 export IPADDRESS1
 
+echo "$NEWUSER1" > /etc/seedbox-from-scratch/mainuser.info
+echo "$CERTPASS1" > /etc/seedbox-from-scratch/certpass.info
+
 bash /etc/seedbox-from-scratch/createOpenSSLCACertificate
+
+mkdir -p /etc/ssl/private/
+openssl req -x509 -nodes -days 365 -newkey rsa:1024 -keyout /etc/ssl/private/vsftpd.pem -out /etc/ssl/private/vsftpd.pem -config /etc/seedbox-from-scratch/ssl/CA/caconfig.cnf
+
+perl -pi -e "s/anonymous_enable\=YES/\#anonymous_enable\=YES/g" /etc/vsftpd.conf
+perl -pi -e "s/connect_from_port_20\=YES/#connect_from_port_20\=YES/g" /etc/vsftpd.conf
+echo "listen_port=$NEWFTPPORT1" | tee -a /etc/vsftpd.conf >> /dev/null
+echo "ssl_enable=YES" | tee -a /etc/vsftpd.conf >> /dev/null
+echo "allow_anon_ssl=YES" | tee -a /etc/vsftpd.conf >> /dev/null
+echo "force_local_data_ssl=YES" | tee -a /etc/vsftpd.conf >> /dev/null
+echo "force_local_logins_ssl=YES" | tee -a /etc/vsftpd.conf >> /dev/null
+echo "ssl_tlsv1=YES" | tee -a /etc/vsftpd.conf >> /dev/null
+echo "ssl_sslv2=NO" | tee -a /etc/vsftpd.conf >> /dev/null
+echo "ssl_sslv3=NO" | tee -a /etc/vsftpd.conf >> /dev/null
+echo "require_ssl_reuse=NO" | tee -a /etc/vsftpd.conf >> /dev/null
+echo "ssl_ciphers=HIGH" | tee -a /etc/vsftpd.conf >> /dev/null
+echo "rsa_cert_file=/etc/ssl/private/vsftpd.pem" | tee -a /etc/vsftpd.conf >> /dev/null
+echo "local_enable=YES" | tee -a /etc/vsftpd.conf >> /dev/null
+echo "write_enable=YES" | tee -a /etc/vsftpd.conf >> /dev/null
+echo "local_umask=022" | tee -a /etc/vsftpd.conf >> /dev/null
+echo "chroot_local_user=YES" | tee -a /etc/vsftpd.conf >> /dev/null
 
 # 13.
 mv /etc/apache2/sites-available/default /etc/apache2/sites-available/default.ORI
@@ -482,23 +507,6 @@ cd ../rtorrent-$RTORRENT1
 make -j2
 make install
 ldconfig
-
-#18.
-perl -pi -e "s/anonymous_enable\=YES/\#anonymous_enable\=YES/g" /etc/vsftpd.conf
-perl -pi -e "s/connect_from_port_20\=YES/#connect_from_port_20\=YES/g" /etc/vsftpd.conf
-echo "" | tee -a /etc/vsftpd.conf >> /dev/null
-echo "anonymous_enable=NO" | tee -a /etc/vsftpd.conf >> /dev/null
-echo "listen_port=$NEWFTPPORT1" | tee -a /etc/vsftpd.conf >> /dev/null
-echo "local_enable=YES" | tee -a /etc/vsftpd.conf >> /dev/null
-echo "allow_writeable_chroot=YES" | tee -a /etc/vsftpd.conf >> /dev/null
-echo "chroot_local_user=YES" | tee -a /etc/vsftpd.conf >> /dev/null
-echo "write_enable=YES" | tee -a /etc/vsftpd.conf >> /dev/null
-echo "local_umask=022" | tee -a /etc/vsftpd.conf >> /dev/null
-echo "ftpd_banner=Welcome to your seedbox FTP service." | tee -a /etc/vsftpd.conf >> /dev/null
-echo "connect_from_port_20=NO" | tee -a /etc/vsftpd.conf >> /dev/null
-echo "chroot_list_enable=YES" | tee -a /etc/vsftpd.conf >> /dev/null
-echo "chroot_list_file=/etc/vsftpd.chroot_list" | tee -a /etc/vsftpd.conf >> /dev/null
-echo "chroot_list_file=/etc/vsftpd.chroot_list" | tee -a /etc/vsftpd.conf >> /dev/null
 
 # 22.
 cd /var/www
