@@ -282,13 +282,10 @@ fi
 # 3.4
 
 if [ "$USERINSUDOERS1" == "YES" ]; then
-  if [ ! -f /etc/debian_version ]; then
-    sudo addgroup $NEWUSER1 admin
-    sudo addgroup $NEWUSER1 root
+  if [[ -a /etc/debian_version ]]; then
     sudo addgroup $NEWUSER1 sudo
   else
-    # idk groups were not working on debian -- Notos 
-    echo "$NEWUSER1 ALL=(ALL) ALL" | sudo tee -a /etc/sudoers > /dev/null
+    sudo addgroup $NEWUSER1 admin
   fi
 fi
 
