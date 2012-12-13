@@ -16,9 +16,9 @@ kill `screen -ls | grep tached | awk '{print $1}' | cut -d. -f 1` &> /dev/null
 sleep 1
 kill -9 `screen -ls | grep tached | awk '{print $1}' | cut -d. -f 1` &> /dev/null
 sleep 1
-kill `ps aux | grep SABnzbd | grep -v grep | awk '{print $2}' | cut -d. -f 1`
+kill `ps aux | grep <username> | grep SABnzbd | grep -v grep | awk '{print $2}' | cut -d. -f 1` &> /dev/null
 sleep 1
-kill -9 `ps aux | grep SABnzbd | grep -v grep | awk '{print $2}' | cut -d. -f 1`
+kill -9 `ps aux | grep <username> | grep SABnzbd | grep -v grep | awk '{print $2}' | cut -d. -f 1` &> /dev/null
 
 echo "Wiping screen..."
 screen -wipe
