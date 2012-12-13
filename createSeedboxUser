@@ -420,16 +420,18 @@ if [ -f /etc/seedbox-from-scratch/sabnzbd/SABnzbd.py ]; then
   sudo $HOMEJAILED1/.sabnzbd/sabnzbd.ini $HOMEJAILED1/.sabnzbd/sabnzbd.ini.original
 
   sudo perl -pi -e "s/username = \"\"/username = \"$NEWUSER1\"/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
-  sudo perl -pi -e "s/password = \"\"/password = \"$PASSWORD1\"/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
+# sudo perl -pi -e "s/password = \"\"/password = \"$PASSWORD1\"/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini ############### now you can just run changeUserPassword if you forget it :)
   sudo perl -pi -e "s/host = localhost/host = 0.0.0.0/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
   sudo perl -pi -e "s/https_cert = server\.cert/https_cert = sabnzbd\.pem/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
   sudo perl -pi -e "s/https_key = server.key/https_key = sabnzbd.key/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
   sudo perl -pi -e "s/https_port = 9090/https_port = $SABNZBDHTTPSPORT1/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
   sudo perl -pi -e "s/port = 8080/port = $SABNZBDHTTPPORT1/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
-  sudo perl -pi -e "s/download_dir = downloads\/incomplete/download_dir = $HOMEJAILED1_ESCAPED\/downloads\/sabnzbd\/incomplete/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
-  sudo perl -pi -e "s/complete_dir = downloads\/complete/complete_dir = $HOMEJAILED1_ESCAPED\/downloads\/sabnzbd\/complete/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
+  sudo perl -pi -e "s/download_dir = Downloads\/incomplete/download_dir = $HOMEJAILED1_ESCAPED\/downloads\/sabnzbd\/incomplete/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
+  sudo perl -pi -e "s/complete_dir = Downloads\/complete/complete_dir = $HOMEJAILED1_ESCAPED\/downloads\/sabnzbd\/complete/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
   sudo perl -pi -e "s/web_color = \"\"/web_color = Gold/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
   sudo perl -pi -e "s/tv_categories = \"\"/tv_categories = \,/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
+
+  sudo rm -r $HOMEJAILED1/.sabnzbd/Downloads
 
   sudo cp /etc/seedbox-from-scratch/ssl/sabnzbd.cert $HOMEJAILED1/.sabnzbd/admin/
   sudo cp /etc/seedbox-from-scratch/ssl/sabnzbd.key $HOMEJAILED1/.sabnzbd/admin/
