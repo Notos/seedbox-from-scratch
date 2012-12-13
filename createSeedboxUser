@@ -422,14 +422,13 @@ if ( which "sabnzbdplus" &>/dev/null ); then
   sudo cp /root/CA/sabnzbd.key $HOMEJAILED1/.sabnzbd/admin/
   sudo cp /root/CA/sabnzbd.pem $HOMEJAILED1/.sabnzbd/admin/
 
-  sudo cp /etc/seedbox-from-scratch/home.user.sabnzbd.sabnzbd.ini.template $HOMEJAILED1/.sabnzbd/sabnzbd.ini
-
-  sudo perl -pi -e "s/<username>/$NEWUSER1/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
-  sudo perl -pi -e "s/<password>/$PASSWORD1/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
-  sudo perl -pi -e "s/<servername>/$IPADDRESS1/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
-  sudo perl -pi -e "s/<homedir>/$HOMEJAILED1_ESCAPED/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
-  sudo perl -pi -e "s/<https_port>/$SABNZBDHTTPSPORT1/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
-  sudo perl -pi -e "s/<http_port>/$SABNZBDHTTPPORT1/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
+  sudo perl -pi -e "s/username = \"\"/username = \"$NEWUSER1\"/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
+  sudo perl -pi -e "s/password = \"\"/password = \"$PASSWORD1\"/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
+  sudo perl -pi -e "s/host = \"\"/host = $IPADDRESS1/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
+  sudo perl -pi -e "s/https_cert = server\.cert/https_cert = sabnzbd\.pem/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
+  sudo perl -pi -e "s/https_key = server.key/https_key = sabnzbd.key/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
+  sudo perl -pi -e "s/https_port = 9090/https_port = $SABNZBDHTTPSPORT1/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
+  sudo perl -pi -e "s/port = 8080/port = $SABNZBDHTTPPORT1/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
 
   sudo cp /etc/seedbox-from-scratch/ssl/sabnzbd.cert $HOMEJAILED1/.sabnzbd/admin/
   sudo cp /etc/seedbox-from-scratch/ssl/sabnzbd.key $HOMEJAILED1/.sabnzbd/admin/
