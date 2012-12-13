@@ -422,6 +422,8 @@ if ( which "sabnzbdplus" &>/dev/null ); then
   sudo cp /root/CA/sabnzbd.key $HOMEJAILED1/.sabnzbd/admin/
   sudo cp /root/CA/sabnzbd.pem $HOMEJAILED1/.sabnzbd/admin/
 
+  sudo $HOMEJAILED1/.sabnzbd/sabnzbd.ini $HOMEJAILED1/.sabnzbd/sabnzbd.ini.original
+
   sudo perl -pi -e "s/username = \"\"/username = \"$NEWUSER1\"/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
   sudo perl -pi -e "s/password = \"\"/password = \"$PASSWORD1\"/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
   sudo perl -pi -e "s/host = \"\"/host = $IPADDRESS1/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
@@ -429,13 +431,15 @@ if ( which "sabnzbdplus" &>/dev/null ); then
   sudo perl -pi -e "s/https_key = server.key/https_key = sabnzbd.key/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
   sudo perl -pi -e "s/https_port = 9090/https_port = $SABNZBDHTTPSPORT1/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
   sudo perl -pi -e "s/port = 8080/port = $SABNZBDHTTPPORT1/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
+  sudo perl -pi -e "s/download_dir = downloads\/incomplete/download_dir = $HOMEJAILED1_ESCAPED\/downloads\/sabnzbd\/incomplete/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
+  sudo perl -pi -e "s/complete_dir = downloads\/complete/complete_dir = $HOMEJAILED1_ESCAPED\/downloads\/sabnzbd\/complete/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
 
   sudo cp /etc/seedbox-from-scratch/ssl/sabnzbd.cert $HOMEJAILED1/.sabnzbd/admin/
   sudo cp /etc/seedbox-from-scratch/ssl/sabnzbd.key $HOMEJAILED1/.sabnzbd/admin/
   sudo cp /etc/seedbox-from-scratch/ssl/sabnzbd.pem $HOMEJAILED1/.sabnzbd/admin/
 
-  mkdir $HOMEJAILED1/downloads/sabnzbd/incomplete
-  mkdir $HOMEJAILED1/downloads/sabnzbd/complete
+  mkdir -p $HOMEJAILED1/downloads/sabnzbd/incomplete
+  mkdir -p $HOMEJAILED1/downloads/sabnzbd/complete
 
   sudo chown $NEWUSER1: $HOMEJAILED1/.sabnzbd/admin/*
   sudo chown $NEWUSER1: $HOMEJAILED1/.sabnzbd/admin/*
