@@ -405,7 +405,7 @@ fi
 
 # 26.
 
-if ( which "sabnzbdplus" &>/dev/null ); then
+if [[ -a /etc/seedbox-from-scratch/sabnzbd/SABnzbd.py ]]; then
   sudo su --login --command "screen -dmS sabnzbd /etc/seedbox-from-scratch/sabnzbd/SABnzbd.py --daemon --server localhost:9991 --https 9992" $NEWUSER1
   sleep 5
   sudo kill `sudo ps aux | grep -i screen | grep $NEWUSER1 | grep sabnzbd | awk '{print $2}'` &> /dev/null
