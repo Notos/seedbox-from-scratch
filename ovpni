@@ -88,6 +88,7 @@ echo "iptables-restore" > /etc/network/if-up.d/iptables
 chmod +x /etc/network/if-up.d/iptables
 echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
 /etc/init.d/openvpn start
+sudo iptables -t nat -I POSTROUTING -s 10.159.12.0/24 -j MASQUERADE
 clear
 cd
 clear
