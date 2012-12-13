@@ -217,7 +217,7 @@ PASSWORD1=a
 PASSWORD2=b
 
 getString NO  "You need to create an user for your seedbox: " NEWUSER1
-getString YES "ruTorrent password for user $NEWUSER1: " PASSWORD1
+getString YES "Password for user $NEWUSER1: " PASSWORD1
 getString NO  "IP address or hostname of your box: " IPADDRESS1 $IPADDRESS1
 getString NO  "SSH port: " NEWSSHPORT1 21976
 getString NO  "vsftp port (usually 21): " NEWFTPPORT1 21201
@@ -636,12 +636,6 @@ echo $SBFSCURRENTVERSION > /etc/seedbox-from-scratch/version.info
 echo $NEWFTPPORT1 > /etc/seedbox-from-scratch/ftp.info
 echo $NEWSSHPORT1 > /etc/seedbox-from-scratch/ssh.info
 echo $OPENVPNPORT1 > /etc/seedbox-from-scratch/openvpn.info
-
-#35.
-
-REALM1=documentroot
-echo -n $NEWUSER1:$REALM1:$PASSWORD1 > /tmp/file
-echo $NEWUSER1:$REALM1:`md5sum /tmp/file | cut -d" " -f1` | sudo tee -a /etc/apache2/htpasswd
 
 # 36.
 
