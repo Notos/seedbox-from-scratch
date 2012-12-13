@@ -17,10 +17,10 @@
 #
 #  Version 2.1.4 (not stable yet)
 #   Dec 11 2012 2:34 GMT-3
-#     - Debian 6 (Squeeze) compatibilization
+#     - Debian 6 (Squeeze) Compatibile
 #     - Check if user running the script is root
-#     - FTP with SSL (AUTH SSL - Explicit)
-#     - SABnzbd is now being installed from sources and works fine
+#     - vsftpd - FTP access with SSL (AUTH SSL - Explicit)
+#     - SABnzbd is now being installed from sources and works better
 #     - New script: changeUserPassword <username> <password> <realm>
 #
 #  Version 2.1.2 (stable)
@@ -301,7 +301,7 @@ apt-get --yes upgrade
 #install all needed packages
 
 apt-get --yes build-dep znc
-apt-get --yes install apache2 apache2-utils autoconf build-essential ca-certificates comerr-dev curl cfv quota mktorrent dtach htop irssi libapache2-mod-php5 libcloog-ppl-dev libcppunit-dev libcurl3 libcurl4-openssl-dev libncurses5-dev libterm-readline-gnu-perl libsigc++-2.0-dev libperl-dev openvpn libssl-dev libtool libxml2-dev ncurses-base ncurses-term ntp openssl patch libc-ares-dev pkg-config php5 php5-cli php5-dev php5-curl php5-geoip php5-mcrypt php5-gd php5-xmlrpc pkg-config python-scgi screen ssl-cert subversion texinfo unzip zlib1g-dev expect joe automake1.9 flex bison debhelper binutils-gold ffmpeg libarchive-zip-perl libnet-ssleay-perl libhtml-parser-perl libxml-libxml-perl libjson-perl libjson-xs-perl libxml-libxslt-perl libxml-libxml-perl libjson-rpc-perl libarchive-zip-perl vsftpd znc
+apt-get --yes install apache2 apache2-utils autoconf build-essential ca-certificates comerr-dev curl cfv quota mktorrent dtach htop irssi libapache2-mod-php5 libcloog-ppl-dev libcppunit-dev libcurl3 libcurl4-openssl-dev libncurses5-dev libterm-readline-gnu-perl libsigc++-2.0-dev libperl-dev openvpn libssl-dev libtool libxml2-dev ncurses-base ncurses-term ntp openssl patch libc-ares-dev pkg-config php5 php5-cli php5-dev php5-curl php5-geoip php5-mcrypt php5-gd php5-xmlrpc pkg-config python-scgi screen ssl-cert subversion texinfo unzip zlib1g-dev expect joe automake1.9 flex bison debhelper binutils-gold ffmpeg libarchive-zip-perl libnet-ssleay-perl libhtml-parser-perl libxml-libxml-perl libjson-perl libjson-xs-perl libxml-libxslt-perl libxml-libxml-perl libjson-rpc-perl libarchive-zip-perl vsftpd znc tcpdump
 if [ $? -gt 0 ]; then
   set +x verbose
   echo
