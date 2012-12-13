@@ -20,6 +20,8 @@
 #     - Debian 6 (Squeeze) compatibilization
 #     - Check if user running the script is root
 #     - FTP with SSL (AUTH SSL - Explicit)
+#     - SABnzbd is now being installed from sources and works fine
+#     - New script: changeUserPassword <username> <password> <realm>
 #
 #  Version 2.1.2 (stable)
 #   Nov 16 2012 20:48 GMT-3
