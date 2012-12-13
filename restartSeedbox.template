@@ -12,10 +12,13 @@
 export HOME=<homedir>
 
 echo "Killing all related processes..."
-kill `screen -ls | grep Detached | awk '{print $1}' | cut -d. -f 1` &> /dev/null
-sleep 2
-kill -9 `screen -ls | grep Detached | awk '{print $1}' | cut -d. -f 1` &> /dev/null
-sleep 2
+kill `screen -ls | grep tached | awk '{print $1}' | cut -d. -f 1` &> /dev/null
+sleep 1
+kill -9 `screen -ls | grep tached | awk '{print $1}' | cut -d. -f 1` &> /dev/null
+sleep 1
+kill `ps aux | grep SABnzbd | grep -v grep | awk '{print $2}' | cut -d. -f 1`
+sleep 1
+kill -9 `ps aux | grep SABnzbd | grep -v grep | awk '{print $2}' | cut -d. -f 1`
 
 echo "Wiping screen..."
 screen -wipe
@@ -31,5 +34,5 @@ screen -d -m -S irssi irssi
 if [[ -a /etc/seedbox-from-scratch/sabnzbd/SABnzbd.py ]]; then
   sleep 3
   echo "Start sabnzbdplus..."
-  screen -dmS sabnzbd /etc/seedbox-from-scratch/sabnzbd/SABnzbd.py
+  /etc/seedbox-from-scratch/sabnzbd/SABnzbd.py --server 0.0.0.0:<http_port> --daemon --config-file=<homedir>/.sabnzbd/sabnzbd.ini --logging 2 --https <https_port>
 fi

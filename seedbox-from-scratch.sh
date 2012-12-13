@@ -22,6 +22,7 @@
 #     - vsftpd - FTP access with SSL (AUTH SSL - Explicit)
 #     - SABnzbd is now being installed from sources and works better
 #     - New script: changeUserPassword <username> <password> <realm>
+#     - restartSeedbox now kill processes even if there are users attached on screens
 #
 #  Version 2.1.2 (stable)
 #   Nov 16 2012 20:48 GMT-3
