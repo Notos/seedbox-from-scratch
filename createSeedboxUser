@@ -426,7 +426,7 @@ if ( which "sabnzbdplus" &>/dev/null ); then
 
   sudo perl -pi -e "s/username = \"\"/username = \"$NEWUSER1\"/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
   sudo perl -pi -e "s/password = \"\"/password = \"$PASSWORD1\"/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
-  sudo perl -pi -e "s/host = \"\"/host = 0.0.0.0/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
+  sudo perl -pi -e "s/host = localhost/host = 0.0.0.0/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
   sudo perl -pi -e "s/https_cert = server\.cert/https_cert = sabnzbd\.pem/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
   sudo perl -pi -e "s/https_key = server.key/https_key = sabnzbd.key/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
   sudo perl -pi -e "s/https_port = 9090/https_port = $SABNZBDHTTPSPORT1/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
