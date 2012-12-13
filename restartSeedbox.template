@@ -19,16 +19,17 @@ sleep 2
 
 echo "Wiping screen..."
 screen -wipe
-sleep 3
 
+sleep 3
 echo "Start rTorrent..."
 screen -d -m -S rtorrent rtorrent
-sleep 3
 
+sleep 3
 echo "Start IRSSI..."
 screen -d -m -S irssi irssi
-sleep 3
 
-echo "Start sabnzbdplus..."
-screen -dmS sabnzbd sabnzbdplus
-sleep 3
+if [[ -a /etc/seedbox-from-scratch/sabnzbd/SABnzbd.py ]]; then
+  sleep 3
+  echo "Start sabnzbdplus..."
+  screen -dmS sabnzbd /etc/seedbox-from-scratch/sabnzbd/SABnzbd.py
+fi
