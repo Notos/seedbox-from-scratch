@@ -23,5 +23,6 @@ sudo chmod +x /etc/seedbox-from-scratch/createOpenSSLServiceCertificate
 sudo chmod +x /etc/seedbox-from-scratch/createOpenSSLCACertificate
 sudo chmod +x /etc/seedbox-from-scratch/upgradeSeedbox
 sudo chmod +x /etc/seedbox-from-scratch/installRapidleech
+sudo chmod +x /etc/seedbox-from-scratch/changeUserPassword
 
 ##################### LAST LINE ###########
