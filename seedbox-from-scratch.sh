@@ -11,7 +11,7 @@
 #  git clone -b master https://github.com/Notos/seedbox-from-scratch.git /etc/seedbox-from-scratch
 #  sudo git stash; sudo git pull
 #
-  SBFSCURRENTVERSION1=2.1.4
+  SBFSCURRENTVERSION1=2.1.8   
   OS1=$(lsb_release -si)
 #
 # Changelog
