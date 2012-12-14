@@ -437,6 +437,7 @@ echo "$NEWUSER1" > /etc/seedbox-from-scratch/mainuser.info
 echo "$CERTPASS1" > /etc/seedbox-from-scratch/certpass.info
 
 bash /etc/seedbox-from-scratch/createOpenSSLCACertificate
+bash /etc/seedbox-from-scratch/createOpenSSLWebserverCertificate
 
 mkdir -p /etc/ssl/private/
 openssl req -x509 -nodes -days 365 -newkey rsa:1024 -keyout /etc/ssl/private/vsftpd.pem -out /etc/ssl/private/vsftpd.pem -config /etc/seedbox-from-scratch/ssl/CA/caconfig.cnf

@@ -1,0 +1,19 @@
+##################### FIRST LINE
+# ---------------------------
+#!/bin/bash
+# ---------------------------
+#
+# The Seedbox From Scratch Script
+#   By Notos ---> https://github.com/Notos/
+#
+#
+#
+#
+
+CERTPASS1=`cat /etc/seedbox-from-scratch/certpass.info`
+sudo openssl genrsa -des3 -passout pass:$CERTPASS1 -out /etc/seedbox-from-scratch/ssl/webserver.key 2048
+sudo openssl rsa -in /etc/seedbox-from-scratch/ssl/webserver.key -passin pass:$CERTPASS1 -out /etc/seedbox-from-scratch/ssl/webserver.pem
+sudo openssl req -new -key /etc/seedbox-from-scratch/ssl/webserver.key -passin pass:$CERTPASS1 -config /etc/seedbox-from-scratch/ssl/CA/caconfig.cnf -out /etc/seedbox-from-scratch/ssl/webserver.csr
+sudo openssl x509 -req -days 60 -in /etc/seedbox-from-scratch/ssl/webserver.csr -passin pass:$CERTPASS1 -signkey /etc/seedbox-from-scratch/ssl/webserver.key -out /etc/seedbox-from-scratch/ssl/webserver.crt
+
+##################### LAST LINE ###########
