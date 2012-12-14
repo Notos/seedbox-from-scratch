@@ -11,6 +11,12 @@
 #
 
 CERTPASS1=`cat /etc/seedbox-from-scratch/certpass.info`
+
+sudo rm /etc/seedbox-from-scratch/ssl/webserver.crt
+sudo rm /etc/seedbox-from-scratch/ssl/webserver.csr
+sudo rm /etc/seedbox-from-scratch/ssl/webserver.key
+sudo rm /etc/seedbox-from-scratch/ssl/webserver.pem
+
 sudo openssl genrsa -des3 -passout pass:$CERTPASS1 -out /etc/seedbox-from-scratch/ssl/webserver.key 2048
 sudo openssl rsa -in /etc/seedbox-from-scratch/ssl/webserver.key -passin pass:$CERTPASS1 -out /etc/seedbox-from-scratch/ssl/webserver.pem
 sudo openssl req -new -key /etc/seedbox-from-scratch/ssl/webserver.key -passin pass:$CERTPASS1 -config /etc/seedbox-from-scratch/ssl/CA/caconfig.cnf -out /etc/seedbox-from-scratch/ssl/webserver.csr
