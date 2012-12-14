@@ -11,18 +11,22 @@
 #  git clone -b master https://github.com/Notos/seedbox-from-scratch.git /etc/seedbox-from-scratch
 #  sudo git stash; sudo git pull
 #
-  SBFSCURRENTVERSION=2.1.4
+  SBFSCURRENTVERSION1=2.1.4
+  OS1=$(lsb_release -si)
 #
 # Changelog
 #
 #  Version 2.1.4 (not stable yet)
 #   Dec 11 2012 2:34 GMT-3
 #     - Debian 6 (Squeeze) Compatibile
-#     - Check if user running the script is root
+#     - Check if user root is running the script
 #     - vsftpd - FTP access with SSL (AUTH SSL - Explicit)
+#     - vsftpd downgraded on Ubuntu to 2.3.2 (oneiric)
+#     - iptables tweaked to make OpenVPN work as it should both on Ubuntu and Debian
 #     - SABnzbd is now being installed from sources and works better
-#     - New script: changeUserPassword <username> <password> <realm>
+#     - New script: changeUserPassword <username> <password> <realm> --- example:  changeUserPassword notos 133t rutorrent
 #     - restartSeedbox now kill processes even if there are users attached on screens
+#     - Installs rar, unrar and zip separately from main installations to prevent script from breaking on bad sources from non-OVH providers
 #
 #  Version 2.1.2 (stable)
 #   Nov 16 2012 20:48 GMT-3
@@ -247,7 +251,7 @@ fi
 apt-get --yes install whois sudo makepasswd git
 
 rm -f -r /etc/seedbox-from-scratch
-git clone -b v$SBFSCURRENTVERSION https://github.com/Notos/seedbox-from-scratch.git /etc/seedbox-from-scratch
+git clone -b v$SBFSCURRENTVERSION1 https://github.com/Notos/seedbox-from-scratch.git /etc/seedbox-from-scratch
 mkdir -p cd /etc/seedbox-from-scratch/source
 mkdir -p cd /etc/seedbox-from-scratch/users
 
@@ -341,7 +345,7 @@ apt-get --yes install php5-xcache
 
 #Check if its Debian an do a sysvinit by upstart replacement:
 
-if [[ -a /etc/debian_version ]]; then
+if [ "$OS1" = "Debian" ]; then
   echo 'Yes, do as I say!' | apt-get -y --force-yes install upstart
 fi
 
@@ -437,7 +441,7 @@ bash /etc/seedbox-from-scratch/createOpenSSLCACertificate
 mkdir -p /etc/ssl/private/
 openssl req -x509 -nodes -days 365 -newkey rsa:1024 -keyout /etc/ssl/private/vsftpd.pem -out /etc/ssl/private/vsftpd.pem -config /etc/seedbox-from-scratch/ssl/CA/caconfig.cnf
 
-if [[ -a /etc/debian_version ]]; then
+if [ "$OS1" = "Debian" ]; then
   apt-get --yes install vsftpd
 else
   apt-get --yes install libcap-dev libpam0g-dev libwrap0-dev
@@ -635,7 +639,7 @@ bash /etc/seedbox-from-scratch/updateExecutables
 
 #34.
 
-echo $SBFSCURRENTVERSION > /etc/seedbox-from-scratch/version.info
+echo $SBFSCURRENTVERSION1 > /etc/seedbox-from-scratch/version.info
 echo $NEWFTPPORT1 > /etc/seedbox-from-scratch/ftp.info
 echo $NEWSSHPORT1 > /etc/seedbox-from-scratch/ssh.info
 echo $OPENVPNPORT1 > /etc/seedbox-from-scratch/openvpn.info
