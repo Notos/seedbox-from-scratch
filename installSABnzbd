@@ -1,4 +1,6 @@
 cd /etc/seedbox-from-scratch
-sudo apt-get --yes install python-cheetah python-pyopenssl
+sudo apt-get --yes install python-cheetah
+sudo apt-get --yes install python-pyopenssl
+sudo apt-get --yes install python-openssl
 sudo tar xvfz SABnzbd-0.7.6-src.tar.gz
 sudo mv SABnzbd-0.7.6 sabnzbd
