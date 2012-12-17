@@ -378,7 +378,7 @@ sudo cp /etc/seedbox-from-scratch/rutorrent.conf.users.config.php.template /var/
 sudo perl -pi -e "s/5995/$SCGIPORT1/g" /var/www/rutorrent/conf/users/$NEWUSER1/config.php
 sudo perl -pi -e "s/RPC123/$NEWRPC1/g" /var/www/rutorrent/conf/users/$NEWUSER1/config.php
 sudo perl -pi -e "s/<username>/$NEWUSER1/g" /var/www/rutorrent/conf/users/$NEWUSER1/config.php
-sudo perl -pi -e "s/<homedir>/\/home\/$NEWUSER1/g" /var/www/rutorrent/conf/users/$NEWUSER1/config.php
+sudo perl -pi -e "s/<homedir>/$HOMEJAILED1_ESCAPED/g" /var/www/rutorrent/conf/users/$NEWUSER1/config.php
 
 # 25.
 
