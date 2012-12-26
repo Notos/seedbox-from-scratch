@@ -11,12 +11,20 @@
 #  git clone -b master https://github.com/Notos/seedbox-from-scratch.git /etc/seedbox-from-scratch
 #  sudo git stash; sudo git pull
 #
-  SBFSCURRENTVERSION1=2.1.8   
+  SBFSCURRENTVERSION1=2.1.9
   OS1=$(lsb_release -si)
 #
 # Changelog
 #
-#  Version 2.1.4 (not stable yet)
+#  Version 2.1.9 (not stable yet)
+#   Dec 26 2012 17:37 GMT-3
+#     - Deluge v1.3.5 multi-user installation script (it will install the last stable version): installDeluge
+#     - Added an option to install Deluge in the main seedbox-from-scratch script
+#
+#  Version 2.1.8 (stable)
+#     - Bug fix release
+#
+#  Version 2.1.4 (stable)
 #   Dec 11 2012 2:34 GMT-3
 #     - Debian 6 (Squeeze) Compatibile
 #     - Check if user root is running the script

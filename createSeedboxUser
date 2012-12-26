@@ -587,16 +587,21 @@ echo "vsftp port: $NEWFTPPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$N
 echo "IRSSI Port: $IRSSIPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "SCGI Port: $SCGIPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "rTorrent network port: $NETWORKPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
-echo "SABNZBD HTTPS port: $SABNZBDHTTPSPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
-echo "SABNZBD HTTP port: $SABNZBDHTTPPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+if [ -f /etc/seedbox-from-scratch/sabnzbd/SABnzbd.py ]; then
+  echo "SABNZBD HTTPS port: $SABNZBDHTTPSPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+  echo "SABNZBD HTTP port: $SABNZBDHTTPPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+fi
 if [ "$DELUGEINSTALLED1" == "YES" ]; then
+  echo "Deluge daemon port: $DEAMONPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
   echo "Deluge web port: $WEBPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 fi
 
 echo "" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "Links" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "-----" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
-echo "SABnzbd: https://$IPADDRESS1:$SABNZBDHTTPSPORT1/sabnzbd/" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+if [ -f /etc/seedbox-from-scratch/sabnzbd/SABnzbd.py ]; then
+  echo "SABnzbd: https://$IPADDRESS1:$SABNZBDHTTPSPORT1/sabnzbd/" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+fi
 echo "ruTorrent: http://$IPADDRESS1/rutorrent/" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "ruTorrent: https://$IPADDRESS1/rutorrent/" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "Webmin: https://$IPADDRESS1:10000" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
