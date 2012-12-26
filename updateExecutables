@@ -25,5 +25,6 @@ sudo chmod +x /etc/seedbox-from-scratch/upgradeSeedbox
 sudo chmod +x /etc/seedbox-from-scratch/installRapidleech
 sudo chmod +x /etc/seedbox-from-scratch/changeUserPassword
 sudo chmod +x /etc/seedbox-from-scratch/installDeluge
+sudo chmod +x /etc/seedbox-from-scratch/installRTorrent
 
 ##################### LAST LINE ###########

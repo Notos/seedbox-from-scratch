@@ -249,16 +249,6 @@ if [ "$RTORRENT1" != "0.9.3" ] && [ "$RTORRENT1" != "0.9.2" ]; then
   exit 1
 fi
 
-if [ "$RTORRENT1" = "0.9.2" ]; then
-  LIBTORRENT1=0.13.3
-fi
-
-if [ "$RTORRENT1" = "0.9.2" ]; then
-  LIBTORRENT1=0.13.2
-else
-  LIBTORRENT1=0.12.9
-fi
-
 apt-get --yes install whois sudo makepasswd git
 
 rm -f -r /etc/seedbox-from-scratch
@@ -498,10 +488,6 @@ a2ensite default-ssl
 #apt-get --yes install libxmlrpc-core-c3-dev
 
 # 15.
-tar xvfz /etc/seedbox-from-scratch/rtorrent-0.8.9.tar.gz -C /etc/seedbox-from-scratch/source/
-tar xvfz /etc/seedbox-from-scratch/rtorrent-0.9.2.tar.gz -C /etc/seedbox-from-scratch/source/
-tar xvfz /etc/seedbox-from-scratch/libtorrent-0.12.9.tar.gz -C /etc/seedbox-from-scratch/source/
-tar xvfz /etc/seedbox-from-scratch/libtorrent-0.13.2.tar.gz -C /etc/seedbox-from-scratch/source/
 tar xvfz /etc/seedbox-from-scratch/xmlrpc-c-1.16.42.tgz -C /etc/seedbox-from-scratch/source/
 cd /etc/seedbox-from-scratch/source/
 unzip ../xmlrpc-c-1.31.06.zip
@@ -514,19 +500,9 @@ cd xmlrpc-c-1.31.06
 make
 make install
 
-# 17.
-cd ../libtorrent-$LIBTORRENT1
-./autogen.sh
-./configure --prefix=/usr
-make -j2
-make install
+# 21.
 
-cd ../rtorrent-$RTORRENT1
-./autogen.sh
-./configure --prefix=/usr --with-xmlrpc-c
-make -j2
-make install
-ldconfig
+bash /etc/seedbox-from-scratch/installRTorrent $RTORRENT1
 
 # 22.
 cd /var/www

@@ -1,0 +1,50 @@
+##################### FIRST LINE
+# ---------------------------
+#!/bin/bash
+# ---------------------------
+#
+#
+# The Seedbox From Scratch  Script
+#   By Notos ---> https://github.com/Notos/
+#
+# Install RTorrent
+#
+#    installRTorrent <version>
+#
+#  example:
+#
+#    installRTorrent 0.9.3
+#
+#
+
+RTORRENT1=$1
+
+if [ "$RTORRENT1" = "0.9.2" ]; then
+  LIBTORRENT1=0.13.2
+fi
+
+if [ "$RTORRENT1" = "0.9.3" ]; then
+  LIBTORRENT1=0.13.3
+fi
+
+if if [ ! -d /etc/seedbox-from-scratch/source/rtorrent-$RTORRENT1/ ]; then
+  sudo tar xvfz /etc/seedbox-from-scratch/rtorrent-$RTORRENT1.tar.gz -C /etc/seedbox-from-scratch/source/
+  sudo tar xvfz /etc/seedbox-from-scratch/libtorrent-$LIBTORRENT1.tar.gz -C /etc/seedbox-from-scratch/source/
+fi
+
+sudo killall rtorrent
+sudo kill -9 `sudo ps aux | grep rtorrent | grep -v grep | awk '{print $2}' | cut -d. -f 1` &> /dev/null
+
+cd /etc/seedbox-from-scratch/source/libtorrent-$LIBTORRENT1
+sudo ./autogen.sh
+sudo ./configure --prefix=/usr
+sudo make -j2
+sudo make install
+
+cd /etc/seedbox-from-scratch/source/rtorrent-$RTORRENT1
+sudo ./autogen.sh
+sudo ./configure --prefix=/usr --with-xmlrpc-c
+sudo make -j2
+sudo make install
+sudo ldconfig
+
