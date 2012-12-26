@@ -665,6 +665,8 @@ bash /etc/seedbox-from-scratch/createSeedboxUser $NEWUSER1 $PASSWORD1 YES YES YE
 
 # 98.
 
+set +x verbose
+
 clear
 
 echo ""
