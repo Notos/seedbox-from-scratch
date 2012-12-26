@@ -455,6 +455,9 @@ if [ "$DELUGEINSTALLED1" == "YES" ]; then
   sudo cp home.user.config.deluge.core.conf.template $HOMEJAILED1/.config/deluge/core.conf
   sudo cp home.user.config.deluge.web.conf.template $HOMEJAILED1/.config/deluge/web.conf
 
+  SALT1=`sha1pass`
+  SHAPASSWORD1=`python /etc/seedbox-from-scratch/deluge.password.py $PASSWORD1 $SALT1`
+
   mkdir $HOMEJAILED1/downloads/deluge.torrents
   mkdir $HOMEJAILED1/downloads/deluge.files
   mkdir $HOMEJAILED1/downloads/deluge.watch
@@ -494,7 +497,7 @@ if [ "$DELUGEINSTALLED1" == "YES" ]; then
 
   sudo perl -pi -e "s/<listen-ports-end>/$LISTENPORTEND1/g" $HOMEJAILED1/.config/deluge/core.conf
   sudo perl -pi -e "s/<listen-ports-end>/$LISTENPORTEND1/g" $HOMEJAILED1/.config/deluge/web.conf
-  
+
   sudo chown -R $NEWUSER1:$NEWUSER1  $HOMEJAILED1/.config/
   sudo chown -R $NEWUSER1:$NEWUSER1  $HOMEJAILED1/downloads/
 fi
@@ -584,6 +587,9 @@ echo "SCGI Port: $SCGIPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWU
 echo "rTorrent network port: $NETWORKPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "SABNZBD HTTPS port: $SABNZBDHTTPSPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "SABNZBD HTTP port: $SABNZBDHTTPPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+if [ "$DELUGEINSTALLED1" == "YES" ]; then
+  echo "Deluge web port: $WEBPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+fi
 
 echo "" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "Links" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
@@ -595,6 +601,9 @@ echo "Webmin: https://$IPADDRESS1:10000" | sudo tee -a /etc/seedbox-from-scratch
 echo "FTP: ftp://$IPADDRESS1:$NEWFTPPORT1/" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 if [ -f /etc/seedbox-from-scratch/rapidleech.info ]; then
   echo "Rapidleech: https://$IPADDRESS1/rapidleech" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+fi
+if [ "$DELUGEINSTALLED1" == "YES" ]; then
+  echo "Deluge: https://$IPADDRESS1:$WEBPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 fi
 
 echo "" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info

@@ -233,13 +233,16 @@ getString NO  "Install Fail2ban? " INSTALLFAIL2BAN1 YES
 getString NO  "Install OpenVPN? " INSTALLOPENVPN1 YES
 getString NO  "Install SABnzbd? " INSTALLSABNZBD1 YES
 getString NO  "Install Rapidleech? " INSTALLRAPIDLEECH1 YES
+getString NO  "Install Deluge? " INSTALLDELUGE1 YES
+getString NO  "Wich rTorrent version would you like to install, '0.9.2' or '0.9.3'? " RTORRENT1 0.9.2
 
-#getString NO  "Wich rTorrent would you like to use, '0.8.9' (older stable) or '0.9.2' (newer but banned in some trackers)? " RTORRENT1 0.9.2
-RTORRENT1=0.9.2
-
-if [ "$RTORRENT1" != "0.9.2" ] && [ "$RTORRENT1" != "0.8.9" ]; then
-  echo "$RTORRENT1 is not 0.9.2 or 0.8.9!"
+if [ "$RTORRENT1" != "0.9.3" ] && [ "$RTORRENT1" != "0.9.2" ]; then
+  echo "$RTORRENT1 typed is not 0.9.3 or 0.9.2!"
   exit 1
+fi
+
+if [ "$RTORRENT1" = "0.9.2" ]; then
+  LIBTORRENT1=0.13.3
 fi
 
 if [ "$RTORRENT1" = "0.9.2" ]; then
@@ -662,6 +665,10 @@ fi
 
 if [ "$INSTALLRAPIDLEECH1" = "YES" ]; then
   bash /etc/seedbox-from-scratch/installRapidleech
+fi
+
+if [ "$INSTALLDELUGE1" = "YES" ]; then
+  bash /etc/seedbox-from-scratch/installDeluge
 fi
 
 # 97.
