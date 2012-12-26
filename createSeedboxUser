@@ -595,7 +595,7 @@ echo "SFTP port: $NEWSSHPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NE
 echo "vsftp port: $NEWFTPPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "IRSSI Port: $IRSSIPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "SCGI Port: $SCGIPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
-echo "rTorrent network port: $NETWORKPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+echo "RTorrent network port: $NETWORKPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 if [ -f /etc/seedbox-from-scratch/sabnzbd/SABnzbd.py ]; then
   echo "SABNZBD HTTPS port: $SABNZBDHTTPSPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
   echo "SABNZBD HTTP port: $SABNZBDHTTPPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
@@ -627,7 +627,7 @@ echo "Starting and restartring commands" | sudo tee -a /etc/seedbox-from-scratch
 echo "---------------------------------" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "Restarting seedbox logged as $NEWUSER1: $HOMEJAILED1/restartSeedbox" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "Restarting seedbox as any other user: sudo su --login --command \"$HOMEJAILED1/restartSeedbox\" $NEWUSER1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
-echo "Starting rTorrent: screen -d -m -S rtorrent rtorrent" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+echo "Starting RTorrent: screen -d -m -S rtorrent rtorrent" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "Starting IRSSI: screen -d -m -S irssi irssi" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 echo "Starting sabnzbdplus: screen -dmS sabnzbd sabnzbdplus" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 

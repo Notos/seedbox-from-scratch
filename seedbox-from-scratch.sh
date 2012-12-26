@@ -18,7 +18,7 @@
 #
 #  Version 2.1.9 (not stable yet)
 #   Dec 26 2012 17:37 GMT-3
-#     - Optionally install RTorrent 0.9.3
+#     - RTorrent 0.9.3 support (optionally installed)
 #     - New installRTorrent script: move to RTorrent 0.9.3 or back to 0.9.2 at any time
 #     - Deluge v1.3.5 multi-user installation script (it will install the last stable version): installDeluge
 #     - Optionally install Deluge when you first install your seedbox-from-scratch box
@@ -64,8 +64,8 @@
 #     - OpenVPN (after install you can download your key from http://<IP address or host name of your box>/rutorrent/vpn.zip)
 #     - createSeedboxUser script now asks if you want your user jailed, to have SSH access and if it should be added to sudoers
 #     - Optionally install packages JailKit, Webmin, Fail2ban and OpenVPN
-#     - Choose between rTorrent 0.8.9 and 0.9.2 (and their respective libtorrent libraries)
-#     - Upgrade and downgrade rTorrent at any time
+#     - Choose between RTorrent 0.8.9 and 0.9.2 (and their respective libtorrent libraries)
+#     - Upgrade and downgrade RTorrent at any time
 #     - Full automated install, now you just have to download script and run it in your box:
 #        > wget -N https://raw.github.com/Notos/seedbox-from-scratch/v2.x.x/seedbox-from-scratch.sh
 #        > time bash ~/seedbox-from-scratch.sh
@@ -85,7 +85,7 @@
 #
 #  Version 1.11
 #   Oct 18 2012 05:13 (by Notos)
-#    - Added scripts to downgrade and upgrade rTorrent
+#    - Added scripts to downgrade and upgrade RTorrent
 #
 #    - Added all supported plowshare sites into fileupload plugin: 115, 1fichier, 2shared, 4shared, bayfiles, bitshare, config, cramit, data_hu, dataport_cz,
 #      depositfiles, divshare, dl_free_fr, euroshare_eu, extabit, filebox, filemates, filepost, freakshare, go4up, hotfile, mediafire, megashares, mirrorcreator, multiupload, netload_in,
@@ -244,7 +244,7 @@ getString NO  "Install OpenVPN? " INSTALLOPENVPN1 YES
 getString NO  "Install SABnzbd? " INSTALLSABNZBD1 YES
 getString NO  "Install Rapidleech? " INSTALLRAPIDLEECH1 YES
 getString NO  "Install Deluge? " INSTALLDELUGE1 YES
-getString NO  "Wich rTorrent version would you like to install, '0.9.2' or '0.9.3'? " RTORRENT1 0.9.2
+getString NO  "Wich RTorrent version would you like to install, '0.9.2' or '0.9.3'? " RTORRENT1 0.9.2
 
 if [ "$RTORRENT1" != "0.9.3" ] && [ "$RTORRENT1" != "0.9.2" ]; then
   echo "$RTORRENT1 typed is not 0.9.3 or 0.9.2!"
