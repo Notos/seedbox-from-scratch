@@ -18,8 +18,10 @@
 #
 #  Version 2.1.9 (not stable yet)
 #   Dec 26 2012 17:37 GMT-3
+#     - Optionally install RTorrent 0.9.3
+#     - New installRTorrent script: move to RTorrent 0.9.3 or back to 0.9.2 at any time
 #     - Deluge v1.3.5 multi-user installation script (it will install the last stable version): installDeluge
-#     - Added an option to install Deluge in the main seedbox-from-scratch script
+#     - Optionally install Deluge when you first install your seedbox-from-scratch box
 #
 #  Version 2.1.8 (stable)
 #     - Bug fix release
@@ -659,7 +661,7 @@ fi
 
 #first user will not be jailed
 #  createSeedboxUser <username> <password> <user jailed?> <ssh access?> <?>
-bash /etc/seedbox-from-scratch/createSeedboxUser $NEWUSER1 $PASSWORD1 YES NO YES
+bash /etc/seedbox-from-scratch/createSeedboxUser $NEWUSER1 $PASSWORD1 YES YES YES
 
 # 98.
 
