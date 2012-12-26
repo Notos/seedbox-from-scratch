@@ -455,7 +455,7 @@ if [ "$DELUGEINSTALLED1" == "YES" ]; then
   sudo cp home.user.config.deluge.core.conf.template $HOMEJAILED1/.config/deluge/core.conf
   sudo cp home.user.config.deluge.web.conf.template $HOMEJAILED1/.config/deluge/web.conf
 
-  SALT1=`sha1pass`
+  SALT1=`sha1pass | base64 | cut -d= -f 1`
   SHAPASSWORD1=`python /etc/seedbox-from-scratch/deluge.password.py $PASSWORD1 $SALT1`
 
   mkdir $HOMEJAILED1/downloads/deluge.torrents

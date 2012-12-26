@@ -26,21 +26,22 @@ echo "Wiping screen..."
 screen -wipe
 
 sleep 3
-echo "Start rTorrent..."
+echo "Starting rTorrent..."
 screen -d -m -S rtorrent rtorrent
 
 sleep 3
-echo "Start IRSSI..."
+echo "Starting IRSSI..."
 screen -d -m -S irssi irssi
 
 if [[ -a /etc/seedbox-from-scratch/sabnzbd/SABnzbd.py ]]; then
   sleep 3
-  echo "Start sabnzbdplus..."
+  echo "Starting sabnzbdplus..."
   /etc/seedbox-from-scratch/sabnzbd/SABnzbd.py --server 0.0.0.0:<http_port> --daemon --config-file=<homedir>/.sabnzbd/sabnzbd.ini --logging 2 --https <https_port>
 fi
 
 if [[ -a $HOME/.config/deluge/web.conf ]]; then
   sleep 3
+  echo "Starting Deluge..."
   deluged
   screen -d -m -S deluge-web deluge-web
 fi
