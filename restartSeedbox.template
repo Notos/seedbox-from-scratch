@@ -19,6 +19,8 @@ sleep 1
 kill `ps aux | grep <username> | grep SABnzbd | grep -v grep | awk '{print $2}' | cut -d. -f 1` &> /dev/null
 sleep 1
 kill -9 `ps aux | grep <username> | grep SABnzbd | grep -v grep | awk '{print $2}' | cut -d. -f 1` &> /dev/null
+sleep 1
+kill -9 `ps aux | grep <username> | grep deluge | grep -v grep | awk '{print $2}' | cut -d. -f 1` &> /dev/null
 
 echo "Wiping screen..."
 screen -wipe
@@ -35,4 +37,10 @@ if [[ -a /etc/seedbox-from-scratch/sabnzbd/SABnzbd.py ]]; then
   sleep 3
   echo "Start sabnzbdplus..."
   /etc/seedbox-from-scratch/sabnzbd/SABnzbd.py --server 0.0.0.0:<http_port> --daemon --config-file=<homedir>/.sabnzbd/sabnzbd.ini --logging 2 --https <https_port>
+fi
+
+if [[ -a $HOME/.config/deluge/web.conf ]]; then
+  sleep 3
+  deluged
+  screen -d -m -S deluge-web deluge-web
 fi

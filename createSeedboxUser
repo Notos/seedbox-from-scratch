@@ -187,6 +187,7 @@ IPADDRESS1=`cat /etc/seedbox-from-scratch/hostname.info`
 SBFSCURRENTVERSION=`cat /etc/seedbox-from-scratch/version.info`
 NEWFTPPORT1=`cat /etc/seedbox-from-scratch/ftp.info`
 NEWSSHPORT1=`cat /etc/seedbox-from-scratch/ssh.info`
+DELUGEINSTALLED1=`cat /etc/seedbox-from-scratch/deluge.info`
 
 # 3.2
 
@@ -444,6 +445,58 @@ if [ -f /etc/seedbox-from-scratch/sabnzbd/SABnzbd.py ]; then
   sudo chown $NEWUSER1: $HOMEJAILED1/.sabnzbd/admin/*
 
   sudo chown -R $NEWUSER1: $HOMEJAILED1/downloads
+fi
+
+if [ "$DELUGEINSTALLED1" == "YES" ]; then
+  sudo su --login --command "deluged" $NEWUSER1
+  sleep 5
+  sudo kill -9 `sudo ps aux | grep $NEWUSER1 | grep deluge | grep -v grep | awk '{print $2}' | cut -d. -f 1` &> /dev/null
+
+  sudo cp home.user.config.deluge.core.conf.template $HOMEJAILED1/.config/deluge/core.conf
+  sudo cp home.user.config.deluge.web.conf.template $HOMEJAILED1/.config/deluge/web.conf
+
+  mkdir $HOMEJAILED1/downloads/deluge.torrents
+  mkdir $HOMEJAILED1/downloads/deluge.files
+  mkdir $HOMEJAILED1/downloads/deluge.watch
+
+  WEBPORT1=`head -n 1 /etc/seedbox-from-scratch/ports.txt | tail -n 1`
+  sudo perl -pi -e "s/^$WEBPORT1.*\n$//g" /etc/seedbox-from-scratch/ports.txt
+
+  DEAMONPORT1=`head -n 1 /etc/seedbox-from-scratch/ports.txt | tail -n 1`
+  sudo perl -pi -e "s/^$DEAMONPORT1.*\n$//g" /etc/seedbox-from-scratch/ports.txt
+
+  LISTENPORTSTART1=`head -n 1 /etc/seedbox-from-scratch/ports.txt | tail -n 1`
+  sudo perl -pi -e "s/^$LISTENPORTSTART1.*\n$//g" /etc/seedbox-from-scratch/ports.txt
+
+  for i in $(seq 1 10)
+  do
+    LISTENPORTEND1=`head -n 1 /etc/seedbox-from-scratch/ports.txt | tail -n 1`
+    sudo perl -pi -e "s/^$LISTENPORTEND1.*\n$//g" /etc/seedbox-from-scratch/ports.txt
+  done
+
+  sudo perl -pi -e "s/<home>/$HOMEJAILED1_ESCAPED/g" $HOMEJAILED1/.config/deluge/core.conf
+  sudo perl -pi -e "s/<home>/$HOMEJAILED1_ESCAPED/g" $HOMEJAILED1/.config/deluge/web.conf
+
+  sudo perl -pi -e "s/<sha-password>/$SHAPASSWORD1/g" $HOMEJAILED1/.config/deluge/core.conf
+  sudo perl -pi -e "s/<sha-password>/$SHAPASSWORD1/g" $HOMEJAILED1/.config/deluge/web.conf
+
+  sudo perl -pi -e "s/<salt>/$SALT1/g" $HOMEJAILED1/.config/deluge/core.conf
+  sudo perl -pi -e "s/<salt>/$SALT1/g" $HOMEJAILED1/.config/deluge/web.conf
+
+  sudo perl -pi -e "s/<web-port>/$WEBPORT1/g" $HOMEJAILED1/.config/deluge/core.conf
+  sudo perl -pi -e "s/<web-port>/$WEBPORT1/g" $HOMEJAILED1/.config/deluge/web.conf
+
+  sudo perl -pi -e "s/<deamon-port>/$DEAMONPORT1/g" $HOMEJAILED1/.config/deluge/core.conf
+  sudo perl -pi -e "s/<deamon-port>/$DEAMONPORT1/g" $HOMEJAILED1/.config/deluge/web.conf
+
+  sudo perl -pi -e "s/<listen-ports-start>/$LISTENPORTSTART1/g" $HOMEJAILED1/.config/deluge/core.conf
+  sudo perl -pi -e "s/<listen-ports-start>/$LISTENPORTSTART1/g" $HOMEJAILED1/.config/deluge/web.conf
+
+  sudo perl -pi -e "s/<listen-ports-end>/$LISTENPORTEND1/g" $HOMEJAILED1/.config/deluge/core.conf
+  sudo perl -pi -e "s/<listen-ports-end>/$LISTENPORTEND1/g" $HOMEJAILED1/.config/deluge/web.conf
+  
+  sudo chown -R $NEWUSER1:$NEWUSER1  $HOMEJAILED1/.config/
+  sudo chown -R $NEWUSER1:$NEWUSER1  $HOMEJAILED1/downloads/
 fi
 
 # 29.1 ---- Main Trunk of AutodlIrssi ---- Not maintained by developers anymore
