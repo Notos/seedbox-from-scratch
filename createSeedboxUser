@@ -454,6 +454,7 @@ if [ "$DELUGEINSTALLED1" == "YES" ]; then
 
   sudo cp home.user.config.deluge.core.conf.template $HOMEJAILED1/.config/deluge/core.conf
   sudo cp home.user.config.deluge.web.conf.template $HOMEJAILED1/.config/deluge/web.conf
+  sudo cp home.user.config.deluge.hostlist.conf.1.2.template $HOMEJAILED1/.config/deluge/hostlist.conf.1.2
 
   SALT1=`sha1pass | base64 | cut -d= -f 1`
   SHAPASSWORD1=`python /etc/seedbox-from-scratch/deluge.password.py $PASSWORD1 $SALT1`
@@ -491,6 +492,7 @@ if [ "$DELUGEINSTALLED1" == "YES" ]; then
 
   sudo perl -pi -e "s/<deamon-port>/$DEAMONPORT1/g" $HOMEJAILED1/.config/deluge/core.conf
   sudo perl -pi -e "s/<deamon-port>/$DEAMONPORT1/g" $HOMEJAILED1/.config/deluge/web.conf
+  sudo perl -pi -e "s/<deamon-port>/$DEAMONPORT1/g" $HOMEJAILED1/.config/deluge/hostlist.conf.1.2
 
   sudo perl -pi -e "s/<listen-ports-start>/$LISTENPORTSTART1/g" $HOMEJAILED1/.config/deluge/core.conf
   sudo perl -pi -e "s/<listen-ports-start>/$LISTENPORTSTART1/g" $HOMEJAILED1/.config/deluge/web.conf
@@ -603,7 +605,7 @@ if [ -f /etc/seedbox-from-scratch/rapidleech.info ]; then
   echo "Rapidleech: https://$IPADDRESS1/rapidleech" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 fi
 if [ "$DELUGEINSTALLED1" == "YES" ]; then
-  echo "Deluge: https://$IPADDRESS1:$WEBPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
+  echo "Deluge: http://$IPADDRESS1:$WEBPORT1" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
 fi
 
 echo "" | sudo tee -a /etc/seedbox-from-scratch/users/$NEWUSER1.info
