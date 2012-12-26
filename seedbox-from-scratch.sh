@@ -281,7 +281,6 @@ echo "" | tee -a /etc/ssh/sshd_config > /dev/null
 echo "UseDNS no" | tee -a /etc/ssh/sshd_config > /dev/null
 echo "AllowGroups sshdusers" >> /etc/ssh/sshd_config
 sudo cp /lib/terminfo/l/linux /usr/share/terminfo/l/
-awk -F: '$3 == 1000 {print $1}' /etc/passwd | xargs usermod --groups sshdusers
 
 service ssh restart
 

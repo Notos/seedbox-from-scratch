@@ -452,9 +452,9 @@ if [ "$DELUGEINSTALLED1" == "YES" ]; then
   sleep 5
   sudo kill -9 `sudo ps aux | grep $NEWUSER1 | grep deluge | grep -v grep | awk '{print $2}' | cut -d. -f 1` &> /dev/null
 
-  sudo cp home.user.config.deluge.core.conf.template $HOMEJAILED1/.config/deluge/core.conf
-  sudo cp home.user.config.deluge.web.conf.template $HOMEJAILED1/.config/deluge/web.conf
-  sudo cp home.user.config.deluge.hostlist.conf.1.2.template $HOMEJAILED1/.config/deluge/hostlist.conf.1.2
+  sudo cp /etc/seedbox-from-scratch/home.user.config.deluge.core.conf.template $HOMEJAILED1/.config/deluge/core.conf
+  sudo cp /etc/seedbox-from-scratch/home.user.config.deluge.web.conf.template $HOMEJAILED1/.config/deluge/web.conf
+  sudo cp /etc/seedbox-from-scratch/home.user.config.deluge.hostlist.conf.1.2.template $HOMEJAILED1/.config/deluge/hostlist.conf.1.2
 
   SALT1=`sha1pass | base64 | cut -d= -f 1`
   SHAPASSWORD1=`python /etc/seedbox-from-scratch/deluge.password.py $PASSWORD1 $SALT1`
