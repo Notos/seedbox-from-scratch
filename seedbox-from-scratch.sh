@@ -280,7 +280,8 @@ groupadd sshdusers
 echo "" | tee -a /etc/ssh/sshd_config > /dev/null
 echo "UseDNS no" | tee -a /etc/ssh/sshd_config > /dev/null
 echo "AllowGroups sshdusers" >> /etc/ssh/sshd_config
-sudo cp /lib/terminfo/l/linux /usr/share/terminfo/l/
+mkdir -p /usr/share/terminfo/l/
+cp /lib/terminfo/l/linux /usr/share/terminfo/l/
 
 service ssh restart
 

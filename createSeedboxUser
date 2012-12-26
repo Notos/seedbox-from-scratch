@@ -98,6 +98,12 @@ function getString
   done
   eval $RETURN=\$NEWVAR1
 }
+
+function genPasswd {
+  local l=$1
+  [ "$l" == "" ] && l=32
+  tr -dc A-Za-z0-9 < /dev/urandom | head -c ${l} | xargs
+}
 #
 #
 
@@ -188,6 +194,7 @@ SBFSCURRENTVERSION=`cat /etc/seedbox-from-scratch/version.info`
 NEWFTPPORT1=`cat /etc/seedbox-from-scratch/ftp.info`
 NEWSSHPORT1=`cat /etc/seedbox-from-scratch/ssh.info`
 DELUGEINSTALLED1=`cat /etc/seedbox-from-scratch/deluge.info`
+MAINUSER1=`cat /etc/seedbox-from-scratch/mainuser.info`
 
 # 3.2
 
@@ -418,8 +425,6 @@ if [ -f /etc/seedbox-from-scratch/sabnzbd/SABnzbd.py ]; then
   sudo cp /root/CA/sabnzbd.key $HOMEJAILED1/.sabnzbd/admin/
   sudo cp /root/CA/sabnzbd.pem $HOMEJAILED1/.sabnzbd/admin/
 
-  sudo $HOMEJAILED1/.sabnzbd/sabnzbd.ini $HOMEJAILED1/.sabnzbd/sabnzbd.ini.original
-
   sudo perl -pi -e "s/username = \"\"/username = \"$NEWUSER1\"/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
 # sudo perl -pi -e "s/password = \"\"/password = \"$PASSWORD1\"/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini ############### now you can just run changeUserPassword if you forget it :)
   sudo perl -pi -e "s/host = localhost/host = 0.0.0.0/g" $HOMEJAILED1/.sabnzbd/sabnzbd.ini
@@ -448,6 +453,10 @@ if [ -f /etc/seedbox-from-scratch/sabnzbd/SABnzbd.py ]; then
 fi
 
 if [ "$DELUGEINSTALLED1" == "YES" ]; then
+  if [ "$NEWUSER1" = "$MAINUSER1" ]; then
+    sudo kill -9 `sudo ps aux | grep deluge | grep -v grep | awk '{print $2}' | cut -d. -f 1` &> /dev/null
+  fi
+
   sudo su --login --command "deluged" $NEWUSER1
   sleep 5
   sudo kill -9 `sudo ps aux | grep $NEWUSER1 | grep deluge | grep -v grep | awk '{print $2}' | cut -d. -f 1` &> /dev/null
@@ -456,7 +465,7 @@ if [ "$DELUGEINSTALLED1" == "YES" ]; then
   sudo cp /etc/seedbox-from-scratch/home.user.config.deluge.web.conf.template $HOMEJAILED1/.config/deluge/web.conf
   sudo cp /etc/seedbox-from-scratch/home.user.config.deluge.hostlist.conf.1.2.template $HOMEJAILED1/.config/deluge/hostlist.conf.1.2
 
-  SALT1=`sha1pass | base64 | cut -d= -f 1`
+  SALT1=$(genPasswd 32)
   SHAPASSWORD1=`python /etc/seedbox-from-scratch/deluge.password.py $PASSWORD1 $SALT1`
 
   mkdir $HOMEJAILED1/downloads/deluge.torrents
