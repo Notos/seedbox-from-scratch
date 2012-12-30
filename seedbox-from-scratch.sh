@@ -251,6 +251,7 @@ if [ "$RTORRENT1" != "0.9.3" ] && [ "$RTORRENT1" != "0.9.2" ]; then
   exit 1
 fi
 
+apt-get --yes update
 apt-get --yes install whois sudo makepasswd git
 
 rm -f -r /etc/seedbox-from-scratch
