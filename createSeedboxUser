@@ -172,7 +172,7 @@ else
   getString NO  "Add user to sudoers?: " USERINSUDOERS1 NO
 fi
 
-if [ "$CHROOTJAIL1" == "NO" ] && [ "$USERINSUDOERS1" == "YES" ]; then
+if [ "$USERINSUDOERS1" <> "YES" ]; then
   echo "$NEWUSER1" | sudo tee -a /etc/vsftpd.chroot_list &> /dev/null
 fi
 
