@@ -19,4 +19,4 @@ sudo git stash
 sudo git checkout -b $TSFSV origin/$TSFSV
 sudo git pull
 
-sudo bash /etc/seedbox-from-scratch/updateExecutables
+sudo bash /etc/seedbox-from-scratch/updateExecutables               
