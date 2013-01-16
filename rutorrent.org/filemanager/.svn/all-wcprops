@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/filemanager/!svn/ver/48/trunk/filemanager
+END
+flm.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/filemanager/!svn/ver/45/trunk/filemanager/flm.class.php
+END
+plugin.info
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/filemanager/!svn/ver/45/trunk/filemanager/plugin.info
+END
+init.php
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/filemanager/!svn/ver/6/trunk/filemanager/init.php
+END
+conf.php
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/filemanager/!svn/ver/42/trunk/filemanager/conf.php
+END
+xmlfix.php
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/filemanager/!svn/ver/6/trunk/filemanager/xmlfix.php
+END
+init.js
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/filemanager/!svn/ver/45/trunk/filemanager/init.js
+END
+filemanager.css
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/filemanager/!svn/ver/45/trunk/filemanager/filemanager.css
+END
+settings.js.php
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/filemanager/!svn/ver/38/trunk/filemanager/settings.js.php
+END
+flm.php
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/filemanager/!svn/ver/38/trunk/filemanager/flm.php
+END

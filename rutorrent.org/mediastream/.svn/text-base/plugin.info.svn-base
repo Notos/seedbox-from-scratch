@@ -1,0 +1,6 @@
+plugin.description: Video streaming plugin.
+plugin.author: HWK
+plugin.version: 0.01
+rtorrent.remote: error
+rtorrent.external.error: php
+plugin.dependencies: filemanager

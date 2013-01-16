@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/filemanager/!svn/ver/45/trunk/filemanager/scripts
+END
+extract
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/filemanager/!svn/ver/33/trunk/filemanager/scripts/extract
+END
+rm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/filemanager/!svn/ver/38/trunk/filemanager/scripts/rm
+END
+archive
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/filemanager/!svn/ver/42/trunk/filemanager/scripts/archive
+END
+cp
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/filemanager/!svn/ver/33/trunk/filemanager/scripts/cp
+END
+mv
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/filemanager/!svn/ver/33/trunk/filemanager/scripts/mv
+END
+screens
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/filemanager/!svn/ver/45/trunk/filemanager/scripts/screens
+END
+sfvcheck.php
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/filemanager/!svn/ver/6/trunk/filemanager/scripts/sfvcheck.php
+END
+sfvcreate.php
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/filemanager/!svn/ver/6/trunk/filemanager/scripts/sfvcreate.php
+END

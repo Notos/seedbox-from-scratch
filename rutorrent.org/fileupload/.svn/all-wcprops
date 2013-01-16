@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/filemanager/!svn/ver/45/trunk/fileupload
+END
+plugin.info
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/filemanager/!svn/ver/41/trunk/fileupload/plugin.info
+END
+init.php
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/filemanager/!svn/ver/32/trunk/fileupload/init.php
+END
+conf.php
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/filemanager/!svn/ver/41/trunk/fileupload/conf.php
+END
+fileupload.css
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/filemanager/!svn/ver/32/trunk/fileupload/fileupload.css
+END
+fileup.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/filemanager/!svn/ver/41/trunk/fileupload/fileup.class.php
+END
+init.js
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/filemanager/!svn/ver/45/trunk/fileupload/init.js
+END
+fup.php
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/filemanager/!svn/ver/32/trunk/fileupload/fup.php
+END
