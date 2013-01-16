@@ -1,0 +1,13 @@
+#!/bin/bash
+#
+#
+# The Seedbox From Scratch Script
+#   By Notos ---> https://github.com/Notos/
+#
+#
+#
+
+sudo rm -r /var/www/rutorrent/plugins/stream/
+cd /var/www/rutorrent/plugins
+sudo tar xvfz /etc/seedbox-from-scratch/rutorrent-stream.tar.gz
+sudo perl -pi -e "s/\/stream.php/\/rutorrent\/plugins\/stream\/stream.php/g" /var/www/rutorrent/plugins/stream/action.php

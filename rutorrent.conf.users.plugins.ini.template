@@ -167,3 +167,5 @@ enabled = yes
 ;;[mediastream]
 ;;enabled = yes
 
+[stream]
+enabled = yes
