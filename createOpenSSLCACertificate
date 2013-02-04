@@ -10,6 +10,9 @@
 #
 #
 
+CERTPASS1=`cat /etc/seedbox-from-scratch/certpass.info`
+IPADDRESS1=`cat /etc/seedbox-from-scratch/hostname.info`
+NEWUSER1=`cat /etc/seedbox-from-scratch/mainuser.info`
 cd /etc/seedbox-from-scratch/
 rm -r /etc/seedbox-from-scratch/ssl/CA
 mkdir -p /etc/seedbox-from-scratch/ssl/CA/newcerts
