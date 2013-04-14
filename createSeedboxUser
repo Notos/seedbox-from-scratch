@@ -550,7 +550,7 @@ fi
 #        ---- commit log: https://github.com/autodl-irssi-community/autodl-irssi/commits/master
 
 sudo rm -R $HOMEJAILED1/.irssi
-sudo git clone https://github.com/autodl-irssi-community/autodl-irssi.git $HOMEJAILED1/.irssi/scripts/
+sudo git clone https://github.com/autodl-community/autodl-irssi.git $HOMEJAILED1/.irssi/scripts/
 sudo mkdir -p $HOMEJAILED1/.irssi/scripts/autorun
 cd $HOMEJAILED1/.irssi/scripts
 sudo cp autodl-irssi.pl autorun/
