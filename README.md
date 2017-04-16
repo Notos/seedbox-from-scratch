@@ -44,7 +44,7 @@ After that access your box using a SSH client, like PuTTY.
 
 ## Warnings
 
-####If you don't know Linux ENOUGH:
+#### If you don't know Linux ENOUGH:
 
 DO NOT install this script on a non OVH Host. It is doable, but you'll have to know Linux to solve some problems.
 
@@ -62,7 +62,7 @@ wget -N https://raw.github.com/Notos/seedbox-from-scratch/v2.1.9/seedbox-from-sc
 time bash ~/seedbox-from-scratch.sh
 ```
 
-####You must be logged as root to run this installation or use sudo on it.
+#### You must be logged as root to run this installation or use sudo on it.
 
 ## Commands
 After installing you will have access to the following commands to be used directly in terminal
@@ -88,7 +88,7 @@ To access services installed on your new server point your browser to the follow
 https://<Server IP or Server Name>/seedboxInfo.php
 ```
 
-####OpenVPN
+#### OpenVPN
 To use your VPN you will need a VPN client compatible with [OpenVPN](http://openvpn.net/index.php?option=com_content&id=357), necessary files to configure your connection are in this link in your box:
 ```
 http://<Server IP or Server Name>/rutorrent/vpn.zip` and use it in any OpenVPN client.
