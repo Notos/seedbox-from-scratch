@@ -59,7 +59,7 @@ trackers.numwant.set = -1
 # check hash for finished torrents. might be useful until the bug is 
 # fixed that causes lack of diskspace not to be properly reported 
 # pieces.hash.on_completion.set = yes 
-check_hash = yes 
+check_hash = no  
 
 # default directory to save the downloaded torrents
 # directory.default.set = /home/<username>/downloads
