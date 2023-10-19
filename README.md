@@ -4,7 +4,7 @@
 
 This is a script I've being working for some time now. I decided to share it here because it has some good things to add:
 
-* A multi-user enviroment, you'll have scripts to add and delete users.
+* A multi-user environment, you'll have scripts to add and delete users.
 * Linux Quota, to control how much space every user can use in your box.
 
 ## Installed software
@@ -30,7 +30,7 @@ autotoolscpuload, diskspace, erasedata, extratio, extsearch, feeds, filedrop, fi
 
 ## Additional ruTorrent plugins
 * Autodl-IRSSI (with an updated list of trackers)
-* A modified version of Diskpace to support quota (by me)
+* A modified version of Diskspace to support quota (by me)
 * Filemanager (modified to handle rar, zip, unzip, tar and bzip)
 * Fileupload
 * Fileshare Plugin (http://forums.rutorrent.org/index.php?topic=705.0)
@@ -103,7 +103,7 @@ http://<Server IP or Server Name>/rutorrent/vpn.zip` and use it in any OpenVPN c
 * Debian 6.0.6 - 32 and 64bit (on VM environment)
 
 ## Quota
-Quota is disabled by default in your box. To enable and use it, you'll have to open Webmin, using the address you can find in one of the tables box above this. After you sucessfully logged on Webmin, enable it by clicking
+Quota is disabled by default in your box. To enable and use it, you'll have to open Webmin, using the address you can find in one of the tables box above this. After you successfully logged on Webmin, enable it by clicking
 
 System => Disk and Network Filesystems => /home => Use Quotas? => Select "Only User" => Save
 
